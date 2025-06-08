@@ -1,0 +1,478 @@
+openapi: 3.0.0
+
+info:
+  title: Internal Job Portal API
+
+  version: 1.0.0
+
+  description: API documentation for the Internal Job Portal
+
+servers:
+  - url: http://localhost:5000
+
+paths:
+  /api/auth/register:
+    post:
+      summary: Register a new user (HR only)
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+
+      responses:
+        "201":
+          description: User registered
+
+  /api/auth/change-password:
+    post:
+      summary: Change user password
+
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              type: object
+
+              properties:
+                oldPassword:
+                  type: string
+
+                newPassword:
+                  type: string
+
+      responses:
+        "200":
+          description: Password changed
+
+  /api/users/profile/{employeeId}:
+    get:
+      summary: Get user profile by employee ID
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: employeeId
+
+          in: path
+
+          required: true
+
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: User profile data
+
+  /api/users/upload:
+    post:
+      summary: Upload user files
+
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+
+              properties:
+                resume:
+                  type: string
+
+                  format: binary
+
+                coverLetter:
+                  type: string
+
+                  format: binary
+
+                profilePhoto:
+                  type: string
+
+                  format: binary
+
+      responses:
+        "200":
+          description: Files uploaded
+
+  /api/users/applications:
+    get:
+      summary: Get all applications submitted by the current user
+
+      security:
+        - bearerAuth: []
+
+      responses:
+        "200":
+          description: List of applications
+
+  /api/jobs/{jobId}:
+    put:
+      summary: Update a job (Manager/HR only)
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: jobId
+
+          in: path
+
+          required: true
+
+          schema:
+            type: string
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Job"
+
+      responses:
+        "200":
+          description: Job updated
+
+    delete:
+      summary: Delete a job (Manager/HR only)
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: jobId
+
+          in: path
+
+          required: true
+
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Job deleted
+
+  /api/jobs/my-listed-jobs:
+    get:
+      summary: Get all jobs posted by the current manager
+
+      security:
+        - bearerAuth: []
+
+      responses:
+        "200":
+          description: List of jobs posted by manager
+
+  /api/jobs/applications/{jobId}/withdraw:
+    delete:
+      summary: Withdraw application for a job
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: jobId
+
+          in: path
+
+          required: true
+
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Application withdrawn
+
+  /api/auth/login:
+    post:
+      summary: User login
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              type: object
+
+              properties:
+                username:
+                  type: string
+
+                password:
+                  type: string
+
+      responses:
+        "200":
+          description: Login successful
+
+        "401":
+          description: Invalid credentials
+
+  /api/users/profile:
+    get:
+      summary: Get own user profile
+
+      security:
+        - bearerAuth: []
+
+      responses:
+        "200":
+          description: User profile data
+
+    put:
+      summary: Update own user profile
+
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+
+      responses:
+        "200":
+          description: Profile updated
+
+  /api/jobs:
+    get:
+      summary: Get all jobs
+
+      security:
+        - bearerAuth: []
+
+      responses:
+        "200":
+          description: List of jobs
+
+    post:
+      summary: Create a new job (Manager/HR only)
+
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Job"
+
+      responses:
+        "201":
+          description: Job created
+
+  /api/jobs/{jobId}/apply:
+    post:
+      summary: Apply to a job (Employee only)
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: jobId
+
+          in: path
+
+          required: true
+
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Application submitted
+
+  /api/jobs/{jobId}/applicants:
+    get:
+      summary: View applicants for a job (Manager only)
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: jobId
+
+          in: path
+
+          required: true
+
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: List of applicants
+
+  /api/jobs/applications/status:
+    get:
+      summary: View application status for current user
+
+      security:
+        - bearerAuth: []
+
+      responses:
+        "200":
+          description: List of applied jobs and statuses
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+
+      scheme: bearer
+
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      type: object
+
+      properties:
+        name:
+          type: string
+
+        email:
+          type: string
+
+        employeeId:
+          type: string
+
+        role:
+          type: string
+
+        skills:
+          type: array
+
+          items:
+            type: string
+
+        certifications:
+          type: array
+
+          items:
+            type: string
+
+        resumeUrl:
+          type: string
+
+        coverLetterUrl:
+          type: string
+
+        profilePhotoUrl:
+          type: string
+
+        appliedJobs:
+          type: array
+
+          items:
+            $ref: "#/components/schemas/AppliedJob"
+
+    AppliedJob:
+      type: object
+
+      properties:
+        jobId:
+          type: string
+
+        title:
+          type: string
+
+        location:
+          type: string
+
+        status:
+          type: string
+
+        appliedAt:
+          type: string
+
+          format: date-time
+
+        notification:
+          type: string
+
+    Job:
+      type: object
+
+      properties:
+        title:
+          type: string
+
+        description:
+          type: string
+
+        skillsRequired:
+          type: array
+
+          items:
+            type: string
+
+        department:
+          type: string
+
+        location:
+          type: string
+
+        salary:
+          type: string
+
+        lastDate:
+          type: string
+
+          format: date
+
+        postedBy:
+          type: string
+
+        postedDate:
+          type: string
+
+          format: date-time
+
+        isActive:
+          type: boolean
+
+        applicants:
+          type: array
+
+          items:
+            $ref: "#/components/schemas/Applicant"
+
+    Applicant:
+      type: object
+
+      properties:
+        userId:
+          type: string
+
+        status:
+          type: string
+
+        appliedAt:
+          type: string
+
+          format: date-time

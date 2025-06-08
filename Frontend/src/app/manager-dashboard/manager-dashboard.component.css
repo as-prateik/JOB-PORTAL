@@ -1,0 +1,252 @@
+/* === General Styling ===
+
+body {
+
+  background-color: #f2f4f8;
+
+}
+
+
+ 
+
+=== Navbar ===
+
+.navbar-brand {
+
+  font-weight: 600;
+
+  font-size: 1.3rem;
+
+   background-color: rgb(54, 116, 181);
+
+}
+
+
+ 
+
+.nav-link {
+
+  transition: all 0.3s ease;
+
+}
+
+
+ 
+
+.nav-link:hover {
+
+  background-color: rgba(255, 255, 255, 0.2);
+
+  border-radius: 5px;
+
+}
+
+
+ 
+
+=== Sidebar ===
+
+.bg-light {
+
+  background-color: #ffffff !important;
+
+}
+
+
+ 
+
+.sidebar-button {
+
+  text-align: left;
+
+  transition: all 0.3s ease;
+
+}
+
+
+ 
+
+.sidebar-button.active,
+
+.sidebar-button:hover {
+
+  background-color: #007bff;
+
+  color: white;
+
+  border-color: #007bff;
+
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+
+}
+
+
+ 
+
+=== Job Cards ===
+
+.job-card {
+
+  background-color: #ffffff;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+}
+
+
+ 
+
+.job-card:hover {
+
+  transform: translateY(-5px);
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+}
+
+
+ 
+
+=== Buttons ===
+
+.btn-primary,
+
+.btn-danger,
+
+.btn-outline-primary {
+
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+}
+
+
+ 
+
+.btn-primary:hover,
+
+.btn-danger:hover {
+
+  transform: scale(1.05);
+
+}
+
+
+ 
+
+=== Modals ===
+
+.modal-content {
+
+  border-radius: 10px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+}
+
+
+ 
+
+*/
+
+/* Base brand color */
+
+:root {
+  --brand-blue: rgb(54, 116, 181);
+
+  --light-blue: rgba(54, 116, 181, 0.1);
+
+  --hover-blue: rgba(54, 116, 181, 0.15);
+}
+
+.container-fluid {
+  padding-left: 0;
+
+  padding-right: 0;
+}
+
+/* === Navbar === */
+
+.navbar {
+  background-color: rgb(54, 116, 181);
+
+  color: #ffffff;
+}
+
+.navbar-brand {
+  padding-top: 0;
+
+  padding-left: 1rem;
+
+  color: #ffffff;
+}
+
+/* === Sidebar === */
+
+.sidebar {
+  background-color: rgb(54, 116, 181);
+
+  min-height: calc(100vh - 56px);
+
+  color: white;
+
+  transition: background-color 0.3s ease;
+
+  padding: 1rem;
+}
+
+.sidebar .btn {
+  color: rgb(54, 116, 181);
+
+  border: 1px solid white;
+
+  background-color: white;
+}
+
+.sidebar .btn.active,
+.sidebar .btn:hover {
+  background-color: rgb(54, 116, 181);
+
+  color: var(--brand-blue);
+
+  border-color: white;
+}
+
+/* === Dynamic Body Background === */
+
+.page-content {
+  transition: background-color 0.3s ease;
+}
+
+.page-post-job {
+  background-color: var(--light-blue);
+}
+
+.page-posted-jobs {
+  background-color: var(--hover-blue);
+}
+
+/* === Job Cards === */
+
+.job-card {
+  background-color: #ffffff;
+
+  border: 1px solid #e3e6ea;
+
+  border-radius: 8px;
+
+  transition: all 0.3s ease;
+
+  padding-top: 1rem;
+}
+
+.job-card:hover {
+  background-color: #f1f5fb;
+
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+}
+
+.posted-jobs {
+  background-color: white;
+
+  color: rgb(87, 143, 202);
+}

@@ -1,0 +1,61 @@
+.container-fluid {
+  background-color: rgb(87, 143, 202);
+
+  font-family: "Segoe UI", sans-serif;
+
+  width: 100vw; /* full viewport width */
+
+  height: 100vh; /* full viewport height */
+
+  padding: 40px; /* remove default padding */
+
+  box-sizing: border-box;
+}
+
+.card {
+  background-color: #ffffff;
+
+  border: none;
+
+  border-radius: 8px;
+}
+
+.form-control {
+  background-color: #f8f9fa;
+
+  border: 1px solid #ced4da;
+
+  color: #212529;
+}
+
+.d-grid {
+  display: flex;
+
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+
+  justify-content: center;
+
+  border-radius: 1rem;
+
+  background-color: aliceblue;
+}
+
+.success-overlay {
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100vh;
+
+  background-color: rgba(255, 255, 255, 0.8);
+
+  z-index: 9999;
+}
