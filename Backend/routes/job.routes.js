@@ -10,8 +10,7 @@ const jobController = require('../controllers/job.controller');
 // Middleware to restrict access based on roles
 
 const authorizeRoles = (...roles) => (req, res, next) => {
-  console.log("req is", req);
-  
+  // console.log("req is", req);
     console.log("authorizing roles", roles);
   // Check if user is authenticated
   console.log("req.user is", req.user);

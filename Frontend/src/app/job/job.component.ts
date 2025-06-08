@@ -10,7 +10,6 @@ declare var bootstrap: any;
   templateUrl: './job.component.html',
   styleUrls: ['./job.component.css'],
 })
-
 export class JobComponent implements OnInit {
   jobs: any[] = [];
   applications: any[] = []; // For applied jobs
@@ -73,8 +72,8 @@ export class JobComponent implements OnInit {
         this.applications = (data.appliedJobs || []).map(
           (application: any) => ({
             ...application,
-            title: application.jobId?.title || 'Unknown Title', // Use the populated title
-            location: application.jobId?.location || 'Unknown Location', // Use the populated location
+            title: application.title || 'Unknown Title', // Use the populated title
+            location: application.location || 'Unknown Location', // Use the populated location
           })
         );
         console.log('Mapped applications:', this.applications);
@@ -114,7 +113,11 @@ export class JobComponent implements OnInit {
 
   applyJob(job: any): void {
     console.log('job is', job);
-
+    
+    if (this.isApplied(job)) {
+      alert('You have already applied to this job.');
+      return;
+    }
     if (!this.token) {
       alert('You must be logged in to apply for a job.');
       return;
@@ -136,7 +139,6 @@ export class JobComponent implements OnInit {
           modal.show();
         }
       },
-
       (error) => {
         if (error.status === 400) {
           alert(error.error.message || 'You have already applied to this job.');
@@ -147,11 +149,10 @@ export class JobComponent implements OnInit {
         } else {
           alert('Failed to apply for the job. Please try again.');
         }
-
         console.error('Error applying for job:', error);
       }
     );
-    console.log("end of apply job");
+    console.log('end of apply job');
   }
 
   withdrawJob(): void {
@@ -223,12 +224,12 @@ export class JobComponent implements OnInit {
   }
 
   isApplied(job: any): boolean {
-    const applied = this.applications.some(
-      (application) => application.jobId?._id === job._id
-    );
-
+    const applied = this.applications.some((application) => {
+      application.jobId === job.jobId;
+      console.log('application', application);
+      console.log('job', job);
+    });
     console.log(`Job ${job._id} applied:`, applied);
-
     return applied;
   }
 

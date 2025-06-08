@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root',})
+
 export class JobService {
   private apiUrl: string = 'http://localhost:5000/api/jobs'; // Replace with your backend API base URL
 
