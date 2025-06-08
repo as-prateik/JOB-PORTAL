@@ -14,8 +14,6 @@ export class NavbarComponent {
 
   constructor(private router: Router) {}
 
-  // employeeName: string = localStorage.getItem('username') || 'Employee';
-
   logout() {
     this.router.navigate(['/login']);
   }

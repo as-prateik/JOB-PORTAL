@@ -66,23 +66,34 @@
         </h4>
 
         <div class="d-flex flex-column gap-4">
-          <div class="card shadow-sm border-0 job-card hover-shadow">
-            <div class="card-body">
-              <h5 class="card-title fw-bold">Frontend Developer</h5>
-
-              <p class="card-text">
-                Work with modern JavaScript frameworks to build internal tools.
-              </p>
+          <div class="d-flex flex-column gap-4">
+            <div
+              class="card shadow-sm border-0 job-card hover-shadow "
+              *ngFor="let job of getBestFitJobs()"
+            >
+              <div class="card-body">
+                <h5 class="card-title fw-bold">{{ job.title }}</h5>
+                <p class="card-text">
+                  <strong>Location:</strong> {{ job.location }}<br />
+                  <strong>Skills Required:</strong>
+                  {{ job.skillsRequired?.join(", ") }}<br />
+                  <strong>Match:</strong> {{ job.matchCount }} skill{{
+                    job.matchCount > 1 ? "s" : ""
+                  }}
+                </p>
+                <button
+                  class="btn btn-outline-primary btn-sm"
+                  (click)="viewJobDescription(job)"
+                >
+                  <i class="bi bi-eye"></i> View Job
+                </button>
+              </div>
             </div>
-          </div>
-
-          <div class="card shadow-sm border-0 job-card hover-shadow">
-            <div class="card-body">
-              <h5 class="card-title fw-bold">Cloud Engineer</h5>
-
-              <p class="card-text">
-                Manage AWS-based infrastructure and CI/CD pipelines.
-              </p>
+            <div
+              *ngIf="getBestFitJobs().length === 0"
+              class="text-muted text-center"
+            >
+              No best fit jobs found for your skills.
             </div>
           </div>
         </div>
@@ -100,6 +111,15 @@
         <div style="max-height: 300px; overflow-y: auto">
           <ul class="list-group list-group-flush" id="skills-list">
             <!-- Skills dynamically injected -->
+            <li
+              *ngFor="let skill of onDemandSkills"
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              {{ skill.skill | titlecase }}
+              <span class="badge bg-primary rounded-pill">{{
+                skill.count
+              }}</span>
+            </li>
           </ul>
         </div>
       </div>
@@ -117,6 +137,12 @@
         <div style="max-height: 300px; overflow-y: auto">
           <ul class="list-group list-group-flush" id="certifications-list">
             <!-- Certifications dynamically injected -->
+            <li
+              *ngFor="let cert of mustHaveCertifications"
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              {{ cert | titlecase }}
+            </li>
           </ul>
         </div>
       </div>

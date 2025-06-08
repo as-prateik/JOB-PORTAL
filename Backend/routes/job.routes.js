@@ -10,15 +10,15 @@ const jobController = require('../controllers/job.controller');
 // Middleware to restrict access based on roles
 
 const authorizeRoles = (...roles) => (req, res, next) => {
-
+  console.log("req is", req);
+  
+    console.log("authorizing roles", roles);
+  // Check if user is authenticated
+  console.log("req.user is", req.user);
   if (!roles.includes(req.user.role)) {
-
     console.log("role is",req.user.role);
-
     return res.status(403).json({ message: 'Access denied: insufficient permissions' });
-
   }
-
   next();
 
 };
@@ -28,10 +28,11 @@ const authorizeRoles = (...roles) => (req, res, next) => {
 
 // Create a new job posting (Manager only)
 
-router.post('/', authorizeRoles('manager','hr'), jobController.createJob);
+router.post('/', authorizeRoles('manager'), jobController.createJob);
 
+// Get ranked (on demand) skills
+router.get('/on-demand-skills', jobController.getRankedSkills);
 
- 
 
 // Edit a job posting (Manager only)
 

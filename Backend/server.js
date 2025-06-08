@@ -1,36 +1,15 @@
 require('dotenv').config();
-
 const express = require('express');
-
 const cors = require('cors');
-
 const path = require('path');
-
 const swaggerUi = require('swagger-ui-express');
-
 const YAML = require('yamljs');
-
 const swaggerDocument = YAML.load('./swagger.yaml');
-
-
-
-
-
- 
-
 const errorlogger = require('./utilities/errorLogger');
-
 const requestlogger = require('./utilities/requestLogger');
-
-
- 
-
 const authRoutes = require('./routes/auth.routes');
-
 const userRoutes = require('./routes/user.routes');
-
 const jobRoutes = require('./routes/job.routes');
-
 const { verifyJWT } = require('./middleware/auth.middleware');
 
 
@@ -40,24 +19,11 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
-
-
- 
-
 // app.use(requestlogger);
-
 const connectDB = require('./config/db');
-
-
- 
-
 // MongoDB connection
 
 connectDB();
-
-
- 
-
 // Middleware
 
 app.use(cors());

@@ -177,6 +177,27 @@ exports.deleteJob = async (req, res) => {
 
 };
 
+// Get ranked (on demand) skills across all jobs
+exports.getRankedSkills = async (req, res) => {
+  try {
+    const jobs = await Job.find({}, 'skillsRequired');
+    const skillCounts = {};
+    jobs.forEach(job => {
+      (job.skillsRequired || []).forEach(skill => {
+        const normalized = skill.trim().toLowerCase();
+        skillCounts[normalized] = (skillCounts[normalized] || 0) + 1;
+      });
+    });
+    // Convert to array and sort by frequency
+    const rankedSkills = Object.entries(skillCounts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([skill, count]) => ({ skill, count }));
+    res.json({ rankedSkills });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
 
  
 

@@ -1,15 +1,6 @@
 const bcrypt = require("bcrypt");
-
 const Auth = require("../models/auth.model");
-
-
- 
-
 const User = require("../models/user.model");
-
-
- 
-
 const registerUser = async (req, res) => {
 
   try {
@@ -173,9 +164,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign(
 
       { id: user._id, role: user.role},
-
       process.env.JWT_SECRET,
-
       { expiresIn: "1d" }
 
     );
