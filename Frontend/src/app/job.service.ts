@@ -115,8 +115,14 @@ export class JobService {
   }
 
   getApplicants(jobId: string): Observable<any> {
-    //used in md
-
     return this.http.get<any>(`${this.apiUrl}/jobs/${jobId}/applicants`);
   }
+
+  getOnDemandSkills(token: string): Observable<any> {
+  return this.http.get<{ rankedSkills: { skill: string, count: number }[] }>(
+    'http://localhost:5000/api/jobs/on-demand-skills',{
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+}
 }

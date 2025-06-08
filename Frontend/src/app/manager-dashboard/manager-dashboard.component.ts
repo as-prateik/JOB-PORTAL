@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { JobService } from '../job.service';
+import { AuthenticationService } from '../authentication.service';
 
 declare var bootstrap: any; // Declare bootstrap as a global variable
 
@@ -18,37 +19,28 @@ export class ManagerDashboardComponent {
 
   newJob: any = {
     title: '',
-
     location: '',
-
     description: '',
-
     lastDate: '',
-
     status: 'open',
-
-    skills: [],
+    skillsRequired: [],
   };
 
   token: string | null = null;
-
   isPostJobVisible = true;
-
   isPostedJobsVisible = false;
-
   selectedJob: any = null;
-
   selectedJobApplicants: any[] = [];
-
   selectedJobId: string | null = null; // For delete confirmation modal
 
-  constructor(private jobService: JobService) {}
+  constructor(
+    private jobService: JobService,
+    private authentication: AuthenticationService
+  ) {}
 
   ngOnInit(): void {
-    this.token = localStorage.getItem('token');
-
-    this.managerName = localStorage.getItem('name') || 'Manager';
-
+    this.token = this.authentication.getDetails().token || ''; // Get token from authentication service
+    this.managerName = this.authentication.getDetails().name || 'Manager'; //
     this.loadJobs();
   }
 
@@ -75,11 +67,19 @@ export class ManagerDashboardComponent {
   // Create a new job
 
   createJob(): void {
-    this.newJob.skills = this.newJob.skills
-      .split(',')
-      .map((skill: string) => skill.trim()); // Split skills by comma and trim whitespace
-
-    console.log(this.newJob);
+    console.log('Creating job with data:', this.newJob);
+    console.log('skills before processing:', this.newJob.skills);
+    if (typeof this.newJob.skillsRequired === 'string') {
+      this.newJob.skillsRequired = this.newJob.skillsRequired
+        .split(',')
+        .map((skill: string) => skill.trim().toLowerCase())
+        .filter((skill: string) => skill.length > 0);
+    } else if (Array.isArray(this.newJob.skillsRequired)) {
+      this.newJob.skillsRequired = this.newJob.skillsRequired
+        .map((skill: string) => skill.trim().toLowerCase())
+        .filter((skill: string) => skill.length > 0);
+    }
+    console.log('skills after processing:', this.newJob.skills);
 
     if (
       this.newJob.title &&

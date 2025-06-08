@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 
 import { UserService } from '../user.service';
 
+import { AuthenticationService } from '../authentication.service';
+
 declare var bootstrap: any;
 
 @Component({
@@ -37,13 +39,14 @@ export class JobComponent implements OnInit {
   constructor(
     private jobService: JobService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
     console.log('in ng oninit of job component');
 
-    this.token = localStorage.getItem('token');
+    this.token = this.authService.getDetails().token || '';
 
     this.loadUserProfile();
 

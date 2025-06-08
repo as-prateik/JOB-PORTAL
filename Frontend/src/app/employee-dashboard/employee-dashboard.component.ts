@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 
 import { UserService } from '../user.service';
 
+import { AuthenticationService } from '../authentication.service';
+
 declare var bootstrap: any;
 
 @Component({
@@ -32,24 +34,64 @@ export class EmployeeDashboardComponent implements OnInit {
 
   skillsFilter: string = '';
 
-  token: string | null = null;
+  token: string = ''; // Token for authentication
+
+  onDemandSkills: { skill: string; count: number }[] = [];
+  mustHaveCertifications: string[] = [
+    'AWS Certified Developer – Associate',
+    'Certified Kubernetes Administrator (CKA)',
+    'Google Professional Cloud Developer',
+    'Microsoft Certified: Azure Developer Associate',
+    'Oracle Certified Professional, Java SE 11 Developer',
+  ];
 
   constructor(
     private jobService: JobService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
     console.log('in ng oninit of employee dashboard');
-
-    this.token = localStorage.getItem('token');
-
+    this.token = this.authService.getDetails().token || '';
     this.loadUserProfile();
-
     this.loadAppliedJobs();
-
     this.loadJobs();
+    this.loadOnDemandSkills();
+  }
+
+  getBestFitJobs(): any[] {
+    if (!this.employeeSkills || this.employeeSkills.length === 0) return [];
+
+    // Score jobs by number of matching skills
+    return this.jobs
+      .map((job) => {
+        const jobSkills = (job.skillsRequired || []).map((s: string) =>
+          s.trim().toLowerCase()
+        );
+        const matches = this.employeeSkills.filter((skill) =>
+          jobSkills.includes(skill.trim().toLowerCase())
+        );
+        return { ...job, matchCount: matches.length };
+      })
+      .filter((job) => job.matchCount > 0) // Only jobs with at least one match
+      .sort((a, b) => b.matchCount - a.matchCount); // Most matches first
+  }
+
+  loadOnDemandSkills(): void {
+    this.jobService.getOnDemandSkills(this.token).subscribe(
+      (data) => {
+        this.onDemandSkills = (data.rankedSkills || []).filter(
+          (skillObj: { skill: string; count: number }) =>
+            skillObj.skill.toLowerCase() !== 'not applicable'
+        );
+        console.log('Fetched on demand skills:', this.onDemandSkills);
+      },
+      (error) => {
+        console.error('Error loading on demand skills:', error);
+      }
+    );
   }
 
   scrollToBestFit(): void {
@@ -63,7 +105,6 @@ export class EmployeeDashboardComponent implements OnInit {
   loadUserProfile(): void {
     if (!this.token) {
       console.error('User not authenticated.');
-
       return;
     }
 
