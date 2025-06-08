@@ -1,0 +1,294 @@
+/* Reset */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+  background-color: #f9f9f9;
+
+  color: #333;
+}
+
+.container {
+  display: flex;
+
+  max-width: 1000px;
+
+  margin: 2rem auto;
+
+  gap: 2rem;
+
+  padding: 0 1rem;
+}
+
+/* Sidebar Card */
+
+.sidebar-card {
+  background-color: #fff;
+
+  padding: 1.5rem;
+
+  border-radius: 12px;
+
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+
+  flex: 0 0 300px;
+
+  text-align: center;
+}
+
+.profile-photo {
+  width: 120px;
+
+  height: 120px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  margin-bottom: 1rem;
+
+  border: 2px solid #123861;
+}
+
+.employee-name {
+  margin: 0.5rem 0 0.25rem;
+
+  font-size: 1.5rem;
+
+  color: #123861;
+}
+
+.employee-id {
+  color: #555;
+
+  margin: 0 0 1rem;
+
+  font-weight: 600;
+}
+
+/* .employee-desc {
+
+  font-size: 0.9rem;
+
+  line-height: 1.4;
+
+  color: #666;
+
+} */
+
+.employee-role {
+  color: #555;
+
+  margin: 0 0 1rem;
+
+  font-weight: 600;
+}
+
+/* Main Content */
+
+.main-content {
+  flex: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2rem;
+}
+
+/* Form Section */
+
+.personal-details {
+  background: #fff;
+
+  padding: 1.5rem;
+
+  border-radius: 12px;
+
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.personal-details h2 {
+  margin-top: 0;
+
+  margin-bottom: 1rem;
+
+  color: #123861;
+}
+
+.profile-files {
+  background: #fff;
+
+  padding: 1.5rem;
+
+  border-radius: 12px;
+
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-files h3 {
+  margin-top: 0;
+
+  margin-bottom: 1rem;
+
+  color: #123861;
+}
+
+.form-row {
+  display: flex;
+
+  flex-direction: column;
+
+  margin-bottom: 1rem;
+}
+
+.form-row label {
+  margin-bottom: 0.3rem;
+
+  font-weight: 600;
+}
+
+.form-row input[type="text"],
+.form-row input[type="email"] {
+  padding: 0.5rem 0.75rem;
+
+  font-size: 1rem;
+
+  border: 1px solid #ccc;
+
+  border-radius: 6px;
+
+  transition: border-color 0.3s ease;
+}
+
+.form-row input[readonly] {
+  background-color: #e9ecef;
+
+  cursor: not-allowed;
+}
+
+.form-row input:focus {
+  outline: none;
+
+  border-color: #123861;
+}
+
+.btn-save {
+  background-color: #123861;
+
+  color: white;
+
+  border: none;
+
+  padding: 0.7rem 1.5rem;
+
+  font-size: 1.1rem;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: background-color 0.3s ease;
+}
+
+.btn-save:hover {
+  background-color: #0b1f35;
+}
+
+.btn-cancel {
+  color: #123861;
+
+  border: solid 0.1 #123861;
+
+  margin: 0.7rem;
+
+  padding: 0.7rem 1.5rem;
+
+  font-size: 1.1rem;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: background-color 0.3s ease;
+}
+
+.btn-cancel:hover {
+  border-color: #eb0a0a;
+
+  color: #eb0a0a;
+}
+
+/* Sections: Attachments & Education */
+
+.attachments,
+.education {
+  background: #fff;
+
+  padding: 1.5rem;
+
+  border-radius: 12px;
+
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.attachments h3,
+.education h3 {
+  margin-top: 0;
+
+  margin-bottom: 0.5rem;
+
+  color: #123861;
+}
+
+.file-list {
+  margin-top: 0.5rem;
+
+  font-size: 0.9rem;
+
+  color: #444;
+}
+
+.file-list div {
+  margin-bottom: 0.25rem;
+
+  padding: 0.3rem 0.5rem;
+
+  background-color: #e9ecef;
+
+  border-radius: 4px;
+
+  max-width: 300px;
+
+  word-break: break-word;
+}
+
+input[type="file"] {
+  font-size: 1rem;
+
+  cursor: pointer;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.5);
+
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+
+    opacity: 1;
+  }
+}
+
+.animate-check {
+  animation: pop 0.5s ease-in-out;
+}

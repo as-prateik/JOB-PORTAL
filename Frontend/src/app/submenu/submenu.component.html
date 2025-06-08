@@ -1,0 +1,33 @@
+<!-- Sticky Submenu (remains unchanged) -->
+
+<div
+  class="bg-white border-bottom shadow-sm position-sticky w-100 d-flex align-items-center px-4 py-2 gap-4"
+  style="top: 56px; z-index: 1050; height: 56px"
+>
+  <a
+    class="text-decoration-none text-primary fw-semibold d-flex align-items-center gap-1 hover-tab"
+    routerLink="/employee-dashboard"
+    routerLinkActive="text-primary border-bottom border-primary pb-1"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <i class="bi bi-house-door-fill"></i> Home
+  </a>
+
+  <a
+    class="text-decoration-none text-secondary fw-semibold d-flex align-items-center gap-1 hover-tab"
+    routerLink="/job"
+    routerLinkActive="text-primary border-bottom border-primary pb-1"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <i class="bi bi-list-ul"></i> All Jobs
+  </a>
+
+  <a
+    class="text-decoration-none text-secondary fw-semibold d-flex align-items-center gap-1 hover-tab"
+    routerLink="/applied-jobs"
+    routerLinkActive="text-primary border-bottom border-primary pb-1"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <i class="bi bi-check2-circle"></i> Applied Jobs
+  </a>
+</div>

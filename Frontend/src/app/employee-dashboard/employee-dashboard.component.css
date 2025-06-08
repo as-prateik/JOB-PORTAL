@@ -1,0 +1,53 @@
+body {
+  background-color: #fff;
+}
+
+.card {
+  border-radius: 8px;
+}
+
+input::placeholder {
+  font-style: italic;
+}
+
+.navbar .nav-link {
+  font-weight: 500;
+}
+
+.card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+
+  transition: box-shadow 0.3s ease;
+}
+
+.btn:hover {
+  filter: brightness(0.9);
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+
+  cursor: pointer;
+}
+
+.job-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  border-radius: 10px;
+}
+
+.job-card:hover {
+  transform: scale(1.03);
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.badge {
+  min-width: 140px;
+
+  text-align: center;
+}

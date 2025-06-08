@@ -1,0 +1,531 @@
+<div class="container">
+  <!-- Sidebar Card -->
+
+  <aside class="sidebar-card">
+    <!-- <img src="" alt="logo" class="company-logo"/>
+
+    <h3 class="company-name">Company Name</h3>
+
+    -->
+
+    <br />
+
+    <!-- <img [src]="user?.profilePhotoUrl || 'assets/default-profile.png'" alt="Profile Photo" class="profile-photo" /> -->
+
+    <img
+      [src]="getProfilePhotoUrl() || 'assets/default-profile.png'"
+      alt="Profile Photo"
+      class="profile-photo"
+    />
+
+    <h2 class="employee-name">{{ user.name | titlecase }}</h2>
+
+    <p class="employee-id">Employee ID: {{ user.employeeId }}</p>
+
+    <p class="employee-role">{{ user.role | titlecase }}</p>
+
+    <!-- <p class="employee-desc">Description for the employee</p> -->
+
+    <br />
+
+    <hr />
+    <br />
+
+    <h5 class="mt-3">Skills</h5>
+
+    <div class="skills-section">
+      <div class="d-flex flex-wrap gap-2">
+        <span
+          class="badge rounded-pill bg-primary bg-light text-primary border border-primary-subtle px-2 py-1 fs-7"
+          *ngFor="let skill of user.skills"
+        >
+          {{ skill | titlecase }}
+        </span>
+
+        <!-- <button type ="button" class="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center px-2 py-0" (click)="openAddSkill()">+</button> -->
+      </div>
+    </div>
+
+    <h5 class="mt-3">Certifications</h5>
+
+    <div class="certification-section">
+      <div class="d-flex flex-wrap gap-2">
+        <span
+          class="badge rounded-pill bg-primary bg-light text-primary border border-primary-subtle px-2 py-1 fs-7"
+          *ngFor="let certificate of user.certifications"
+        >
+          {{ certificate | titlecase }}
+        </span>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <!-- <a *ngIf="user?.resumeUrl" [href]="user.resumeUrl" target="_blank" class="btn btn-link p-0">View My Resume</a> -->
+
+      <a
+        *ngIf="user?.resumeUrl"
+        [href]="'http://localhost:5000' + user.resumeUrl"
+        target="_blank"
+        >View My Resume</a
+      >
+
+      <br />
+
+      <a
+        *ngIf="user?.coverLetterUrl"
+        [href]="user.coverLetterUrl"
+        target="_blank"
+        class="btn btn-link p-0"
+        >View My Cover Letter</a
+      >
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+
+  <main class="main-content">
+    <!-- Personal Details Form -->
+
+    <section class="personal-details">
+      <h2>Personal Details</h2>
+
+      <form id="profileForm" [formGroup]="profileForm" (ngSubmit)="update()">
+        <div class="form-row">
+          <label for="name">Full Name</label>
+
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Full Name "
+            value="{{ user.name | titlecase }}"
+            required
+          />
+        </div>
+
+        <div class="form-row">
+          <label for="email">Email ID</label>
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email"
+            value="{{ user.email }}"
+            readonly
+          />
+        </div>
+
+        <div class="form-row">
+          <label for="empId">Employee ID</label>
+
+          <input
+            type="text"
+            id="empId"
+            name="empId"
+            placeholder="Employee ID"
+            value="{{ user.employeeId }}"
+            readonly
+          />
+        </div>
+
+        <div class="form-row">
+          <label for="role">Role</label>
+
+          <input
+            type="text"
+            id="role"
+            name="role"
+            value="{{ user.role | titlecase }}"
+            readonly
+          />
+        </div>
+
+        <div class="form-row">
+          <label for="location">Location</label>
+
+          <!-- <input type="text" id="location" name="location" value="{{user.location | titlecase}}" required /> -->
+
+          <input
+            type="text"
+            id="location"
+            formControlName="location"
+            required
+          />
+        </div>
+
+        <div class="form-row">
+          <label for="phone">Phone</label>
+
+          <!-- <input type="text" id="phone" name="phone" value="{{user.phone | titlecase}}" required /> -->
+
+          <input type="text" id="phone" formControlName="phone" required />
+        </div>
+
+        <div class="form-row">
+          <label for="skills">Skills</label>
+
+          <!-- <input type="text" id="phone" name="phone" value="{{user.phone | titlecase}}" required /> -->
+
+          <input type="text" id="skills" formControlName="skills" required />
+        </div>
+
+        <section class="profile-files">
+          <h3>Profile Files</h3>
+
+          <div class="form-row">
+            <label>Resume</label>
+
+            <input
+              type="file"
+              (change)="onFileChange($event, 'resume')"
+              accept=".pdf,.doc,.docx"
+              class="mb-2"
+            />
+
+            <div *ngIf="user?.resumeUrl">
+              <span class="text-success">Resume uploaded</span>
+
+              <button
+                type="button"
+                class="btn btn-sm btn-danger ms-2"
+                (click)="removeFileFromProfile('resume')"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label>Cover Letter</label>
+
+            <input
+              type="file"
+              (change)="onFileChange($event, 'coverLetter')"
+              accept=".pdf,.doc,.docx"
+            />
+
+            <div *ngIf="user?.coverLetterUrl">
+              <span class="text-success">Cover Letter uploaded</span>
+
+              <button
+                type="button"
+                class="btn btn-sm btn-danger ms-2"
+                (click)="removeFileFromProfile('coverLetter')"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label>Profile Photo</label>
+
+            <input
+              type="file"
+              (change)="onFileChange($event, 'profilePhoto')"
+              accept="image/*"
+            />
+
+            <div *ngIf="user?.profilePhotoUrl">
+              <span class="text-success">Profile Photo uploaded</span>
+
+              <button
+                type="button"
+                class="btn btn-sm btn-danger ms-2"
+                (click)="removeFileFromProfile('profilePhoto')"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <button type="submit" class="btn-save">Save</button>
+
+          <button type="reset" class="btn-cancel">Cancel</button>
+        </section>
+
+        <!-- <div class="modal fade" id="saveSuccessModal" tabindex="-1" aria-hidden="true">
+
+          <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content bg-white text-center p-4">
+
+              <div class="modal-body">
+
+                <div class="text-success fs-1 mb-3 animate-check">
+
+                  <i class="bi bi-check-circle-fill"></i>
+
+                </div>
+
+                <h5 class="modal-title mb-3">Changes Saved Successfully!</h5>
+
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div> -->
+      </form>
+    </section>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div
+        id="skillSuccessToast"
+        class="toast align-items-center text-bg-success border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body">Changes updated successfully.</div>
+
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          >
+            ok
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attachments Section -->
+
+    <!-- <section class="attachments">
+
+      <h3>Attachments</h3>
+
+      <p>Upload your Resume, CV, and other documents</p> -->
+
+    <!-- <input type="file" id="attachmentsUpload" multiple accept=".pdf,.doc,.docx" />
+
+      <div id="attachmentsList" class="file-list"></div> -->
+
+    <!-- <div *ngFor="let file of selectedFiles; let i = index" class="mb-2">
+
+        <div class="input-group">
+
+          <input type="text" class="form-control" [value]="file.name" readonly>
+
+          <button type="button" class="btn btn-danger" (click)="removeFile(i)">Remove</button>
+
+        </div>
+
+      </div>
+
+
+ 
+
+      <div class="input-group mb-3">
+
+        <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
+
+        <button type="button" class="btn btn-primary" (click)="triggerFileInput()">Add</button>
+
+      </div>
+
+    </section> -->
+
+    <!-- Education Section -->
+
+    <!-- <section class="education">
+
+      <h3>Education Certificates</h3>
+
+      <p>Upload your 10th, 12th, and Degree certificates</p> -->
+
+    <!-- <input type="file" id="educationUpload" multiple accept=".pdf,.jpg,.jpeg,.png" />
+
+      <div id="educationList" class="file-list"></div> -->
+
+    <!-- <div *ngFor="let file of selectedFiles; let i = index" class="mb-2">
+
+        <div class="input-group">
+
+          <input type="text" class="form-control" [value]="file.name" readonly>
+
+          <button type="button" class="btn btn-danger" (click)="removeFile(i)">Remove</button>
+
+        </div>
+
+      </div>
+
+
+ 
+
+      <div class="input-group mb-3">
+
+        <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
+
+        <button type="button" class="btn btn-primary" (click)="triggerFileInput()">Add</button>
+
+      </div>
+
+    </section> -->
+
+    <!-- <section class="profile-files">
+
+      <h3>Profile Files</h3>
+
+      <div class="form-row">
+
+        <label>Resume</label>
+
+        <input type="file" (change)="onFileChange($event, 'resume')" accept=".pdf,.doc,.docx" class="mb-2" />
+
+        <div *ngIf="user?.resumeUrl">
+
+          <span class="text-success">Resume uploaded</span>
+
+          <button type="button" class="btn btn-sm btn-danger ms-2"
+
+            (click)="removeFileFromProfile('resume')">Remove</button>
+
+        </div>
+
+      </div>
+
+      <div class="form-row">
+
+        <label>Cover Letter</label>
+
+        <input type="file" (change)="onFileChange($event, 'coverLetter')" accept=".pdf,.doc,.docx" />
+
+        <div *ngIf="user?.coverLetterUrl">
+
+          <span class="text-success">Cover Letter uploaded</span>
+
+          <button type="button" class="btn btn-sm btn-danger ms-2"
+
+            (click)="removeFileFromProfile('coverLetter')">Remove</button>
+
+        </div>
+
+      </div>
+
+      <div class="form-row">
+
+        <label>Profile Photo</label>
+
+        <input type="file" (change)="onFileChange($event, 'profilePhoto')" accept="image/*" />
+
+        <div *ngIf="user?.profilePhotoUrl">
+
+          <span class="text-success">Profile Photo uploaded</span>
+
+          <button type="button" class="btn btn-sm btn-danger ms-2"
+
+            (click)="removeFileFromProfile('profilePhoto')">Remove</button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+ 
+
+    <section>
+
+      <button type="submit" class="btn-save" (click)="saveChanges()">Save</button>
+
+      <button type="reset" class="btn-cancel">Cancel</button>
+
+    </section> -->
+
+    <!-- Resume -->
+
+    <!-- <div class="form-row">
+
+  <label>Resume</label>
+
+  <div *ngIf="user?.resumeUrl">
+
+    <a [href]="user.resumeUrl" target="_blank">View Resume</a>
+
+    <button type="button" (click)="removeFileFromProfile('resume')">Remove</button>
+
+  </div>
+
+  <input type="file" (change)="onFileChange($event, 'resume')" accept=".pdf,.doc,.docx" />
+
+</div> -->
+
+    <!-- Cover Letter -->
+
+    <!-- <div class="form-row">
+
+  <label>Cover Letter</label>
+
+  <div *ngIf="user?.coverLetterUrl">
+
+    <a [href]="user.coverLetterUrl" target="_blank">View Cover Letter</a>
+
+    <button type="button" (click)="removeFileFromProfile('coverLetter')">Remove</button>
+
+  </div>
+
+  <input type="file" (change)="onFileChange($event, 'coverLetter')" accept=".pdf,.doc,.docx" />
+
+</div> -->
+
+    <!-- Profile Photo -->
+
+    <!-- <div class="form-row">
+
+  <label>Profile Photo</label>
+
+  <div *ngIf="user?.profilePhotoUrl">
+
+    <img [src]="user.profilePhotoUrl" alt="Profile Photo" width="80" />
+
+    <button type="button" (click)="removeFileFromProfile('profilePhoto')">Remove</button>
+
+  </div>
+
+  <input type="file" (change)="onFileChange($event, 'profilePhoto')" accept="image/*" />
+
+</div>
+
+  </main>
+
+</div> -->
+
+    <div
+      class="modal fade"
+      id="applySuccessModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-white text-center p-4">
+          <div class="modal-body">
+            <div class="text-success fs-1 mb-3">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+
+            <h5 class="modal-title mb-3">Successfully Applied!</h5>
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

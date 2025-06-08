@@ -1,0 +1,26 @@
+<nav
+  class="navbar navbar-expand-lg navbar-light bg-light shadow-sm px-4 sticky-top"
+>
+  <span class="navbar-brand text-dark">Heyy {{ userName }}!</span>
+
+  <button
+    class="navbar-toggler ms-auto"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarMenu"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
+    <ul class="navbar-nav align-items-center">
+      <li class="nav-item">
+        <a class="nav-link text-dark" (click)="onTouch()">Your Profile</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link text-danger" (click)="logout()">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
