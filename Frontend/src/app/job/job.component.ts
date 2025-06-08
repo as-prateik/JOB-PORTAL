@@ -1,39 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-
 import { JobService } from '../job.service';
-
 import { Router } from '@angular/router';
-
 import { UserService } from '../user.service';
-
 import { AuthenticationService } from '../authentication.service';
-
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-job',
-
   templateUrl: './job.component.html',
-
   styleUrls: ['./job.component.css'],
 })
+
 export class JobComponent implements OnInit {
   jobs: any[] = [];
-
   applications: any[] = []; // For applied jobs
-
   employeeName: string = '';
-
   employeeSkills: string[] = [];
-
   employeeCertifications: string[] = [];
-
   searchQuery: string = '';
-
   locationFilter: string = '';
-
   skillsFilter: string = '';
-
   token: string | null = null;
 
   constructor(
@@ -45,20 +31,15 @@ export class JobComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('in ng oninit of job component');
-
     this.token = this.authService.getDetails().token || '';
-
     this.loadUserProfile();
-
     this.loadAppliedJobs();
-
     this.loadJobs();
   }
 
   loadUserProfile(): void {
     if (!this.token) {
       console.error('User not authenticated.');
-
       return;
     }
 
@@ -82,10 +63,9 @@ export class JobComponent implements OnInit {
   loadAppliedJobs(): void {
     if (!this.token) {
       console.error('User not authenticated.');
-
       return;
     }
-
+    console.log('in loadAppliedJobs method');
     this.jobService.getAppliedJobs(this.token).subscribe(
       (data) => {
         console.log('Fetched applied jobs:', data);
@@ -93,19 +73,15 @@ export class JobComponent implements OnInit {
         this.applications = (data.appliedJobs || []).map(
           (application: any) => ({
             ...application,
-
             title: application.jobId?.title || 'Unknown Title', // Use the populated title
-
             location: application.jobId?.location || 'Unknown Location', // Use the populated location
           })
         );
-
         console.log('Mapped applications:', this.applications);
       },
 
       (error) => {
         console.error('Error fetching applied jobs:', error);
-
         this.applications = []; // Ensure applications is an empty array on error
       }
     );
@@ -141,31 +117,22 @@ export class JobComponent implements OnInit {
 
     if (!this.token) {
       alert('You must be logged in to apply for a job.');
-
       return;
     }
-
     this.jobService.applyJob(job._id, this.token).subscribe(
       (response) => {
         if (!this.isApplied(job)) {
           this.applications.push({
             jobId: job._id,
-
             title: job.title,
-
             location: job.location,
-
             status: 'applied',
-
             appliedAt: new Date().toISOString(),
-
             notification: 'Application received',
           });
-
           const modal = new bootstrap.Modal(
             document.getElementById('applySuccessModal')!
           );
-
           modal.show();
         }
       },
@@ -184,6 +151,7 @@ export class JobComponent implements OnInit {
         console.error('Error applying for job:', error);
       }
     );
+    console.log("end of apply job");
   }
 
   withdrawJob(): void {

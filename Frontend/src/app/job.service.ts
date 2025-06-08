@@ -106,6 +106,9 @@ export class JobService {
   // }
 
   getAppliedJobs(token: string) {
+    console.log("in applied jobs method of job service");
+    console.log(`Token: ${token}`); // Log the token for debugging
+    
     return this.http.get<{ appliedJobs: any[] }>(
       `${this.apiUrl}/applications/status`,
       {

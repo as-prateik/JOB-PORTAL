@@ -46,4 +46,12 @@ export class UserService {
       headers,
     });
   }
+
+  getUserApplications(token: string): Observable<any> {
+    console.log('in getUserApplications method in user service');
+    
+    return this.http.get<any>(`${this.apiUrl}/applications`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
 }

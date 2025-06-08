@@ -278,121 +278,56 @@ exports.myListedJobs = async (req, res) => {
  
 
 exports.applyToJob = async (req, res) => {
-
   try {
-
     const { jobId } = req.params;
-
     const userId = req.user.userId;
-
-
- 
-
+    console.log("user is applying to job",req.user);
     // Find the job
-
     const job = await Job.findById(jobId);
-
     if (!job || !job.isActive) {
-
       return res.status(404).json({ message: 'Job not found or inactive' });
-
     }
-
-
- 
-
     // Check if user already applied
-
     const alreadyApplied = job.applicants.some(
-
       (applicant) => applicant.userId.toString() === userId
-
     );
-
     if (alreadyApplied) {
-
       return res.status(400).json({ message: 'You have already applied to this job' });
-
     }
-
-
- 
-
     const user = await User.findOne({ authId: req.user.userId });
-
     if (!user) return res.status(404).json({ message: 'User not found' });
-
-
- 
-
     // Add applicant snapshot to job
-
     job.applicants.push({
-
       userId: user.employeeId.toString(), // employeeId as string
-
       name: user.name,
-
       email: user.email,
-
       role: user.role,
-
       skills: user.skills,
-
       certifications: user.certifications,
-
       status: 'applied',
-
       appliedAt: new Date(),
-
     });
 
     await job.save();
-
     console.log("job after applying is", job);
 
-
- 
-
     // Also update user's appliedJobs
-
-
-
- 
-
     // Add job details to user's appliedJobs
-
     user.appliedJobs.push({
-
       jobId: job.jobId, // string
-
       title: job.title,
-
       location: job.location,
-
       status: 'applied',
-
       appliedAt: new Date(),
-
       notification: 'Application received',
-
     });
 
     await user.save();
-
-
- 
-
     res.json({ message: 'Application submitted successfully' });
-
   } catch (error) {
-
     console.error('Error applying to job:', error);
-
     res.status(500).json({ message: 'Server error', error: error.message });
-
   }
-
 };
 
 
@@ -587,42 +522,48 @@ exports.viewApplicants = async (req, res) => {
 
 // View application status & notifications for current user (Employee only)
 
+// exports.viewApplications = async (req, res) => {
+//   try {
+
+//     const userId = req.user.userId;
+//     console.log("user is view applications",req.user);
+
+//     // Find the user and populate appliedJobs
+
+//     const user = await User.findOne({ authId: userId }).populate({
+
+//       path: 'appliedJobs.jobId',
+//       select: 'title location'
+
+//     });
+
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+//     res.json({ appliedJobs: user.appliedJobs });
+
+//   } catch (error) {
+
+//     console.error('Error fetching applications:', error);
+
+//     res.status(500).json({ message: 'Server error', error: error.message });
+
+//   }
+
+// };
+
 exports.viewApplications = async (req, res) => {
-
   try {
-
     const userId = req.user.userId;
-
-
- 
-
-    // Find the user and populate appliedJobs
-
     const user = await User.findOne({ authId: userId }).populate({
-
       path: 'appliedJobs.jobId',
-
       select: 'title location'
-
     });
-
     if (!user) {
-
       return res.status(404).json({ message: 'User not found' });
-
     }
-
-
- 
-
     res.json({ appliedJobs: user.appliedJobs });
-
   } catch (error) {
-
-    console.error('Error fetching applications:', error);
-
     res.status(500).json({ message: 'Server error', error: error.message });
-
   }
-
 };
