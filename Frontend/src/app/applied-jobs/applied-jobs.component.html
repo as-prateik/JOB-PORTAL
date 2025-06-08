@@ -45,7 +45,7 @@
             <td class="text-center">
               <button
                 class="btn btn-outline-danger btn-sm"
-                (click)="confirmWithdraw(application)"
+                (click)="$event.stopPropagation(); confirmWithdraw(application)"
               >
                 Withdraw
               </button>

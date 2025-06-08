@@ -297,7 +297,7 @@ exports.applyToJob = async (req, res) => {
 
  
 
-    const user = await User.findOne({ authId: userId });
+    const user = await User.findOne({ authId: req.user.userId });
 
     if (!user) return res.status(404).json({ message: 'User not found' });
 
@@ -308,7 +308,7 @@ exports.applyToJob = async (req, res) => {
 
     job.applicants.push({
 
-      userId: user.employeeId, // employeeId as string
+      userId: user.employeeId.toString(), // employeeId as string
 
       name: user.name,
 
@@ -379,96 +379,144 @@ exports.applyToJob = async (req, res) => {
 
 // Withdraw from a job (Employee only)
 
+// exports.withdrawApplication = async (req, res) => {
+
+//   try {
+
+//     const { jobId } = req.params.jobId;
+
+//     const userId = req.user.userId;
+
+
+ 
+
+//     // Find the job
+
+//     const job = await Job.findOne(jobId);
+
+//     if (!job) {
+
+//       return res.status(404).json({ message: 'Job not found' });
+
+//     }
+    
+//     const user = await User.findOne({ authId: userId });
+
+//     if (!user) {
+
+//       return res.status(404).json({ message: 'User profile not found' });
+
+//     }
+
+//     const employeeId=user.employeeId?.toString()
+
+
+//     // Check if user has applied
+
+//     const applicantIndex = job.applicants.some(
+
+//       applicant => applicant.userId.toString() === employeeId
+
+//     );
+
+//     if (!applicantIndex) {
+
+//       return res.status(400).json({ message: 'You have not applied to this job' });
+
+//     }
+
+
+ 
+
+//     // Remove applicant from job's applicants array
+
+//     job.applicants = job.applicants.filter(
+
+//       applicant => applicant.userId.toString() !== employeeId
+
+//     );
+
+//     await job.save();
+
+
+ 
+
+//     // Find user profile
+
+    
+
+
+ 
+
+//     // Remove job from user's appliedJobs
+
+//     user.appliedJobs = user.appliedJobs.filter(
+
+//       appliedJob => appliedJob.jobId.toString() !== jobId
+
+//     );
+
+//     await user.save();
+
+
+ 
+
+//     res.json({ message: 'Application withdrawn successfully' });
+
+//   } catch (error) {
+
+//     console.error('Error withdrawing application:', error);
+
+//     res.status(500).json({ message: 'Server error', error: error.message });
+
+//   }
+
+// };
+
 exports.withdrawApplication = async (req, res) => {
-
   try {
-
     const { jobId } = req.params;
-
     const userId = req.user.userId;
 
-
- 
-
-    // Find the job
-
-    const job = await Job.findById(jobId);
-
+    // Find job by custom jobId field
+    const job = await Job.findOne({ jobId });
     if (!job) {
-
       return res.status(404).json({ message: 'Job not found' });
-
     }
-
-
- 
-
-    // Check if user has applied
-
-    const applicantIndex = job.applicants.findIndex(
-
-      applicant => applicant.userId.toString() === userId
-
-    );
-
-    if (applicantIndex === -1) {
-
-      return res.status(400).json({ message: 'You have not applied to this job' });
-
-    }
-
-
- 
-
-    // Remove applicant from job's applicants array
-
-    job.applicants = job.applicants.filter(
-
-      applicant => applicant.userId.toString() !== userId
-
-    );
-
-    await job.save();
-
-
- 
-
-    // Find user profile
 
     const user = await User.findOne({ authId: userId });
-
     if (!user) {
-
       return res.status(404).json({ message: 'User profile not found' });
-
     }
 
+    const employeeId = user.employeeId?.toString();
 
- 
-
-    // Remove job from user's appliedJobs
-
-    user.appliedJobs = user.appliedJobs.filter(
-
-      appliedJob => appliedJob.jobId.toString() !== jobId
-
+    // Check if the user has applied
+    const hasApplied = job.applicants.some(
+      applicant => applicant.userId.toString() === employeeId
     );
 
+    if (!hasApplied) {
+      return res.status(400).json({ message: 'You have not applied to this job' });
+    }
+
+    // Remove from job's applicant list
+    job.applicants = job.applicants.filter(
+      applicant => applicant.userId.toString() !== employeeId
+    );
+    await job.save();
+
+    // Remove from user's appliedJobs list
+    user.appliedJobs = user.appliedJobs.filter(
+      appliedJob => appliedJob.jobId !== jobId
+    );
     await user.save();
 
-
- 
-
     res.json({ message: 'Application withdrawn successfully' });
-
   } catch (error) {
-
     console.error('Error withdrawing application:', error);
-
     res.status(500).json({ message: 'Server error', error: error.message });
-
   }
-
 };
 
 

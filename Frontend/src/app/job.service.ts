@@ -86,24 +86,24 @@ export class JobService {
     return this.http.get<any>(`${this.apiUrl}/applications`, { headers });
   }
 
-  // withdrawApplication(jobId: string, token: string) {
+  withdrawApplication(jobId: string, token: string): Observable<any> {
 
-  //   return this.http.delete(`${this.apiUrl}/${jobId}/withdraw`, {
+    return this.http.delete(`${this.apiUrl}/applications/${jobId}/withdraw`, {
 
-  //     headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` }
 
-  //   });
+    });
 
-  // }
-
-  withdrawApplication(applicationId: string, token: string) {
-    return this.http.delete(
-      `${this.apiUrl}/applications/${applicationId}/withdraw`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
   }
+
+  // withdrawApplication(applicationId: string, token: string) {
+  //   return this.http.delete(
+  //     `${this.apiUrl}/applications/${applicationId}/withdraw`,
+  //     {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     }
+  //   );
+  // }
 
   getAppliedJobs(token: string) {
     return this.http.get<{ appliedJobs: any[] }>(

@@ -27,6 +27,7 @@ import { JobComponent } from './job/job.component';
 import { SubmenuComponent } from './submenu/submenu.component';
 
 import { AppliedJobsComponent } from './applied-jobs/applied-jobs.component';
+import { JobDetailsComponent } from './job-details/job-details.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { AppliedJobsComponent } from './applied-jobs/applied-jobs.component';
     SubmenuComponent,
 
     AppliedJobsComponent,
+      JobDetailsComponent,
   ],
 
   imports: [
