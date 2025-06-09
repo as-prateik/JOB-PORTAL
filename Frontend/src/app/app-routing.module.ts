@@ -15,6 +15,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { JobComponent } from './job/job.component';
 
 import { AppliedJobsComponent } from './applied-jobs/applied-jobs.component';
+
 import { JobDetailsComponent } from './job-details/job-details.component';
 
 const routes: Routes = [
@@ -31,7 +32,8 @@ const routes: Routes = [
   { path: 'job', component: JobComponent },
 
   { path: 'applied-jobs', component: AppliedJobsComponent },
-  {path:'job-details',component:JobDetailsComponent},
+
+  { path: 'job-details/:id', component: JobDetailsComponent },
 
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];

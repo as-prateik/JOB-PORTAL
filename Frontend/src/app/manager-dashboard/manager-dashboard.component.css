@@ -1,155 +1,3 @@
-/* === General Styling ===
-
-body {
-
-  background-color: #f2f4f8;
-
-}
-
-
- 
-
-=== Navbar ===
-
-.navbar-brand {
-
-  font-weight: 600;
-
-  font-size: 1.3rem;
-
-   background-color: rgb(54, 116, 181);
-
-}
-
-
- 
-
-.nav-link {
-
-  transition: all 0.3s ease;
-
-}
-
-
- 
-
-.nav-link:hover {
-
-  background-color: rgba(255, 255, 255, 0.2);
-
-  border-radius: 5px;
-
-}
-
-
- 
-
-=== Sidebar ===
-
-.bg-light {
-
-  background-color: #ffffff !important;
-
-}
-
-
- 
-
-.sidebar-button {
-
-  text-align: left;
-
-  transition: all 0.3s ease;
-
-}
-
-
- 
-
-.sidebar-button.active,
-
-.sidebar-button:hover {
-
-  background-color: #007bff;
-
-  color: white;
-
-  border-color: #007bff;
-
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
-
-}
-
-
- 
-
-=== Job Cards ===
-
-.job-card {
-
-  background-color: #ffffff;
-
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-}
-
-
- 
-
-.job-card:hover {
-
-  transform: translateY(-5px);
-
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-
-}
-
-
- 
-
-=== Buttons ===
-
-.btn-primary,
-
-.btn-danger,
-
-.btn-outline-primary {
-
-  transition: background-color 0.3s ease, transform 0.2s ease;
-
-}
-
-
- 
-
-.btn-primary:hover,
-
-.btn-danger:hover {
-
-  transform: scale(1.05);
-
-}
-
-
- 
-
-=== Modals ===
-
-.modal-content {
-
-  border-radius: 10px;
-
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-
-}
-
-
- 
-
-*/
-
-/* Base brand color */
-
 :root {
   --brand-blue: rgb(54, 116, 181);
 
@@ -246,7 +94,15 @@ body {
 }
 
 .posted-jobs {
-  background-color: white;
+  background-color: rgb(87, 143, 202);
 
-  color: rgb(87, 143, 202);
+  color: white;
+}
+
+.btn.btn-outline-primary.active {
+  background-color: rgb(99, 87, 87) !important;
+
+  color: white !important;
+
+  border-color: white !important;
 }

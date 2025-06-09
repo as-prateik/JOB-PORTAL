@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { JobService } from '../job.service';
+
 import { AuthenticationService } from '../authentication.service';
 
 declare var bootstrap: any; // Declare bootstrap as a global variable
@@ -19,35 +20,48 @@ export class ManagerDashboardComponent {
 
   newJob: any = {
     title: '',
+
     location: '',
+
     description: '',
+
     lastDate: '',
+
     status: 'open',
+
     skillsRequired: [],
   };
 
-  token: string | null = null;
+  token: string = '';
+
   isPostJobVisible = true;
+
   isPostedJobsVisible = false;
+
   selectedJob: any = null;
+
   selectedJobApplicants: any[] = [];
+
   selectedJobId: string | null = null; // For delete confirmation modal
 
   constructor(
     private jobService: JobService,
+
     private authentication: AuthenticationService
   ) {}
 
   ngOnInit(): void {
     this.token = this.authentication.getDetails().token || ''; // Get token from authentication service
+
     this.managerName = this.authentication.getDetails().name || 'Manager'; //
+
     this.loadJobs();
   }
 
   // Load all jobs posted by the manager
 
   loadJobs(): void {
-    this.jobService.getJobs(this.token).subscribe(
+    this.jobService.getMyJobs(this.token).subscribe(
       (data: any) => {
         console.log(data);
 
@@ -68,17 +82,25 @@ export class ManagerDashboardComponent {
 
   createJob(): void {
     console.log('Creating job with data:', this.newJob);
+
     console.log('skills before processing:', this.newJob.skills);
+
     if (typeof this.newJob.skillsRequired === 'string') {
       this.newJob.skillsRequired = this.newJob.skillsRequired
+
         .split(',')
+
         .map((skill: string) => skill.trim().toLowerCase())
+
         .filter((skill: string) => skill.length > 0);
     } else if (Array.isArray(this.newJob.skillsRequired)) {
       this.newJob.skillsRequired = this.newJob.skillsRequired
+
         .map((skill: string) => skill.trim().toLowerCase())
+
         .filter((skill: string) => skill.length > 0);
     }
+
     console.log('skills after processing:', this.newJob.skills);
 
     if (
@@ -139,14 +161,24 @@ export class ManagerDashboardComponent {
 
   // Delete a job
 
-  deleteJob(): void {
+  confirmAndCloseDelete(): void {
     if (this.selectedJobId) {
       this.jobService
         .deleteJob(this.selectedJobId, this.token)
         .subscribe(() => {
-          this.loadJobs(); // Refresh after delete
+          this.loadJobs(); // Refresh the job list
 
-          this.selectedJobId = null; // Reset selected job ID
+          this.selectedJobId = null;
+
+          // Close the modal manually
+
+          const modalElement = document.getElementById('deleteModal');
+
+          if (modalElement) {
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+
+            modalInstance?.hide(); // Close the modal after deletion
+          }
         });
     }
   }
@@ -182,9 +214,11 @@ export class ManagerDashboardComponent {
   // View applicants for a job in a modal
 
   viewApplicants(job: any): void {
-    this.jobService.getApplicants(job._id).subscribe(
+    this.jobService.getApplicants(job._id, this.token).subscribe(
       (data: any) => {
         this.selectedJobApplicants = data.applicants;
+
+        console.log(this.selectedJobApplicants, ' applicants');
 
         const modal = new bootstrap.Modal(
           document.getElementById('applicantsModal')!
