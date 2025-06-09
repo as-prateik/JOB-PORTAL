@@ -135,6 +135,8 @@ const seed = async () => {
 
       skillsRequired: ['Node.js', 'MongoDB'],
 
+      certificationsRequired: ['AWS Certified', 'Node.js Certification'],
+
       department: 'Engineering',
 
       location: 'Chennai',
@@ -154,6 +156,8 @@ const seed = async () => {
       description: 'Frontend development role',
 
       skillsRequired: ['Angular', 'TypeScript'],
+
+      certificationsRequired: ['AWS Certified', 'python pro'],
 
       department: 'Engineering',
 

@@ -143,8 +143,31 @@ exports.getRankedSkills = async (req, res) => {
       .sort((a, b) => b[1] - a[1])
 
       .map(([skill, count]) => ({ skill, count }));
-
+    console.log("ranked skills are", rankedSkills);
     res.json({ rankedSkills });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+exports.getRankedCertifications = async (req, res) => {
+  try {
+    const jobs = await Job.find({}, "certificationsRequired");
+    const certificationCounts = {};
+    jobs.forEach((job) => {
+      (job.certificationsRequired || []).forEach((certification) => {
+        const normalized = certification.trim().toLowerCase();
+        certificationCounts[normalized] =
+          (certificationCounts[normalized] || 0) + 1;
+      });
+    });
+    // Convert to array and sort by frequency
+    const rankedCertifications = Object.entries(certificationCounts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([certification, count]) => ({ certification, count }));
+    console.log("ranked certifications are", rankedCertifications);
+
+    res.json({ rankedCertifications });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -235,7 +258,9 @@ exports.applyToJob = async (req, res) => {
       (applicant) => applicant.userId.toString() === userId
     );
     if (alreadyApplied) {
-      return res.status(400).json({ message: "You have already applied to this job" });
+      return res
+        .status(400)
+        .json({ message: "You have already applied to this job" });
     }
     const user = await User.findOne({ authId: req.user.userId });
     if (!user) return res.status(404).json({ message: "User not found" });

@@ -290,10 +290,21 @@ export class JobService {
 
     return this.http.get<{ rankedSkills: { skill: string, count: number }[] }>(
 
-      'http://localhost:5000/api/jobs/on-demand-skills', {
+      `${this.apiUrl}/on-demand-skills`, {
 
       headers: { Authorization: `Bearer ${token}` },
 
+    }
+
+    );
+
+  }
+
+  getOnDemandCertifications(token: string): Observable<any> {
+
+    return this.http.get<{ rankedCertifications: { certification: string, count: number }[] }>(
+      `${this.apiUrl}/on-demand-certifications`, {
+      headers: { Authorization: `Bearer ${token}` },
     }
 
     );

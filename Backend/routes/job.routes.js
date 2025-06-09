@@ -36,6 +36,8 @@ router.post("/", authorizeRoles("manager"), jobController.createJob);
 
 router.get("/on-demand-skills", jobController.getRankedSkills);
 
+router.get("/on-demand-certifications",jobController.getRankedCertifications);
+
 // Edit a job posting (Manager only)
 
 router.put("/:jobId", authorizeRoles("manager", "hr"), jobController.updateJob);
@@ -95,5 +97,7 @@ router.delete(
   authorizeRoles("employee"),
   jobController.withdrawApplication
 );
+
+
 
 module.exports = router;

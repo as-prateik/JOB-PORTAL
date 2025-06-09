@@ -36,14 +36,10 @@ export class EmployeeDashboardComponent implements OnInit {
 
   token: string = ''; // Token for authentication
 
+  noOfJobs: number = 0;
+
   onDemandSkills: { skill: string; count: number }[] = [];
-  mustHaveCertifications: string[] = [
-    'AWS Certified Developer – Associate',
-    'Certified Kubernetes Administrator (CKA)',
-    'Google Professional Cloud Developer',
-    'Microsoft Certified: Azure Developer Associate',
-    'Oracle Certified Professional, Java SE 11 Developer',
-  ];
+  mustHaveCertifications: { certification: string; count: number }[] = [];
 
   constructor(
     private jobService: JobService,
@@ -59,6 +55,7 @@ export class EmployeeDashboardComponent implements OnInit {
     this.loadAppliedJobs();
     this.loadJobs();
     this.loadOnDemandSkills();
+    this.loadOnDemandCertifications();
   }
 
   getBestFitJobs(): any[] {
@@ -82,6 +79,8 @@ export class EmployeeDashboardComponent implements OnInit {
   loadOnDemandSkills(): void {
     this.jobService.getOnDemandSkills(this.token).subscribe(
       (data) => {
+        console.log('Fetched on demand skills:', data);
+        
         this.onDemandSkills = (data.rankedSkills || []).filter(
           (skillObj: { skill: string; count: number }) =>
             skillObj.skill.toLowerCase() !== 'not applicable'
@@ -92,6 +91,24 @@ export class EmployeeDashboardComponent implements OnInit {
         console.error('Error loading on demand skills:', error);
       }
     );
+
+  }
+
+  loadOnDemandCertifications():void{
+    this.jobService.getOnDemandCertifications(this.token).subscribe(
+      (data) =>{
+        console.log("certificate data",data);
+        
+        this.mustHaveCertifications = (data.rankedCertifications || []).filter(
+          (certObj: { certification: string; count: number }) =>
+            certObj.certification.toLowerCase() !== 'not applicable'
+        );
+        console.log('Fetched must have certifications:', this.mustHaveCertifications);
+      },
+      (error) => {
+        console.error('Error loading must have certifications:', error);
+      }
+    )
   }
 
   scrollToBestFit(): void {
@@ -161,12 +178,17 @@ export class EmployeeDashboardComponent implements OnInit {
     this.jobService.getJobs(this.token).subscribe(
       (data) => {
         this.jobs = data.jobs;
+        this.noOfJobs = this.jobs.length;
       },
 
       (error) => {
         console.error('Error fetching jobs:', error);
       }
     );
+
+    
+    console.log('Total number of jobs:', this.noOfJobs);
+    
   }
 
   // Filter logic for UI

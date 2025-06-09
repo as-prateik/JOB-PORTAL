@@ -114,6 +114,12 @@ const JobSchema = new mongoose.Schema({
 
   },
 
+  certificationsRequired: {
+    type: [String],
+
+    default: ['Not Applicable'],
+  },
+
   department:{
 
     type:String
