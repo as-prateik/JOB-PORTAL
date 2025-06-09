@@ -234,13 +234,7 @@ export class JobComponent implements OnInit {
   }
 
   viewJobDescription(job: any): void {
-    this.selectedJob = job;
-
-    const modal = new bootstrap.Modal(
-      document.getElementById('jobDetailsModal')!
-    );
-
-    modal.show();
+    this.router.navigate([`/job-details/${job.jobId}`])
   }
 
   notifications: string[] = [
