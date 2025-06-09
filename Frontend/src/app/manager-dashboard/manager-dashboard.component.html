@@ -254,3 +254,36 @@
     </div>
   </div>
 </div>
+
+<!-- Applicants Modal -->
+<div
+  class="modal fade"
+  id="applicantsModal"
+  tabindex="-1"
+  aria-labelledby="applicantsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="applicantsModalLabel">Applicants for {{ selectedJob?.title }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedJobApplicants.length > 0; else noApplicants">
+          <ul class="list-group">
+            <li *ngFor="let applicant of selectedJobApplicants" class="list-group-item">
+              <strong>Name:</strong> {{ applicant.name }} <br />
+              <strong>Email:</strong> {{ applicant.email }} <br />
+              <strong>Skills:</strong> {{ applicant.skills.join(', ') }}
+            </li>
+          </ul>
+        </div>
+        <ng-template #noApplicants>
+          <p class="text-center text-muted">No applicants found for this job.</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+

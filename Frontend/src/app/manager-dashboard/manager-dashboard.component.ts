@@ -68,7 +68,8 @@ export class ManagerDashboardComponent {
         this.jobs = data.jobs.map((job: any) => ({
           ...job,
 
-          lastDate: new Date(job.lastDate).toLocaleDateString('en-GB'), // Format date as DD/MM/YYYY
+          // lastDate: new Date(job.lastDate).toLocaleDateString('en-GB'), // Format date as DD/MM/YYYY
+          lastDate: new Date(job.lastDate)
         }));
       },
 
