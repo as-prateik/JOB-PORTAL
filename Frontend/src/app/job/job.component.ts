@@ -44,7 +44,6 @@ export class JobComponent implements OnInit {
 
     this.userService.getUserProfile(this.token).subscribe(
       (data) => {
-        console.log('Fetched user profile:', data);
 
         this.employeeName = data.user.name || 'Employee'; // Default to 'Employee' if name is not available
 
@@ -67,7 +66,6 @@ export class JobComponent implements OnInit {
     console.log('in loadAppliedJobs method');
     this.jobService.getAppliedJobs(this.token).subscribe(
       (data) => {
-        console.log('Fetched applied jobs:', data);
 
         this.applications = (data.appliedJobs || []).map(
           (application: any) => ({
@@ -76,7 +74,6 @@ export class JobComponent implements OnInit {
             location: application.location || 'Unknown Location', // Use the populated location
           })
         );
-        console.log('Mapped applications:', this.applications);
       },
 
       (error) => {
@@ -112,8 +109,8 @@ export class JobComponent implements OnInit {
   selectedJob: any = null;
 
   applyJob(job: any): void {
-    console.log('job is', job);
-    
+
+
     if (this.isApplied(job)) {
       alert('You have already applied to this job.');
       return;
@@ -162,9 +159,7 @@ export class JobComponent implements OnInit {
       return;
     }
 
-    console.log('Selected application:', this.selectedApplication); // Debugging
 
-    console.log('Selected job ID:', this.selectedApplication.jobId); // Debugging
 
     // Call the backend API to withdraw the application
 
@@ -224,12 +219,9 @@ export class JobComponent implements OnInit {
   }
 
   isApplied(job: any): boolean {
-    const applied = this.applications.some((application) => {
-      application.jobId === job.jobId;
-      console.log('application', application);
-      console.log('job', job);
-    });
-    console.log(`Job ${job._id} applied:`, applied);
+    const applied = this.applications.some(
+      (application) => application.jobId === job.jobId
+    );
     return applied;
   }
 
