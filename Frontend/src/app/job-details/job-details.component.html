@@ -1,70 +1,180 @@
-<!-- Motivational Banner -->
-<div class="bg-light p-4 mb-4 text-center shadow-sm rounded">
-  <img src="https://source.unsplash.com/1600x400/?success,motivation" class="img-fluid rounded mb-3" />
-  <h2 class="text-primary">"Your dream job is just one click away!"</h2>
+<app-navbar [userName]="employeeName"></app-navbar>
+
+<app-submenu></app-submenu>
+
+
+ 
+
+<!-- Banner -->
+
+<div class="bg-primary text-white py-4 text-center mb-4">
+
+  <h2>Job Details</h2>
+
 </div>
 
-<!-- Job Cards -->
-<div class="row g-3">
-  <div class="col-md-4" *ngFor="let job of jobs" (click)="selectJob(job)" style="cursor: pointer;">
-    <div class="card h-100 shadow-sm">
-      <div class="card-body">
-        <h5 class="card-title">{{ job.title }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ job.location }}</h6>
-        <p><strong>Department:</strong> {{ job.department }}</p>
-      </div>
+
+ 
+
+<!-- Job Info + Job Description Side-by-Side -->
+
+<div class="container-fluid">
+
+  <div class="row mb-4">
+
+   
+
+    <!-- Left Column: Job Info (50%) -->
+
+    <div class="col-md-5">
+
+      <section class="job-header-container p-4 shadow-sm mb-4 bg-white rounded">
+
+        <div class="d-flex justify-content-between align-items-start">
+
+          <div class="flex-grow-1">
+
+            <h2 class="fw-bold mb-3" [title]="jobDetails?.title">{{ jobDetails?.title }}</h2>
+
+
+ 
+
+            <!-- Line 1: Experience and Salary -->
+
+            <div class="text-muted small mb-2">
+
+              <i class="bi bi-briefcase me-1"></i> 0 - 2 years
+
+              <span class="mx-3">|</span>
+
+              <i class="bi bi-cash-stack me-1"></i> Not Disclosed
+
+            </div>
+
+
+ 
+
+            <!-- Line 2: Work mode and Location -->
+
+            <div class="text-muted small mb-2">
+
+              <i class="bi bi-house-door me-1"></i> Hybrid
+
+              <span class="mx-3">|</span>
+
+              <i class="bi bi-geo-alt me-1"></i> {{ jobDetails?.location }}
+
+            </div>
+
+
+ 
+
+            <!-- Line 3: Department -->
+
+            <div class="text-muted small mb-2">
+
+              <strong>Department:</strong> {{ jobDetails?.department }}
+
+            </div>
+
+
+ 
+
+            <!-- Line 4: Last Date -->
+
+            <div class="text-muted small mb-2">
+
+              <strong>Last Date:</strong> {{ jobDetails?.lastDate | date }}
+
+            </div>
+
+
+ 
+
+            <!-- Line 5: Posted Date -->
+
+            <div class="text-muted small">
+
+              <strong>Posted At:</strong> {{ jobDetails?.postedDate | date }}
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
     </div>
+
+
+ 
+
+    <!-- Right Column: Job Description (50%) -->
+
+    <!-- Job Description Section -->
+
+<div class="col-md-7 ps-3">
+
+  <div class="card shadow-sm p-3 h-100" style="position: sticky; top: 80px; overflow-y: auto;">
+
+    <h4 class="mb-3">Job Description</h4>
+
+    <p>{{ jobDetails.description }}</p>
+
+    <div *ngIf="jobDetails?.skillsRequired?.length" class="mt-3">
+
+      <h6>Key Skills</h6>
+
+      <div class="d-flex flex-wrap">
+
+        <span
+
+          *ngFor="let skill of jobDetails.skillsRequired"
+
+          class="skill-badge  me-2 mb-2 "
+
+        >
+
+          {{ skill }}
+
+        </span>
+
+      </div>
+
+    </div>
+
+    <div *ngIf="jobDetails?.skillsRequired?.length" class="mt-3">
+
+      <h6>Key Skills</h6>
+
+      <div class="d-flex flex-wrap">
+
+        <span
+
+          *ngFor="let skill of jobDetails.skillsRequired"
+
+          class="skill-badge  me-2 mb-2 "
+
+        >
+
+          {{ skill }}
+
+        </span>
+
+      </div>
+
+    </div>
+
   </div>
+
 </div>
 
-<!-- Selected Job View -->
-<div *ngIf="selectedJob" class="row mt-4">
-  <!-- Left Section -->
-  <div class="col-md-9">
-    <!-- Job Summary -->
-    <div class="card mb-3 shadow-sm">
-      <div class="card-body">
-        <h4>{{ selectedJob.title }}</h4>
-        <p><strong>Location:</strong> {{ selectedJob.location }}</p>
-        <p><strong>Posted By:</strong> {{ selectedJob.postedBy }}</p>
-        <p><strong>Last Date:</strong> {{ selectedJob.lastDate }}</p>
-        <p><strong>Department:</strong> {{ selectedJob.department }}</p>
-      </div>
-    </div>
 
-    <!-- Job Description -->
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h5>Job Description</h5>
-        <p>{{ selectedJob.description }}</p>
 
-        <h5>Required Skills</h5>
-        <ul>
-          <li *ngFor="let skill of selectedJob.skillsRequired">{{ skill }}</li>
-        </ul>
-      </div>
-    </div>
+ 
+
   </div>
 
-  <!-- Right Section -->
-  <div class="col-md-3">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h5>Skill Match</h5>
-        <ul class="list-group">
-          <li
-            class="list-group-item d-flex justify-content-between align-items-center"
-            *ngFor="let skill of allSkills"
-          >
-            {{ skill }}
-            <span>
-              <i
-                [class]="selectedJob.skillsRequired.includes(skill) ? 'text-success bi bi-check-circle-fill' : 'text-danger bi bi-x-circle-fill'"
-              ></i>
-            </span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
 </div>
+

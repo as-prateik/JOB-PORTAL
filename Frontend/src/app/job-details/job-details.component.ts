@@ -1,39 +1,124 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { ActivatedRoute } from '@angular/router';
+
+import { JobService } from '../job.service';
+
+import { UserService } from '../user.service';
+
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
+
   selector: 'app-job-details',
+
   templateUrl: './job-details.component.html',
+
   styleUrls: ['./job-details.component.css']
+
 })
-export class JobDetailsComponent {
-  jobs = [
-    {
-      id: 'JOB-001',
-      title: 'Frontend Developer',
-      location: 'Bangalore',
-      postedBy: 'Infosys',
-      lastDate: '2025-06-30',
-      department: 'Web Development',
-      description: 'Build responsive UIs using Angular and TailwindCSS.',
-      skillsRequired: ['Angular', 'HTML', 'CSS', 'TypeScript'],
-    },
-    {
-      id: 'JOB-002',
-      title: 'Backend Developer',
-      location: 'Chennai',
-      postedBy: 'TCS',
-      lastDate: '2025-06-25',
-      department: 'Backend Services',
-      description: 'Develop APIs using Node.js and Express.',
-      skillsRequired: ['Node.js', 'MongoDB', 'Express'],
-    },
-  ];
 
-  selectedJob: any = null;
+export class JobDetailsComponent implements OnInit {
 
-  allSkills = ['Angular', 'HTML', 'CSS', 'TypeScript', 'Node.js', 'Express', 'MongoDB'];
+  jobId!: string;
 
-  selectJob(job: any) {
-    this.selectedJob = job;
-  }
+  jobDetails: any;
+
+  employeeName:string=''
+
+  token: string | null = null;
+
+    constructor(
+
+      private jobService: JobService,
+
+      private route: ActivatedRoute,
+
+      private userService: UserService,
+
+      private authService: AuthenticationService
+
+    ){}
+
+    ngOnInit(): void {
+
+      const jobId = this.route.snapshot.paramMap.get('id');
+
+      this.token = this.authService.getDetails().token || ''; // or wherever you're storing it
+
+      this.loadUserProfile()
+
+      if (!this.token) {
+
+        console.error('Token is missing');
+
+        return;
+
+      }
+
+
+ 
+
+      if (jobId && this.token) {
+
+        this.jobService.getJobById(jobId, this.token).subscribe({
+
+          next: (res) => {
+
+            this.jobDetails = res.job;
+
+            console.log('Job loaded:', this.jobDetails);
+
+          },
+
+          error: (err) => {
+
+            console.error('Failed to load job', err);
+
+          },
+
+        });
+
+      }
+
+    }
+
+
+ 
+
+    loadUserProfile(): void {
+
+      if (!this.token) {
+
+        console.error('User not authenticated.');
+
+        return;
+
+      }
+
+ 
+
+      this.userService.getUserProfile(this.token).subscribe(
+
+        (data) => {
+
+          console.log('Fetched user profile:', data);
+
+          this.employeeName = data.user.name || 'Employee'; // Default to 'Employee' if name is not available
+
+        },
+
+        (error) => {
+
+          console.error('Error fetching user profile:', error);
+
+        }
+
+      );
+
+    }
+
+   
+
 }
+
