@@ -6,6 +6,34 @@
   --hover-blue: rgba(54, 116, 181, 0.15);
 }
 
+/* styles.css or component-specific */
+.flex-grow-1 {
+  scroll-behavior: smooth;
+}
+
+.custom-delete-btn {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.custom-delete-btn:hover {
+  background-color: #c82333; /* Slightly darker red on hover */
+}
+
+
+.linkedin-btn {
+  background-color: #0077B5;
+  color: white;
+  border: none;
+}
+
+.linkedin-btn:hover {
+  background-color: #005f93;
+}
+
+
 .container-fluid {
   padding-left: 0;
 
