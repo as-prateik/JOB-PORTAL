@@ -597,43 +597,45 @@ export class ManagerDashboardComponent {
 
   viewApplicants(job: any): void {
 
-    this.jobService.getApplicants(job._id, this.token).subscribe(
+    this.router.navigate(['/applicants']);
 
-      (data: any) => {
+  //   this.jobService.getApplicants(job._id, this.token).subscribe(
 
-        this.selectedJobApplicants = data.applicants;
+  //     (data: any) => {
 
-
- 
-
-        console.log(this.selectedJobApplicants, ' applicants');
+  //       this.selectedJobApplicants = data.applicants;
 
 
  
 
-        const modal = new bootstrap.Modal(
-
-          document.getElementById('applicantsModal')!
-
-        );
+  //       console.log(this.selectedJobApplicants, ' applicants');
 
 
  
 
-        modal.show();
+  //       const modal = new bootstrap.Modal(
 
-      },
+  //         document.getElementById('applicantsModal')!
+
+  //       );
 
 
  
 
-      (error: any) => {
+  //       modal.show();
 
-        console.error('Error fetching applicants:', error);
+  //     },
 
-      }
 
-    );
+ 
+
+  //     (error: any) => {
+
+  //       console.error('Error fetching applicants:', error);
+
+  //     }
+
+  //   );
 
   }
 

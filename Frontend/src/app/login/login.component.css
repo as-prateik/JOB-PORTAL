@@ -59,3 +59,26 @@
 
   z-index: 9999;
 }
+
+
+
+
+.linkedin-navbar {
+  background-color: #0077B5 !important;
+}
+
+.linkedin-navbar .navbar-brand,
+.linkedin-navbar .nav-link,
+.linkedin-navbar .navbar-toggler-icon {
+  color: white !important;
+}
+
+.linkedin-btn {
+  background-color: #0077B5;
+  color: white;
+  border: none;
+}
+
+.linkedin-btn:hover {
+  background-color: #005f93;
+}
