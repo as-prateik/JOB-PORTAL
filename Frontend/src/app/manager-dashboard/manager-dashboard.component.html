@@ -12,9 +12,9 @@
   </div>
 
   <!-- Main Content with hidden scrollbar -->
-  <div class="flex-grow-1 p-4" 
-       style="height: 100vh; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none;">
-       
+  <div class="flex-grow-1 p-4"
+    style="height: 100vh; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none;">
+
     <style>
       /* Hide scrollbar for Chrome, Safari, Edge */
       div.flex-grow-1::-webkit-scrollbar {
@@ -41,22 +41,26 @@
 
         <div class="mb-3">
           <label for="description" class="form-label fw-semibold">Description</label>
-          <textarea id="description" [(ngModel)]="newJob.description" name="description" class="form-control" rows="4" required></textarea>
+          <textarea id="description" [(ngModel)]="newJob.description" name="description" class="form-control" rows="4"
+            required></textarea>
         </div>
 
         <div class="mb-3">
           <label for="lastDate" class="form-label fw-semibold">Apply Before</label>
-          <input id="lastDate" type="date" [(ngModel)]="newJob.lastDate" name="lastDate" class="form-control" [min]="minDate" required />
+          <input id="lastDate" type="date" [(ngModel)]="newJob.lastDate" name="lastDate" class="form-control"
+            [min]="minDate" required />
         </div>
 
         <div class="mb-3">
           <label for="skills" class="form-label fw-semibold">Skills Required</label>
-          <input id="skills" [(ngModel)]="newJob.skillsRequired" name="skillsRequired" class="form-control" placeholder="e.g. JavaScript, Angular, Node.js" required />
+          <input id="skills" [(ngModel)]="newJob.skillsRequired" name="skillsRequired" class="form-control"
+            placeholder="e.g. JavaScript, Angular, Node.js" required />
         </div>
 
         <div class="mb-3">
           <label for="certifications" class="form-label fw-semibold">Certifications</label>
-          <input id="certifications" [(ngModel)]="newJob.certifications" name="certifications" class="form-control" placeholder="e.g. AWS Certified, NPTEL Cloud Computing" />
+          <input id="certifications" [(ngModel)]="newJob.certifications" name="certifications" class="form-control"
+            placeholder="e.g. AWS Certified, NPTEL Cloud Computing" />
         </div>
 
         <button type="submit" class="btn linkedin-btn d-block mx-auto">
@@ -86,15 +90,15 @@
   color: #0a66c2;
   background-color: transparent;
   font-weight: 500;
-  transition: all 0.3s ease;" (click)="viewJobDescription(job)">
+  transition: all 0.3s ease;" (click)="openJobDetailsModal(job)">
                   <i class="bi bi-eye"></i> View Job
                 </button>
                 <button class="btn linkedin-btn btn-sm" (click)="viewApplicants(job)">
                   <i class="bi bi-people"></i> View Applicants
                 </button>
                 <button class="btn btn-sm custom-delete-btn" (click)="confirmDelete(job._id)">
-  <i class="bi bi-trash"></i> Delete
-</button>
+                  <i class="bi bi-trash"></i> Delete
+                </button>
 
               </div>
             </div>
@@ -141,6 +145,89 @@
   </div>
 </div>
 
+
+<div class="modal fade" id="jobDetailsModal" tabindex="-1" aria-labelledby="jobDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg custom-modal-width">
+    <div class="modal-content improved-modal">
+      <!-- Modal Header -->
+      <div class="modal-header border-0 sticky-top bg-white shadow-sm">
+        <h5 class="modal-title mx-auto fw-bold" id="applicationModalLabel">
+          <i class="bi bi-briefcase-fill me-2 text-primary"></i> Job Details
+        </h5>
+        <button type="button" class="btn-close btn-close-black position-absolute end-0 me-3" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <!-- Modal Body -->
+      <div class="modal-body" *ngIf="selectedJob">
+        <div class="row mb-3">
+          <div class="row mb-3">
+            <div class="col-12 d-flex flex-wrap gap-2">
+              <span class="badge bg-primary bg-opacity-75 fs-6 d-inline-block">
+                <i class="bi bi-hash me-1"></i>
+                <strong>Job ID:</strong> {{ selectedJob.jobId }}
+              </span>
+              <span class="badge bg-secondary bg-opacity-75 fs-6 d-inline-block">
+                <i class="bi bi-person-badge me-1"></i>
+                <strong>Created By:</strong> {{ selectedJob.postedBy }}
+              </span>
+              <span class="badge d-inline-block" [ngClass]="isJobOpen() ? 'bg-success' : 'bg-danger'">
+                <i class="bi bi-circle-fill me-1"></i>
+                <strong>Status:</strong> {{ isJobOpen() ? 'Open' : 'Closed' }}
+              </span>
+            </div>
+          </div>
+        <hr>
+        <div class="row mb-3">
+          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-card-heading me-1"></i>Job Title:</div>
+          <div class="col-md-8">{{ selectedJob.title }}</div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-file-earmark-text me-1"></i>Description:</div>
+          <div class="col-md-8">
+            <div style="max-height: 120px; overflow-y: auto;">{{ selectedJob.description }}</div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-geo-alt me-1"></i>Location:</div>
+          <div class="col-md-8">{{ selectedJob.location }}</div>
+        </div>
+        <div class="row mb-3" *ngIf="selectedJob.department">
+          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-diagram-3 me-1"></i>Department:</div>
+          <div class="col-md-8">{{ selectedJob.department }}</div>
+        </div>
+        <div class="row mb-3" *ngIf="selectedJob.skillsRequired?.length">
+          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-lightning-charge me-1"></i>Skills:</div>
+          <div class="col-md-8">
+            <span *ngFor="let skill of selectedJob.skillsRequired" class="badge bg-info text-dark me-1 mb-1">{{ skill
+              }}</span>
+          </div>
+        </div>
+        <div class="row mb-3" *ngIf="selectedJob.certificationsRequired?.length">
+          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-award me-1"></i>Certificates:</div>
+          <div class="col-md-8">
+            <span *ngFor="let cert of selectedJob.certificationsRequired"
+              class="badge bg-warning text-dark me-1 mb-1">{{ cert }}</span>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-calendar-plus me-1"></i>Posted At:</div>
+          <div class="col-md-8">{{ selectedJob.postedDate | date }}</div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-calendar-x me-1"></i>Last Date:</div>
+          <div class="col-md-8">{{ selectedJob.lastDate | date }}</div>
+        </div>
+      </div>
+      <!-- Modal Footer -->
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Applicants Modal -->
 <div class="modal fade" id="applicantsModal" tabindex="-1" aria-labelledby="applicantsModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -161,9 +248,13 @@
                   <strong>Status:</strong> {{ applicant.status || 'Pending' }}
                 </div>
                 <div class="btn-group">
-                  <button class="btn btn-outline-success btn-sm" (click)="updateApplicantStatus(selectedJob._id, applicant._id, 'shortlisted')">Shortlist</button>
-                  <button class="btn btn-outline-danger btn-sm" (click)="updateApplicantStatus(selectedJob._id, applicant._id, 'rejected')">Reject</button>
-                  <button class="btn btn-outline-primary btn-sm" (click)="approveApplicantTransfer(selectedJob._id, applicant._id)" [disabled]="applicant.status !== 'shortlisted'">Approve</button>
+                  <button class="btn btn-outline-success btn-sm"
+                    (click)="updateApplicantStatus(selectedJob._id, applicant._id, 'shortlisted')">Shortlist</button>
+                  <button class="btn btn-outline-danger btn-sm"
+                    (click)="updateApplicantStatus(selectedJob._id, applicant._id, 'rejected')">Reject</button>
+                  <button class="btn btn-outline-primary btn-sm"
+                    (click)="approveApplicantTransfer(selectedJob._id, applicant._id)"
+                    [disabled]="applicant.status !== 'shortlisted'">Approve</button>
                 </div>
               </div>
             </li>
