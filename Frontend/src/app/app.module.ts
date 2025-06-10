@@ -30,6 +30,7 @@ import { AppliedJobsComponent } from './applied-jobs/applied-jobs.component';
 import { JobDetailsComponent } from './job-details/job-details.component';
 import { ApplicantsComponent } from './applicants/applicants.component';
 import { ViewApplicantsComponent } from './view-applicants/view-applicants.component';
+import { TransferComponent } from './transfer/transfer.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ViewApplicantsComponent } from './view-applicants/view-applicants.compo
     AppliedJobsComponent,
       JobDetailsComponent,
       ApplicantsComponent,
-      ViewApplicantsComponent
+      ViewApplicantsComponent,
+      TransferComponent
   ],
 
   imports: [

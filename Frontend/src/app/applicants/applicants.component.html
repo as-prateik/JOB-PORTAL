@@ -1,24 +1,24 @@
-<app-navbar ></app-navbar>
+<app-navbar [userName]="managerName"></app-navbar>
 <div class="applicants-container">
   <h2 style="text-align: center; margin-top: 2%;" class="bi bi-people"> Applicants</h2>
   <table>
     <thead>
       <tr>
-        <th>Applicant Name</th>
+        <th>Applicant Id</th>
+        <th>Name</th>
         <th>Email</th>
-        <th>Position</th>
         <th>Applicant Profile</th>
         <th>Status</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let applicant of applicants">
+        <td>{{ applicant.userId }}</td>
         <td>{{ applicant.name }}</td>
         <td>{{ applicant.email }}</td>
-        <td>{{ applicant.position }}</td>
         <td><a href="#" (click)="viewProfile(applicant)">View Profile</a></td>
         <td>
-          <span [ngClass]="getStatusClass(applicant.status)">
+          <span>
             {{ applicant.status }}
           </span>
         </td>

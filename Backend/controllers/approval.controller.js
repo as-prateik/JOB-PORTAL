@@ -33,7 +33,6 @@ exports.createTransferApproval = async (req, res) => {
 // Get pending approvals for a manager
 exports.getPendingApprovals = async (req, res) => {
   try {
-    console.log("request is", req);
     const managerId = req.user.employeeId;
     const approvals = await TransferApproval.find({
       toManagerId: managerId,
