@@ -12,6 +12,9 @@ const userRoutes = require('./routes/user.routes');
 const jobRoutes = require('./routes/job.routes');
 const { verifyJWT } = require('./middleware/auth.middleware');
 
+const approvalRoutes = require('./routes/approval.routes');
+
+
 
  
 
@@ -59,6 +62,7 @@ app.use('/api/auth', authRoutes);   // Public routes: register, login
 app.use('/api/users', verifyJWT, userRoutes);
 
 app.use('/api/jobs', verifyJWT, jobRoutes);
+app.use('/api/approvals',verifyJWT, approvalRoutes);
 
 
  
