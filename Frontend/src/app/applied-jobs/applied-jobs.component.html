@@ -1,30 +1,73 @@
 <app-navbar [userName]="employeeName"></app-navbar>
 
+
+ 
+
 <app-submenu></app-submenu>
+
+ 
+
+
  
 
 <div class="card shadow-sm" style="height: calc(100vh - 56px - 56px - 56px); display: flex; flex-direction: column;">
 
+
+ 
+
   <div class="card-body overflow-auto">
+
+
+ 
 
     <div *ngIf="applications.length === 0" class="text-muted text-center">
 
+
+ 
+
       No applications yet.
 
+
+ 
+
     </div>
+
+
+
+ 
+
+ 
 
 
  
 
     <div *ngIf="applications.length > 0">
 
+
+ 
+
       <table class="table table-hover table-bordered">
+
+
+ 
 
         <thead class="table-light text-center">
 
+
+ 
+
           <tr>
 
+
+ 
+
             <th>Job ID</th>
+
+
+
+ 
+
+ 
 
 
  
@@ -32,9 +75,21 @@
             <th>Job Title</th>
 
 
+
+ 
+
+ 
+
+
  
 
             <th>Location</th>
+
+
+
+ 
+
+ 
 
 
  
@@ -42,24 +97,57 @@
             <th>Status</th>
 
 
+
+ 
+
+ 
+
+
  
 
             <th>Withdraw</th>
 
+
+ 
+
           </tr>
 
+
+ 
+
         </thead>
+
+
+
+ 
+
+ 
 
 
  
 
         <tbody>
 
+
+ 
+
           <tr *ngFor="let application of paginatedApplications()" (click)="openModal(application)"
+
+
+ 
 
             style="cursor: pointer">
 
+
+ 
+
             <td class="text-center">{{ application.jobId }}</td>
+
+
+
+ 
+
+ 
 
 
  
@@ -67,95 +155,227 @@
             <td>{{ application.title }}</td>
 
 
+
+ 
+
+ 
+
+
  
 
             <td>{{ application.location }}</td>
 
 
+
+ 
+
+ 
+
+
  
 
             <td class="text-center">
+
+
+ 
 
               <span class="badge bg-success" style="font-size: 0.85rem">
 
+
+ 
+
                 {{ application.status }}
+
+
+ 
 
               </span>
 
+
+ 
+
             </td>
+
+
+
+ 
+
+ 
 
 
  
 
             <td class="text-center">
 
+
+ 
+
               <button class="btn btn-outline-danger btn-sm"
+
+
+ 
 
                 (click)="$event.stopPropagation(); confirmWithdraw(application)">
 
+
+ 
+
                 Withdraw
+
+
+ 
 
               </button>
 
+
+ 
+
             </td>
+
+
+ 
 
           </tr>
 
+
+ 
+
         </tbody>
+
+
+ 
 
       </table>
 
+
+ 
+
     </div>
+
+
+
+ 
+
+ 
 
 
  
 
     <!-- Pagination Controls -->
 
+
+ 
+
     <!-- <div class="card-footer bg-white border-top-0">
+
+
+ 
 
       <nav class="d-flex justify-content-center mt-3"> -->
 
+
+ 
+
     <div class="fixed-bottom bg-white border-top shadow-sm" style="z-index: 1030; padding: 0.5rem 1rem">
+
+
+ 
 
       <nav class="d-flex justify-content-center">
 
+
+ 
+
         <ul class="pagination mb-0">
+
+
+ 
 
           <li class="page-item" [class.disabled]="currentPage === 1">
 
+
+ 
+
             <a class="page-link" (click)="previousPage()">Previous</a>
 
+
+ 
+
           </li>
+
+
+
+ 
+
+ 
 
 
  
 
           <li class="page-item disabled">
 
+
+ 
+
             <span class="page-link">Page {{ currentPage }} of {{ totalPages() }}</span>
 
+
+ 
+
           </li>
+
+
+
+ 
+
+ 
 
 
  
 
           <li class="page-item" [class.disabled]="currentPage === totalPages()">
 
+
+ 
+
             <a class="page-link" (click)="nextPage()">Next</a>
+
+
+ 
 
           </li>
 
+
+ 
+
         </ul>
+
+
+ 
 
       </nav>
 
+
+ 
+
     </div>
+
+
+ 
 
   </div>
 
+
+ 
+
 </div>
 
+
+
+
+ 
+
+ 
 
 
  
@@ -163,35 +383,83 @@
 <!-- Modal -->
 
 
+
+ 
+
+ 
+
+
  
 
 <div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="applicationModalLabel" aria-hidden="true">
 
+
+ 
+
   <div class="modal-dialog modal-lg">
+
+
+ 
 
     <div class="modal-content">
 
+
+ 
+
       <!-- Modal Header -->
+
+
+
+ 
+
+ 
 
 
  
 
       <div class="modal-header text-black">
 
+
+ 
+
         <h5 class="modal-title mx-auto" id="applicationModalLabel">
+
+
+ 
 
           Job Details
 
+
+ 
+
         </h5>
+
+
+
+ 
+
+ 
 
 
  
 
         <button type="button" class="btn-close btn-close-black position-absolute end-0 me-3" data-bs-dismiss="modal"
 
+
+ 
+
           aria-label="Close"></button>
 
+
+ 
+
       </div>
+
+
+
+ 
+
+ 
 
 
  
@@ -199,42 +467,99 @@
       <!-- Modal Body -->
 
 
+
+ 
+
+ 
+
+
  
 
       <div class="modal-body" *ngIf="selectedApplication">
 
+
+ 
+
         <!-- first Row: Job ID | Created By | Status -->
+
+
+
+ 
+
+ 
 
 
  
 
         <div class="row mb-2 bg-primary text-white p-2">
 
+
+ 
+
           <div class="col-md-4">
+
+
+ 
 
             <strong>Job ID:</strong> {{ selectedApplication.jobId }}
 
+
+ 
+
           </div>
+
+
+
+ 
+
+ 
 
 
  
 
           <div class="col-md-4">
 
-            <strong>Created By:</strong> {{ selectedApplication.createdBy }}
+
+ 
+
+            <strong>Created By:</strong> {{ selectedApplication.postedBy }}
+
+
+ 
 
           </div>
+
+
+
+ 
+
+ 
 
 
  
 
           <div class="col-md-4">
+
+
+ 
 
             <strong>Status:</strong> {{ selectedApplication.jobStatus }}
 
+
+ 
+
           </div>
 
+
+ 
+
         </div>
+
+
+
+ 
+
+ 
 
 
  
@@ -242,26 +567,62 @@
         <!-- Third Row: Job Title -->
 
 
+
+ 
+
+ 
+
+
  
 
         <div class="row mb-2">
 
+
+ 
+
           <div class="col-md-4">
+
+
+ 
 
             <strong>Job Title:</strong>
 
+
+ 
+
           </div>
+
+
+
+ 
+
+ 
 
 
  
 
           <div class="col-md-8">
 
+
+ 
+
             {{ selectedApplication.title }}
+
+
+ 
 
           </div>
 
+
+ 
+
         </div>
+
+
+
+ 
+
+ 
 
 
  
@@ -269,26 +630,62 @@
         <!-- Fourth Row: Job Description -->
 
 
+
+ 
+
+ 
+
+
  
 
         <div class="row mb-2">
 
+
+ 
+
           <div class="col-md-4">
+
+
+ 
 
             <strong>Description:</strong>
 
+
+ 
+
           </div>
+
+
+
+ 
+
+ 
 
 
  
 
           <div class="col-md-8">
 
+
+ 
+
             {{ selectedApplication.description }}
+
+
+ 
 
           </div>
 
+
+ 
+
         </div>
+
+
+
+ 
+
+ 
 
 
  
@@ -296,28 +693,67 @@
         <!-- Fifth Row: Location -->
 
 
+
+ 
+
+ 
+
+
  
 
         <div class="row mb-2">
 
+
+ 
+
           <div class="col-md-4">
+
+
+ 
 
             <strong>Location:</strong>
 
+
+ 
+
           </div>
+
+
+
+ 
+
+ 
 
 
  
 
           <div class="col-md-8">
 
+
+ 
+
             {{ selectedApplication.location }}
+
+
+ 
 
           </div>
 
+
+ 
+
         </div>
 
+
+ 
+
       </div>
+
+
+
+ 
+
+ 
 
 
  
@@ -325,20 +761,49 @@
       <!-- Modal Footer -->
 
 
+
+ 
+
+ 
+
+
  
 
       <div class="modal-footer">
 
+
+ 
+
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+
+
+ 
 
           Close
 
+
+ 
+
         </button>
+
+
+ 
 
       </div>
 
+
+ 
+
     </div>
+
+
+ 
 
   </div>
 
+
+ 
+
 </div>
+
+

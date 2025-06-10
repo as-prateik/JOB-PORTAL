@@ -1,58 +1,151 @@
 <app-navbar [userName]="employeeName"></app-navbar>
+
 <app-submenu></app-submenu>
 
-<!-- Banner -->
-<div class="bg-primary text-white py-4 text-center mb-4">
-  <h2 class="mb-0">Job Details</h2>
-</div>
 
-<div class="container-fluid">
-  <div class="row gy-4">
+ 
+
+<!-- Banner -->
+
+
+ 
+
+<div class="container-fluid px-5">
+
+  <div class="mt-4 bg-primary text-white text-center mb-4" style="padding-top: 5rem; padding-bottom: 5rem;">
+
+    <h2 class="mb-0">Job Details</h2>
+
+  </div>
+
+  <div class="row gy-4" style="height: 250px;"> <!-- align-items-stretch for equal height -->
+
+
+ 
 
     <!-- Left Column: Job Info -->
-    <div class="col-lg-5">
-      <div class="card shadow-sm p-4">
-        <h3 class="fw-bold mb-3">{{ jobDetails?.title || 'Job Title Not Available' }}</h3>
+
+    <div class="col-lg-5 d-flex flex-column h-100">
+
+      <div class="card shadow-sm p-4 h-100">
+
+        <h3 class="fw-bold mb-3 d-flex justify-content-between align-items-center">
+
+          <span>{{ jobDetails?.title || 'Job Title Not Available' }}</span>
+
+          <span
+
+            *ngIf="jobDetails?.lastDate"
+
+            class="badge px-3 py-2 fs-6 rounded-pill"
+
+            [ngClass]="isJobOpen() ? 'bg-success' : 'bg-danger'">
+
+            {{ isJobOpen() ? 'Open' : 'Closed' }}
+
+          </span>
+
+        </h3>
+
+       
+
+       
 
         <ul class="list-unstyled text-muted mb-3">
+
           <li class="mb-2">
+
             <i class="bi bi-briefcase me-2"></i> 0 - 2 years
+
             <span class="mx-2">|</span>
+
             <i class="bi bi-cash-stack me-2"></i> Not Disclosed
+
           </li>
+
           <li class="mb-2">
+
             <i class="bi bi-house-door me-2"></i> Hybrid
+
             <span class="mx-2">|</span>
+
             <i class="bi bi-geo-alt me-2"></i> {{ jobDetails?.location || 'Location Not Specified' }}
+
           </li>
+
           <li class="mb-2"><strong>Department:</strong> {{ jobDetails?.department || 'N/A' }}</li>
-          <li class="mb-2"><strong>Last Date:</strong> {{ jobDetails?.lastDate | date }}</li>
-          <li><strong>Posted At:</strong> {{ jobDetails?.postedDate | date }}</li>
+
+          <li class="mb-2"><strong>Created By:</strong> {{ jobDetails?.postedBy || 'N/A' }}</li>
+
+          <li class="d-flex justify-content-between">
+
+            <span><strong>Posted At:</strong> {{ jobDetails?.postedDate | date }}</span>
+
+            <span><strong>Last Date:</strong> {{ jobDetails?.lastDate | date }}</span>
+
+          </li>
+
         </ul>
 
-        <div class="d-grid gap-2">
-          <button class="btn btn-primary">Apply Now</button>
-          <button class="btn btn-outline-secondary">Save Job</button>
-        </div>
+
+ 
+
       </div>
+
     </div>
 
+
+ 
+
     <!-- Right Column: Job Description -->
-    <div class="col-lg-7">
-      <div class="card shadow-sm p-4 h-100">
+
+    <div class="col-lg-7 d-flex flex-column h-100">
+
+      <div class="card shadow-sm p-4 overflow-auto h-100">
+
         <h4 class="mb-3">Job Description</h4>
+
         <p class="text-muted">{{ jobDetails?.description || 'No Description Provided' }}</p>
 
+
+ 
+
         <div *ngIf="jobDetails?.skillsRequired?.length">
-          <h5 class="mt-4">Key Skills</h5>
+
+          <h5 class="mt-2">Key Skills</h5>
+
           <div class="d-flex flex-wrap">
+
             <span *ngFor="let skill of jobDetails.skillsRequired" class="badge bg-secondary me-2 mb-2">
+
               {{ skill }}
+
             </span>
+
           </div>
+
         </div>
+
+        <div *ngIf="jobDetails?.skillsRequired?.length">
+
+          <h5 class="mt-4">Key Certificates</h5>
+
+          <div class="d-flex flex-wrap">
+
+            <span *ngFor="let skill of jobDetails.certificationsRequired" class="badge bg-secondary me-2 mb-2">
+
+              {{ skill }}
+
+            </span>
+
+          </div>
+
+        </div>
+
       </div>
+
     </div>
 
   </div>
+
 </div>

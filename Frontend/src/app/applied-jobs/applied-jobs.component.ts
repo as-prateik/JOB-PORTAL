@@ -1,27 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-
- 
-
 import { JobService } from '../job.service';
-
-
- 
 
 import { Router } from '@angular/router';
 
-
- 
-
 import { UserService } from '../user.service';
 
-
- 
-
 import { AuthenticationService } from '../authentication.service';
-
-
- 
 
 declare var bootstrap: any;
 
@@ -32,13 +17,7 @@ declare var bootstrap: any;
 
   selector: 'app-applied-jobs',
 
-
- 
-
   templateUrl: './applied-jobs.component.html',
-
-
- 
 
   styleUrls: ['./applied-jobs.component.css'],
 
@@ -48,35 +27,17 @@ export class AppliedJobsComponent implements OnInit {
 
   employeeName: string = '';
 
-
- 
-
   applications: any[] = [];
-
-
- 
 
   currentPage: number = 1;
 
-
- 
-
   itemsPerPage: number = 10;
-
-
- 
 
   selectedApplication: any = null;
 
-
- 
-
   token: string | null = null;
 
-
- 
-
-  appliedjobs: any[] = [];
+  jobDetails: any = null; // to hold fetched job details
 
 
  
@@ -100,7 +61,7 @@ export class AppliedJobsComponent implements OnInit {
 
     this.token = this.authService.getDetails().token || '';
 
-    this.loadUserProfile()
+    this.loadUserProfile();
 
     this.loadAppliedJobs();
 
@@ -109,7 +70,7 @@ export class AppliedJobsComponent implements OnInit {
 
  
 
-   loadAppliedJobs(): void {
+  loadAppliedJobs(): void {
 
     if (!this.token) {
 
@@ -130,26 +91,22 @@ export class AppliedJobsComponent implements OnInit {
 
  
 
-        this.applications = (data.appliedJobs || []).map(
+        this.applications = (data.appliedJobs || []).map((application: any) => ({
 
-          (application: any) => ({
+          ...application,
 
-            ...application,
+          title: application.title || 'Unknown Title', // Use the populated title
 
-            title: application.title || 'Unknown Title', // Use the populated title
+          location: application.location || 'Unknown Location', // Use the populated location
 
-            location: application.location || 'Unknown Location', // Use the populated location
+        }));
 
-          })
 
-        );
+ 
 
         console.log('Mapped applications:', this.applications);
 
       },
-
-
- 
 
       (error) => {
 
@@ -199,73 +156,9 @@ export class AppliedJobsComponent implements OnInit {
 
  
 
-  // loadAppliedJobs(): void {
-
-  //   if (!this.token) {
-
-  //     console.error('User not authenticated.');
-
-
- 
-
-  //     return;
-
-  //   }
-
-  //   this.jobService.getAppliedJobs(this.token).subscribe(    
-
-  //     (data) => {
-
-  //       console.log('Fetched applied jobs:', data);
-
-
- 
-
-  //       this.applications = (data.appliedJobs || []).map(
-
-  //         (application: any) => ({
-
-  //           ...application,
-
-
- 
-
-  //           title: application.title || 'Unknown Title', // Use the populated title
-
-
- 
-
-  //           location: application.location || 'Unknown Location', // Use the populated location
-
-  //         })
-
-  //       );
-
-  //       console.log('Mapped applications:', this.applications);
-
-  //     },
-
-  //     (error) => {
-
-  //       console.error('Error fetching applied jobs:', error);
-
-  //       this.applications = []; // Ensure applications is an empty array on error
-
-  //     }
-
-  //   );
-
-  // }
-
-
- 
-
   paginatedApplications() {
 
     const start = (this.currentPage - 1) * this.itemsPerPage;
-
-
- 
 
     return this.applications.slice(start, start + this.itemsPerPage);
 
@@ -332,13 +225,7 @@ export class AppliedJobsComponent implements OnInit {
 
     this.jobService
 
-      .withdrawApplication(
-
-        application.jobId._id || application.jobId,
-
-        this.token
-
-      )
+      .withdrawApplication(application.jobId._id || application.jobId, this.token)
 
       .subscribe({
 
@@ -361,15 +248,9 @@ export class AppliedJobsComponent implements OnInit {
 
         },
 
-
- 
-
         error: (error) => {
 
           console.error('Failed to withdraw application:', error);
-
-
- 
 
           alert('Failed to withdraw application. Please try again.');
 
@@ -382,24 +263,62 @@ export class AppliedJobsComponent implements OnInit {
 
  
 
+  // Updated openModal to fetch job details from server
+
   openModal(application: any): void {
 
-    this.selectedApplication = application;
+    if (!this.token) {
+
+      console.error('Token is missing');
+
+      return;
+
+    }
 
 
  
 
-    const modalElement = document.getElementById('applicationModal');
+    if (application.jobId && this.token) {
+
+      this.jobService.getJobById(application.jobId, this.token).subscribe({
+
+        next: (res) => {
+
+          this.jobDetails = res.job;
+
+          this.selectedApplication = this.jobDetails;
 
 
  
 
-    const modal = new bootstrap.Modal(modalElement);
+          const modalElement = document.getElementById('applicationModal');
+
+          if (modalElement) {
+
+            const modal = new bootstrap.Modal(modalElement);
+
+            modal.show();
+
+          }
 
 
  
 
-    modal.show();
+          console.log('Job loaded:', this.jobDetails);
+
+        },
+
+        error: (err) => {
+
+          console.error('Failed to load job', err);
+
+          alert('Failed to load job details.');
+
+        },
+
+      });
+
+    }
 
   }
 
