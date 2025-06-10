@@ -19,3 +19,22 @@
 .linkedin-navbar .nav-link.text-danger {
   color: white !important;
 } 
+
+/* Set pointer cursor for interactive nav links */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Prevent text selection / I-beam on "Heyy..." */
+.username-hover {
+  cursor: default;
+  user-select: none;
+  transition: background-color 0.3s ease, padding 0.3s ease;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.username-hover:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Prominent effect */
+}
+
