@@ -1,23 +1,7 @@
 import { Component } from '@angular/core';
-
-
- 
-
 import { JobService } from '../job.service';
-
-
- 
-
 import { AuthenticationService } from '../authentication.service';
-
-
- 
-
 import { Router } from '@angular/router';
-
-
- 
-
 declare var bootstrap: any; // Declare bootstrap as a global variable
 
 
@@ -42,10 +26,6 @@ declare var bootstrap: any; // Declare bootstrap as a global variable
 export class ManagerDashboardComponent {
 
   managerName: string = ''; // Replace with dynamic data if available
-
-
- 
-
   jobs: any[] = [];
 
   minDate: string = '';
@@ -155,7 +135,19 @@ export class ManagerDashboardComponent {
   }
 
 
- 
+   isJobOpen(): boolean {
+
+      if (!this.selectedJob?.lastDate) return false; // If no lastDate, consider Closed or customize logic
+
+      const today = new Date();
+
+      const lastDate = new Date(this.selectedJob.lastDate);
+
+      // If current date is before lastDate, job is open
+
+      return today <= lastDate;
+
+    }
 
   updateApplicantStatus(jobId: string, employeeId: string, status: string): void {
 
@@ -208,11 +200,13 @@ export class ManagerDashboardComponent {
 
  
 
-  viewJobDescription(job: any): void {
-
-    this.router.navigate([`/job-details/${job.jobId}`])
-
-  }
+  openJobDetailsModal(job: any) {
+  this.selectedJob = job;
+  setTimeout(() => {
+    const modal = new bootstrap.Modal(document.getElementById('jobDetailsModal'));
+    modal.show();
+  }, 0);
+}
 
 
  
@@ -597,7 +591,7 @@ export class ManagerDashboardComponent {
 
   viewApplicants(job: any): void {
 
-    this.router.navigate(['/applicants']);
+    this.router.navigate(['/applicants',job._id]);
 
   //   this.jobService.getApplicants(job._id, this.token).subscribe(
 
@@ -638,6 +632,7 @@ export class ManagerDashboardComponent {
   //   );
 
   }
+  
 
 }
 
