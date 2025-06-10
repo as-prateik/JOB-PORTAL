@@ -33,12 +33,13 @@
     </div>
 
     <div class="d-flex gap-3 justify-content-center flex-wrap">
-      <button (click)="scrollToBestFit()" class="btn btn-primary btn-lg shadow">
-        <i class="bi bi-stars"></i> Best Fit
-      </button>
+     <button (click)="scrollToBestFit()" class="btn btn-lg shadow" style="background-color: #0077B5; color: white;">
+  <i class="bi bi-stars"></i> Best Fit
+</button>
+
 
       <button class="btn btn-outline-light btn-lg shadow" routerLink="/job">
-        <i class="bi bi-briefcase"></i> Show all jobs
+        <i class="bi bi-briefcase"  ></i> Show all jobs
       </button>
     </div>
 
@@ -57,7 +58,7 @@
     <div class="pe-4" style="flex: 0 0 55%">
       <div class="card shadow-sm p-4 mb-4 h-100" id="bestfit-jobs">
         <h4 class="text-center border-bottom pb-3 mb-4">
-          <i class="bi bi-briefcase-fill text-primary"></i> BestFit Jobs
+          <i class="bi bi-briefcase-fill "style="color: #0077B5;" ></i> BestFit Jobs
         </h4>
 
         <div style="max-height: 500px; overflow-y: auto">

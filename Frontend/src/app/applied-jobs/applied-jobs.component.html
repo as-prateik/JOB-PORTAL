@@ -1,376 +1,58 @@
 <app-navbar [userName]="employeeName"></app-navbar>
-
-
- 
-
 <app-submenu></app-submenu>
 
- 
-
-
- 
-
 <div class="card shadow-sm" style="height: calc(100vh - 56px - 56px - 56px); display: flex; flex-direction: column;">
-
-
- 
-
   <div class="card-body overflow-auto">
-
-
- 
-
     <div *ngIf="applications.length === 0" class="text-muted text-center">
-
-
- 
-
       No applications yet.
-
-
- 
-
     </div>
-
-
-
- 
-
- 
-
-
- 
 
     <div *ngIf="applications.length > 0">
-
-
- 
-
       <table class="table table-hover table-bordered">
-
-
- 
-
         <thead class="table-light text-center">
-
-
- 
-
           <tr>
-
-
- 
-
             <th>Job ID</th>
-
-
-
- 
-
- 
-
-
- 
-
             <th>Job Title</th>
-
-
-
- 
-
- 
-
-
- 
-
             <th>Location</th>
-
-
-
- 
-
- 
-
-
- 
-
             <th>Status</th>
-
-
-
- 
-
- 
-
-
- 
-
             <th>Withdraw</th>
-
-
- 
-
           </tr>
-
-
- 
-
         </thead>
-
-
-
- 
-
- 
-
-
- 
-
         <tbody>
-
-
- 
-
-          <tr *ngFor="let application of paginatedApplications()" (click)="goToJobDetails(application.jobId)"
-
-
- 
-
-            style="cursor: pointer">
-
-
- 
-
+          <tr *ngFor="let application of paginatedApplications()" (click)="goToJobDetails(application.jobId)" style="cursor: pointer">
             <td class="text-center">{{ application.jobId }}</td>
-
-
-
- 
-
- 
-
-
- 
-
             <td>{{ application.title }}</td>
-
-
-
- 
-
- 
-
-
- 
-
             <td>{{ application.location }}</td>
-
-
-
- 
-
- 
-
-
- 
-
             <td class="text-center">
-
-
- 
-
-              <span class="badge bg-success" style="font-size: 0.85rem">
-
-
- 
-
-                {{ application.status }}
-
-
- 
-
-              </span>
-
-
- 
-
+              <span class="badge bg-success" style="font-size: 0.85rem">{{ application.status }}</span>
             </td>
-
-
-
- 
-
- 
-
-
- 
-
             <td class="text-center">
-
-
- 
-
-              <button class="btn btn-outline-danger btn-sm"
-
-
- 
-
-                (click)="$event.stopPropagation(); confirmWithdraw(application)">
-
-
- 
-
-                Withdraw
-
-
- 
-
-              </button>
-
-
- 
-
+              <button class="btn btn-outline-danger btn-sm" (click)="$event.stopPropagation(); confirmWithdraw(application)">Withdraw</button>
             </td>
-
-
- 
-
           </tr>
-
-
- 
-
         </tbody>
-
-
- 
-
       </table>
-
-
- 
-
     </div>
-
-
-
- 
 
     <div class="fixed-bottom bg-white border-top shadow-sm" style="z-index: 1030; padding: 0.5rem 1rem">
-
-
- 
-
       <nav class="d-flex justify-content-center">
-
-
- 
-
         <ul class="pagination mb-0">
-
-
- 
-
           <li class="page-item" [class.disabled]="currentPage === 1">
-
-
- 
-
             <a class="page-link" (click)="previousPage()">Previous</a>
-
-
- 
-
           </li>
-
-
-
- 
-
- 
-
-
- 
-
           <li class="page-item disabled">
-
-
- 
-
             <span class="page-link">Page {{ currentPage }} of {{ totalPages() }}</span>
-
-
- 
-
           </li>
-
-
-
- 
-
- 
-
-
- 
-
           <li class="page-item" [class.disabled]="currentPage === totalPages()">
-
-
- 
-
             <a class="page-link" (click)="nextPage()">Next</a>
-
-
- 
-
           </li>
-
-
- 
-
         </ul>
-
-
- 
-
       </nav>
-
-
- 
-
     </div>
-
-
- 
-
   </div>
-
-
- 
-
 </div>
 
-
-
-
- 
-
- 
-
-
- 
-
 <!-- Modal -->
-
-
-
- 
-
- 
-
-
- 
-
 <div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="applicationModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg custom-modal-width">
     <div class="modal-content improved-modal">
@@ -381,6 +63,7 @@
         </h5>
         <button type="button" class="btn-close btn-close-black position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+
       <!-- Modal Body -->
       <div class="modal-body" *ngIf="selectedApplication">
         <div class="row mb-3">
@@ -404,45 +87,54 @@
           </div>
         </div>
         <hr>
+
         <div class="row mb-3">
           <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-card-heading me-1"></i>Job Title:</div>
           <div class="col-md-8">{{ selectedApplication.title }}</div>
         </div>
+
         <div class="row mb-3">
           <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-file-earmark-text me-1"></i>Description:</div>
           <div class="col-md-8">
             <div style="max-height: 120px; overflow-y: auto;">{{ selectedApplication.description }}</div>
           </div>
         </div>
+
         <div class="row mb-3">
           <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-geo-alt me-1"></i>Location:</div>
           <div class="col-md-8">{{ selectedApplication.location }}</div>
         </div>
+
         <div class="row mb-3" *ngIf="selectedApplication.department">
           <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-diagram-3 me-1"></i>Department:</div>
           <div class="col-md-8">{{ selectedApplication.department }}</div>
         </div>
+
         <div class="row mb-3" *ngIf="selectedApplication.skillsRequired?.length">
           <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-lightning-charge me-1"></i>Skills:</div>
           <div class="col-md-8">
             <span *ngFor="let skill of selectedApplication.skillsRequired" class="badge bg-info text-dark me-1 mb-1">{{ skill }}</span>
           </div>
         </div>
+
         <div class="row mb-3" *ngIf="selectedApplication.certificationsRequired?.length">
           <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-award me-1"></i>Certificates:</div>
           <div class="col-md-8">
             <span *ngFor="let cert of selectedApplication.certificationsRequired" class="badge bg-warning text-dark me-1 mb-1">{{ cert }}</span>
           </div>
         </div>
+
         <div class="row mb-3">
           <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-calendar-plus me-1"></i>Posted At:</div>
           <div class="col-md-8">{{ selectedApplication.postedDate | date }}</div>
         </div>
+
         <div class="row mb-2">
           <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-calendar-x me-1"></i>Last Date:</div>
           <div class="col-md-8">{{ selectedApplication.lastDate | date }}</div>
         </div>
       </div>
+
       <!-- Modal Footer -->
       <div class="modal-footer border-0">
         <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
@@ -452,9 +144,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-

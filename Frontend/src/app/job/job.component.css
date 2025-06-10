@@ -1,0 +1,28 @@
+.linkedin-btn {
+  background-color: #0077B5;   /* LinkedIn Blue */
+  color: white;
+  border: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.linkedin-btn:hover {
+  background-color: #005983;   /* Slightly darker on hover */
+  transform: translateY(-1px); /* Optional: subtle lift effect */
+}
+
+.linkedin-btn:disabled {
+  background-color: #6c757d;   /* Bootstrap secondary for disabled */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.btn-outline-linkedin {
+  color: #0077B5;
+  border: 1px solid #0077B5;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-linkedin:hover {
+  background-color: #0077B5;
+  color: white;
+}

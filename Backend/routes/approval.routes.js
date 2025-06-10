@@ -13,9 +13,11 @@ router.post("/", async (req, res) => {
 });
 
 // GET: pending approvals for current manager
-router.get("/:managerId", approvalController.getPendingApprovals);
+router.get("/get-transfer", approvalController.getPendingApprovals);
+
+router.post("/request-transfer",approvalController.createTransferApproval);
 
 // POST: approve or reject a transfer
-router.post("/:id", approvalController.updateApprovalStatus);
+router.post("/transfer-response", approvalController.updateApprovalStatus);
 
 module.exports = router;
