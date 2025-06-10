@@ -322,4 +322,22 @@ export class AppliedJobsComponent implements OnInit {
 
   }
 
+  isJobOpen(): boolean {
+
+      if (!this.jobDetails?.lastDate) return false; // If no lastDate, consider Closed or customize logic
+
+      const today = new Date();
+
+      const lastDate = new Date(this.jobDetails.lastDate);
+
+      // If current date is before lastDate, job is open
+
+      return today <= lastDate;
+
+    }
+
+   goToJobDetails(jobId: string) {
+  this.router.navigate(['/job-details', jobId]);
+}
+
 }
