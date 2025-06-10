@@ -17,6 +17,7 @@ import { JobComponent } from './job/job.component';
 import { AppliedJobsComponent } from './applied-jobs/applied-jobs.component';
 
 import { JobDetailsComponent } from './job-details/job-details.component';
+import { ApplicantsComponent } from './applicants/applicants.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'applied-jobs', component: AppliedJobsComponent },
 
   { path: 'job-details/:id', component: JobDetailsComponent },
+  { path: 'applicants', component: ApplicantsComponent },
 
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];

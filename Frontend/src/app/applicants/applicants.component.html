@@ -1,0 +1,27 @@
+<div class="applicants-container">
+  <h2>Applicants</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Applicant Name</th>
+        <th>Email</th>
+        <th>Position</th>
+        <th>View Profile</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let applicant of applicants">
+        <td>{{ applicant.name }}</td>
+        <td>{{ applicant.email }}</td>
+        <td>{{ applicant.position }}</td>
+        <td><a href="#" (click)="viewProfile(applicant)">View Profile</a></td>
+        <td>
+          <span [ngClass]="getStatusClass(applicant.status)">
+            {{ applicant.status }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
