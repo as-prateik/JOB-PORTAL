@@ -1,55 +1,56 @@
 <app-navbar [userName]="employeeName"></app-navbar>
 <app-submenu></app-submenu>
 
-<div class="card shadow-sm" style="height: calc(100vh - 56px - 56px - 56px); display: flex; flex-direction: column;">
-  <div class="card-body overflow-auto">
-    <div *ngIf="applications.length === 0" class="text-muted text-center">
-      No applications yet.
-    </div>
+<div class="applicants-container" style="padding: 1.5rem; padding-bottom: 80px;">
+  <h3 style="text-align: center; margin-top: 2%; margin-bottom: 2%;" class="bi bi-briefcase-fill"> Applied Jobs</h3>
 
-    <div *ngIf="applications.length > 0">
-      <table class="table table-hover table-bordered">
-        <thead class="table-light text-center">
-          <tr>
-            <th>Job ID</th>
-            <th>Job Title</th>
-            <th>Location</th>
-            <th>Status</th>
-            <th>Withdraw</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let application of paginatedApplications()" (click)="goToJobDetails(application.jobId)" style="cursor: pointer">
-            <td class="text-center">{{ application.jobId }}</td>
-            <td>{{ application.title }}</td>
-            <td>{{ application.location }}</td>
-            <td class="text-center">
-              <span class="badge bg-success" style="font-size: 0.85rem">{{ application.status }}</span>
-            </td>
-            <td class="text-center">
-              <button class="btn btn-outline-danger btn-sm" (click)="$event.stopPropagation(); confirmWithdraw(application)">Withdraw</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="fixed-bottom bg-white border-top shadow-sm" style="z-index: 1030; padding: 0.5rem 1rem">
-      <nav class="d-flex justify-content-center">
-        <ul class="pagination mb-0">
-          <li class="page-item" [class.disabled]="currentPage === 1">
-            <a class="page-link" (click)="previousPage()">Previous</a>
-          </li>
-          <li class="page-item disabled">
-            <span class="page-link">Page {{ currentPage }} of {{ totalPages() }}</span>
-          </li>
-          <li class="page-item" [class.disabled]="currentPage === totalPages()">
-            <a class="page-link" (click)="nextPage()">Next</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
+  <div *ngIf="applications.length === 0" class="text-muted text-center my-4">
+    No applications yet.
   </div>
+
+  <div *ngIf="applications.length > 0" class="table-responsive">
+    <table class="table text-center align-middle" style="font-size: 15px;">
+      <thead class="table-light">
+        <tr>
+          <th>Job ID</th>
+          <th>Job Title</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Withdraw</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let application of paginatedApplications()" (click)="goToJobDetails(application.jobId)" style="cursor: pointer;">
+          <td>{{ application.jobId }}</td>
+          <td>{{ application.title }}</td>
+          <td>{{ application.location }}</td>
+          <td>
+            <span class="badge bg-success">{{ application.status }}</span>
+          </td>
+          <td>
+            <button class="btn btn-outline-danger btn-sm" (click)="$event.stopPropagation(); confirmWithdraw(application)">Withdraw</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Fixed Pagination -->
+<div class="bg-white border-top shadow-sm fixed-bottom py-2" style="z-index: 1050;">
+  <nav class="d-flex justify-content-center">
+    <ul class="pagination mb-0">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="previousPage()">Previous</a>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">Page {{ currentPage }} of {{ totalPages() }}</span>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages()">
+        <a class="page-link" (click)="nextPage()">Next</a>
+      </li>
+    </ul>
+  </nav>
 </div>
 
 <!-- Modal -->
