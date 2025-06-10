@@ -46,6 +46,14 @@ input::placeholder {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
+.linkedin-badge {
+  background-color: #0077B5;
+  color: white;
+  padding: 0.25em 0.4em;
+  font-size: 0.75rem;
+  min-width: auto;
+}
+
 .badge {
   min-width: 140px;
 
