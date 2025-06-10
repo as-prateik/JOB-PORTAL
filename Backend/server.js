@@ -62,7 +62,7 @@ app.use('/api/auth', authRoutes);   // Public routes: register, login
 app.use('/api/users', verifyJWT, userRoutes);
 
 app.use('/api/jobs', verifyJWT, jobRoutes);
-app.use('/api/approvals',verifyJWT, approvalRoutes);
+app.use('/api/transfer',verifyJWT, approvalRoutes);
 
 
  
