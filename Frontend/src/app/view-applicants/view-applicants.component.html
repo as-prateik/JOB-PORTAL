@@ -50,7 +50,7 @@
 
         <td>
 
-          <select [(ngModel)]="applicant.status" [disabled] = "applicant.status == 'Accepted - Pending Approval'||applicant.status == 'Selected'">
+          <select [(ngModel)]="applicant.status" >
 
             <option value="Rejected">Rejected</option>
 
@@ -60,7 +60,7 @@
 
           </select>
 
-          <button (click)="submitStatus(applicant)" [disabled] = "applicant.status == 'Accepted - Pending Approval'||applicant.status == 'Selected'">Submit</button>
+          <button (click)="submitStatus(applicant)" [disabled] = "applicant.status == 'Selected'">Submit</button>
 
         </td>
 

@@ -220,13 +220,130 @@ exports.getPendingApprovals = async (req, res) => {
 //   }
 // };
 
+// exports.updateApprovalStatus = async (req, res) => {
+//   try {
+//     console.log("in update approval status");
+
+//     const { requestId, status } = req.body;
+
+//     console.log("requestId is ", requestId, " status is ", status);
+//     if (!requestId || !status) {
+//       return res.status(400).json({ error: "Missing requestId or status" });
+//     }
+
+//     const approval = await TransferApproval.findOne({ requestId });
+
+//     if (!approval) {
+//       return res
+//         .status(404)
+//         .json({ error: "Approval with requestId not found" });
+//     }
+
+//     if (req.user.employeeId != approval.toManagerId) {
+//       return res
+//         .status(403)
+//         .json({ error: "Not authorized to perform this action" });
+//     }
+
+//     approval.status = status;
+//     await approval.save();
+
+//     console.log("✅ Approval saved:", approval);
+
+//     if (status === "approved") {
+//       const fromManager = await User.findOne({
+//         employeeId: approval.fromManagerId,
+//       });
+
+//       if (!fromManager) {
+//         return res.status(404).json({ error: "From manager not found" });
+//       }
+
+//       const updatedUser = await User.findOneAndUpdate(
+//         { employeeId: approval.employeeId },
+//         { reportsTo: fromManager.username },
+//         { new: true }
+//       );
+
+//       if (!updatedUser) {
+//         return res
+//           .status(404)
+//           .json({ error: "Employee not found to update reportsTo" });
+//       }
+
+//       console.log("✅ Updated employee reportsTo:", updatedUser.username);
+//     }
+
+//     const updatedemployee = await User.findOne({
+//       employeeId: approval.employeeId,
+//     });
+//     console.log("updated employeeId is ", updatedemployee);
+
+//     const job = await Job.findById(approval.jobId);
+//     const jobId = job?.jobId;
+
+//     if (!jobId) {
+//       return res.status(404).json({ error: "Job not found for this approval" });
+//     }
+
+//     if (status === "approved") {
+//       const updatedApplication = await User.findOneAndUpdate(
+//         {
+//           employeeId: approval.employeeId,
+//           "appliedJobs.jobId": jobId,
+//         },
+//         {
+//           $set: {
+//             "appliedJobs.$.status": "Selected",
+//             "appliedJobs.$.notification":
+//               "You have been selected and transfer approved",
+//           },
+//         },
+//         { new: true }
+//       );
+
+//       if (!updatedApplication) {
+//         console.warn("⚠️ No job application found to update for transfer.");
+//       } else {
+//         console.log("✅ Updated User.appliedJobs");
+//       }
+
+//       // ✅ Update Job.applicants[].status
+//       const updatedJob = await Job.findOneAndUpdate(
+//         {
+//           _id: approval.jobId,
+//           "applicants.userId": approval.employeeId.toString(),
+//         },
+//         {
+//           $set: {
+//             "applicants.$.status": "Selected",
+//           },
+//         },
+//         { new: true }
+//       );
+
+//       if (!updatedJob) {
+//         console.warn("⚠️ Job record or applicant not found to update.");
+//       } else {
+//         console.log("✅ Job.applicants updated.");
+//       }
+//     } else {
+//       console.log("ℹ️ Not approved, skipping user/job updates.");
+//     }
+
+//     res.status(200).json(approval);
+//   } catch (err) {
+//     console.log("❌ Error updating approval status:", err);
+//     res.status(500).json({ error: "Failed to update approval status" });
+//   }
+// };
+
 exports.updateApprovalStatus = async (req, res) => {
   try {
     console.log("in update approval status");
 
     const { requestId, status } = req.body;
 
-    console.log("requestId is ", requestId, " status is ", status);
     if (!requestId || !status) {
       return res.status(400).json({ error: "Missing requestId or status" });
     }
@@ -234,26 +351,20 @@ exports.updateApprovalStatus = async (req, res) => {
     const approval = await TransferApproval.findOne({ requestId });
 
     if (!approval) {
-      return res
-        .status(404)
-        .json({ error: "Approval with requestId not found" });
+      return res.status(404).json({ error: "Approval with requestId not found" });
     }
 
     if (req.user.employeeId != approval.toManagerId) {
-      return res
-        .status(403)
-        .json({ error: "Not authorized to perform this action" });
+      return res.status(403).json({ error: "Not authorized to perform this action" });
     }
 
     approval.status = status;
     await approval.save();
-
     console.log("✅ Approval saved:", approval);
 
+    // Only update reportsTo if approved
     if (status === "approved") {
-      const fromManager = await User.findOne({
-        employeeId: approval.fromManagerId,
-      });
+      const fromManager = await User.findOne({ employeeId: approval.fromManagerId });
 
       if (!fromManager) {
         return res.status(404).json({ error: "From manager not found" });
@@ -266,19 +377,13 @@ exports.updateApprovalStatus = async (req, res) => {
       );
 
       if (!updatedUser) {
-        return res
-          .status(404)
-          .json({ error: "Employee not found to update reportsTo" });
+        return res.status(404).json({ error: "Employee not found to update reportsTo" });
       }
 
       console.log("✅ Updated employee reportsTo:", updatedUser.username);
     }
 
-    const updatedemployee = await User.findOne({
-      employeeId: approval.employeeId,
-    });
-    console.log("updated employeeId is ", updatedemployee);
-
+    const updatedemployee = await User.findOne({ employeeId: approval.employeeId });
     const job = await Job.findById(approval.jobId);
     const jobId = job?.jobId;
 
@@ -286,54 +391,57 @@ exports.updateApprovalStatus = async (req, res) => {
       return res.status(404).json({ error: "Job not found for this approval" });
     }
 
-    if (status === "approved") {
-      const updatedApplication = await User.findOneAndUpdate(
-        {
-          employeeId: approval.employeeId,
-          "appliedJobs.jobId": jobId,
-        },
-        {
-          $set: {
-            "appliedJobs.$.status": "Selected",
-            "appliedJobs.$.notification":
-              "You have been selected and transfer approved",
-          },
-        },
-        { new: true }
-      );
+    // Determine update values based on approval status
+    const statusText = status === "approved" ? "Selected" : "Rejected";
+    const notificationText =
+      status === "approved"
+        ? "You have been selected and transfer approved"
+        : "Your transfer request has been rejected";
 
-      if (!updatedApplication) {
-        console.warn("⚠️ No job application found to update for transfer.");
-      } else {
-        console.log("✅ Updated User.appliedJobs");
-      }
-
-      // ✅ Update Job.applicants[].status
-      const updatedJob = await Job.findOneAndUpdate(
-        {
-          _id: approval.jobId,
-          "applicants.userId": approval.employeeId.toString(),
+    // ✅ Update User.appliedJobs
+    const updatedApplication = await User.findOneAndUpdate(
+      {
+        employeeId: approval.employeeId,
+        "appliedJobs.jobId": jobId,
+      },
+      {
+        $set: {
+          "appliedJobs.$.status": statusText,
+          "appliedJobs.$.notification": notificationText,
         },
-        {
-          $set: {
-            "applicants.$.status": "Selected",
-          },
-        },
-        { new: true }
-      );
+      },
+      { new: true }
+    );
 
-      if (!updatedJob) {
-        console.warn("⚠️ Job record or applicant not found to update.");
-      } else {
-        console.log("✅ Job.applicants updated.");
-      }
+    if (!updatedApplication) {
+      console.warn("⚠️ No job application found to update in user.");
     } else {
-      console.log("ℹ️ Not approved, skipping user/job updates.");
+      console.log("✅ Updated User.appliedJobs:", statusText);
+    }
+
+    // ✅ Update Job.applicants
+    const updatedJob = await Job.findOneAndUpdate(
+      {
+        _id: approval.jobId,
+        "applicants.userId": approval.employeeId.toString(),
+      },
+      {
+        $set: {
+          "applicants.$.status": statusText,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedJob) {
+      console.warn("⚠️ Job record or applicant not found to update.");
+    } else {
+      console.log("✅ Job.applicants updated:", statusText);
     }
 
     res.status(200).json(approval);
   } catch (err) {
-    console.log("❌ Error updating approval status:", err);
+    console.error("❌ Error updating approval status:", err);
     res.status(500).json({ error: "Failed to update approval status" });
   }
 };

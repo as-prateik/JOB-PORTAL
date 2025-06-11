@@ -19,7 +19,7 @@ const TransferApprovalSchema = new mongoose.Schema({
 
     type: String,
 
-    enum: ['pending', 'approved','Accepted - Pending Approval','rejected'],
+    enum: ['pending', 'approved','Accepted - Pending Approval','Rejected', "rejected"],
 
     default: 'pending'
 

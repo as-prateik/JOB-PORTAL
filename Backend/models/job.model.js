@@ -40,7 +40,7 @@ const ApplicantSchema = new mongoose.Schema({
   status: {
     type: String,
 
-    enum: ["applied",'Shortlisted','approved','Accepted - Pending Approval','rejected'],
+    enum: ["applied",'Shortlisted','approved','Accepted - Pending Approval','Rejected', "rejected"],
 
     default: "applied",
   },
