@@ -32,6 +32,12 @@ import { ApplicantsComponent } from './applicants/applicants.component';
 import { ViewApplicantsComponent } from './view-applicants/view-applicants.component';
 import { TransferComponent } from './transfer/transfer.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,6 +75,12 @@ import { TransferComponent } from './transfer/transfer.component';
     FormsModule,
 
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatChipsModule,
   ],
 
   providers: [],

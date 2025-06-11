@@ -1,860 +1,420 @@
 <app-navbar [userName]="employeeName"></app-navbar>
 
+
+ 
+
 <app-submenu></app-submenu>
+
+
+ 
 
 <!-- Hero Section (no margin-top) -->
 
+
+ 
+
 <div
+
   class="hero-section text-white text-center position-relative d-flex flex-column justify-content-center align-items-center"
+
   style="
+
     background: url('/assets/employee.png') center center/cover no-repeat;
 
+
+ 
+
     height: 83vh;
+
   "
+
 >
+
   <div
+
     class="position-absolute top-0 start-0 w-100 h-100"
+
     style="background-color: rgba(0, 0, 0, 0.6); z-index: 0"
+
   ></div>
 
+
+ 
+
   <div class="position-relative z-1 px-3">
+
     <h1 class="display-4 fw-bold">Join the Internal Job Marketplace</h1>
+
+
+ 
 
     <p class="lead mb-4">Find opportunities. Grow your career within.</p>
 
+
+ 
+
     <div
+
       class="d-flex justify-content-center gap-5 mb-4 fw-semibold fs-4 flex-wrap"
+
     >
+
       <div>
+
         <div class="text-white-50">Jobs posted so far</div>
 
+
+ 
+
         <div>{{ noOfJobs }}</div>
+
       </div>
+
     </div>
 
+
+ 
+
     <div class="d-flex gap-3 justify-content-center flex-wrap">
+
      <button (click)="scrollToBestFit()" class="btn btn-lg shadow" style="background-color: #0077B5; color: white;">
+
   <i class="bi bi-stars"></i> Best Fit
+
 </button>
 
 
+
+ 
+
       <button class="btn btn-outline-light btn-lg shadow" routerLink="/job">
+
         <i class="bi bi-briefcase"  ></i> Show all jobs
+
       </button>
+
     </div>
 
+
+ 
+
     <p class="mt-4 fs-5 fst-italic">
+
       Your next opportunity is already inside — take the leap.
+
     </p>
+
   </div>
+
 </div>
+
+
+ 
 
 <!-- Main content layout -->
 
+
+ 
+
 <div class="container-fluid mt-4">
+
   <div class="row d-flex">
+
     <!-- BestFit Jobs - 55% -->
 
+
+ 
+
     <div class="pe-4" style="flex: 0 0 55%">
+
       <div class="card shadow-sm p-4 mb-4 h-100" id="bestfit-jobs">
+
         <h4 class="text-center border-bottom pb-3 mb-4">
+
           <i class="bi bi-briefcase-fill "style="color: #0077B5;" ></i> BestFit Jobs
+
         </h4>
 
+
+ 
+
         <div style="max-height: 500px; overflow-y: auto">
+
           <div class="d-flex flex-column gap-4">
+
             <div class="d-flex flex-column gap-4">
+
               <div
+
                 class="card shadow-sm border-0 job-card hover-shadow"
+
                 *ngFor="let job of getBestFitJobs()"
+
               >
+
                 <div class="card-body">
+
                   <h5 class="card-title fw-bold">{{ job.title }}</h5>
 
+
+ 
+
                   <p class="card-text">
+
                     <strong>Location:</strong> {{ job.location }}<br />
+
+
+ 
 
                     <strong>Skills Required:</strong>
 
+
+ 
+
                     {{ job.skillsRequired?.join(", ") }}<br />
 
+
+ 
+
                     <strong>Match:</strong> {{ job.matchCount }} skill{{
+
                       job.matchCount > 1 ? "s" : ""
+
                     }}
+
                   </p>
 
+
+ 
+
                   <button
+
                     class="btn btn-outline-primary btn-sm"
+
                     (click)="viewJobDescription(job)"
+
                   >
+
                     <i class="bi bi-eye"></i> View Job
+
                   </button>
+
                 </div>
+
               </div>
 
+
+ 
+
               <div
+
                 *ngIf="getBestFitJobs().length === 0"
+
                 class="text-muted text-center"
+
               >
+
                 No best fit jobs found for your skills.
+
               </div>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
+
+
+ 
 
     <!-- On Demand Skills - 22.5% -->
 
+
+ 
+
     <div class="ps-4 pe-2" style="flex: 0 0 22.5%">
+
       <div class="card shadow-sm p-4 h-100">
+
         <h5 class="text-center border-bottom pb-3 mb-3">
+
           <i class="bi bi-person-gear text-info"></i> On Demand Skills
+
         </h5>
 
+
+ 
+
         <div style="max-height: 300px; overflow-y: auto">
+
           <ul class="list-group list-group-flush" id="skills-list">
+
             <!-- Skills dynamically injected -->
 
+
+ 
+
             <li
+
               *ngFor="let skill of onDemandSkills"
+
               class="list-group-item d-flex justify-content-between align-items-center"
+
               style="min-width: 0"
+
             >
+
               <!-- {{ skill.skill | titlecase }} -->
 
-              <span
-                style="
-                  flex-grow: 1;
-                  overflow: hidden;
-                  text-overflow: ellipsis;
-                  white-space: nowrap;
-                "
-              >
-                {{ skill.skill | titlecase }}
-              </span>
+
+ 
 
               <span
-                class="badge linkedin-badge rounded-pill"
+
                 style="
-                  padding: 0.25em 0.4em;
-                  font-size: 0.75rem;
-                  min-width: auto;
+
+                  flex-grow: 1;
+
+                  overflow: hidden;
+
+                  text-overflow: ellipsis;
+
+                  white-space: nowrap;
+
                 "
-                >{{ skill.count }}</span
+
               >
+
+                {{ skill.skill | titlecase }}
+
+              </span>
+
+
+ 
+
+              <span
+
+                class="badge linkedin-badge rounded-pill"
+
+                style="
+
+                  padding: 0.25em 0.4em;
+
+                  font-size: 0.75rem;
+
+                  min-width: auto;
+
+                "
+
+                >{{ skill.count }}</span
+
+              >
+
             </li>
+
           </ul>
+
         </div>
+
       </div>
+
     </div>
+
+
+ 
 
     <!-- Must Have Certifications - 22.5% -->
 
+
+ 
+
     <div class="ps-2" style="flex: 0 0 22.5%">
+
       <div class="card shadow-sm p-4 h-100">
+
         <h5 class="text-center border-bottom pb-3 mb-3">
+
           <i class="bi bi-mortarboard-fill text-success"></i> Must Have
+
           Certifications
+
         </h5>
 
+
+ 
+
         <div style="max-height: 300px; overflow-y: auto">
+
           <ul class="list-group list-group-flush" id="certifications-list">
+
             <!-- Certifications dynamically injected -->
 
+
+ 
+
             <li
+
               *ngFor="let cert of mustHaveCertifications"
+
               class="list-group-item d-flex justify-content-between align-items-center"
+
             >
+
               <span
+
                 style="
+
                   flex-grow: 1;
+
                   overflow: hidden;
+
                   text-overflow: ellipsis;
+
                   white-space: nowrap;
+
                 "
+
               >
+
                 {{ cert.certification | titlecase }}
+
               </span>
 
+
+ 
+
               <span
+
                 class="badge linkedin-badge rounded-pill"
+
                 style="
+
                   padding: 0.25em 0.4em;
+
                   font-size: 0.75rem;
+
                   min-width: auto;
+
                 "
+
                 >{{ cert.count }}</span
+
               >
+
             </li>
+
           </ul>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
-
-<!-- Filters -->
-
-<!-- <div class="container-fluid mt-3">
-
-
- 
-
-  <div class="row mb-3 align-items-center">
-
-
- 
-
-    <div class="col-lg-8 col-md-7">
-
-
- 
-
-      <div class="input-group">
-
-
- 
-
-        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-
-
- 
-
-        <input type="text" class="form-control" [(ngModel)]="searchQuery" placeholder="Search jobs..." />
-
-
- 
-
-      </div>
-
-
- 
-
-    </div>
-
-
- 
-
-    <div class="col-lg-4 col-md-5 d-flex gap-2 mt-2 mt-md-0">
-
-
- 
-
-      <div class="input-group">
-
-
- 
-
-        <span class="input-group-text bg-white"><i class="bi bi-geo-alt"></i></span>
-
-
- 
-
-        <input type="text" class="form-control" [(ngModel)]="locationFilter" placeholder="Filter by Location" />
-
-
- 
-
-      </div>
-
-
- 
-
-      <div class="input-group">
-
-
- 
-
-        <span class="input-group-text bg-white"><i class="bi bi-tools"></i></span>
-
-
- 
-
-        <input type="text" class="form-control" [(ngModel)]="skillsFilter" placeholder="Filter by Skills" />
-
-
- 
-
-      </div>
-
-
- 
-
-    </div>
-
-
- 
-
-  </div> -->
-
-<!-- Main Content -->
-
-<!-- <div class="row mt-4"> -->
-
-<!-- Job Listings -->
-
-<!-- <div class="col-md-8" style="max-height: 80vh; overflow-y: auto;">
-
-
- 
-
-      <div class="row row-cols-1 row-cols-md-3 g-4">
-
-
- 
-
-        <div class="col" *ngFor="let job of filteredJobs()">
-
-
- 
-
-          <div class="card shadow-sm h-100">
-
-
- 
-
-            <div class="card-body d-flex flex-column justify-content-between">
-
-
- 
-
-              <div>
-
-
- 
-
-                <h5 class="card-title">{{ job.title }}</h5>
-
-
- 
-
-                <h6 class="card-subtitle text-muted">{{ job.location }}</h6>
-
-
- 
-
-                <p class="mb-1"><strong>Salary:</strong> {{ job.salary || 'Not specified' }}</p>
-
-
- 
-
-                <p><strong>Skills:</strong> {{ job.skillsRequired?.join(', ') || 'Not specified' }}</p>
-
-
- 
-
-              </div>
-
-
- 
-
-              <div class="mt-3 d-flex justify-content-between align-items-center">
-
-
- 
-
-                <button class="btn btn-outline-primary btn-sm" (click)="viewJobDescription(job)">
-
-
- 
-
-                  <i class="bi bi-eye"></i> View Job
-
-
- 
-
-                </button>
-
-
- 
-
-                <button
-
-
- 
-
-                class="btn btn-primary btn-sm"
-
-
- 
-
-                [disabled]="isApplied(job)"
-
-
- 
-
-                (click)="applyJob(job)">
-
-
- 
-
-                <i class="bi bi-check-circle"></i> {{ isApplied(job) ? 'Applied' : 'Apply Job' }}
-
-
- 
-
-              </button>
-
-
- 
-
-              </div>
-
-
- 
-
-            </div>
-
-
- 
-
-          </div>
-
-
- 
-
-        </div>
-
-
- 
-
-      </div>
-
-
- 
-
-    </div> -->
-
-<!-- Sidebar -->
-
-<!-- <div class="col-md-4 d-flex flex-column" style="height: calc(100vh - 150px);"> -->
-
-<!-- Applied Jobs -->
-
-<!-- <div class="card mb-3 shadow-sm flex-grow-1" style="min-height: 50%;">
-
-
- 
-
-        <div class="card-header bg-primary text-white text-center sticky-top">Applied Jobs</div>
-
-
- 
-
-        <div class="card-body overflow-auto">
-
-
- 
-
-          <div *ngIf="applications && applications.length === 0" class="text-muted text-center">
-
-
- 
-
-            No applications yet.
-
-
- 
-
-          </div>
-
-
- 
-
-          <div *ngFor="let application of applications" class="mb-3">
-
-
- 
-
-            <div class="d-flex align-items-center justify-content-between"> -->
-
-<!-- Job Title -->
-
-<!-- <div class="fw-bold flex-grow-1 text-truncate" style="max-width: 60%;">
-
-
- 
-
-                {{ application.title }}
-
-
- 
-
-              </div> -->
-
-<!-- Status Badge -->
-
-<!-- <div class="badge bg-success mx-2" style="font-size: 0.85rem;">
-
-
- 
-
-                Status: {{ application.status }}
-
-
- 
-
-              </div> -->
-
-<!-- Withdraw Button -->
-
-<!-- <button class="btn btn-outline-danger btn-sm" (click)="confirmWithdraw(application)">
-
-
- 
-
-                Withdraw
-
-
- 
-
-              </button>
-
-
- 
-
-            </div>
-
-
- 
-
-          </div>
-
-
- 
-
-        </div>
-
-
- 
-
-      </div> -->
-
-<!-- Skills and Certifications -->
-
-<!-- <div class="d-flex gap-2" style="max-height: 40%; overflow: hidden;"> -->
-
-<!-- Skills -->
-
-<!-- <div class="card shadow-sm flex-fill" style="min-width: 50%; overflow-y: auto;" *ngIf="employeeSkills && employeeSkills.length > 0">
-
-
- 
-
-          <div class="card-header bg-primary text-white text-center sticky-top">Your Skills</div>
-
-
- 
-
-          <div class="card-body p-2">
-
-
- 
-
-            <ul class="list-group list-group-flush">
-
-
- 
-
-              <li *ngFor="let skill of employeeSkills" class="list-group-item py-1 px-2">{{ skill }}</li>
-
-
- 
-
-            </ul>
-
-
- 
-
-          </div>
-
-
- 
-
-        </div> -->
-
-<!-- Certifications -->
-
-<!-- <div class="card shadow-sm flex-fill" style="min-width: 50%; overflow-y: auto;" *ngIf="employeeCertifications && employeeCertifications.length > 0"> -->
-
-<!-- <div class="card-header bg-primary text-white text-center sticky-top">Certifications</div>
-
-
- 
-
-          <div class="card-body p-2">
-
-
- 
-
-            <ul class="list-group list-group-flush">
-
-
- 
-
-              <li *ngFor="let cert of employeeCertifications" class="list-group-item py-1 px-2">{{ cert }}</li>
-
-
- 
-
-            </ul>
-
-
- 
-
-          </div> -->
-
-<!-- </div>
-
-
- 
-
-      </div>
-
-
- 
-
-    </div>
-
-
- 
-
-  </div>
-
-
- 
-
-</div> -->
-
-<!-- Apply Success Modal -->
-
-<!-- <div class="modal fade" id="applySuccessModal" tabindex="-1" aria-hidden="true">
-
-
- 
-
-  <div class="modal-dialog modal-dialog-centered">
-
-
- 
-
-    <div class="modal-content bg-white text-center p-4">
-
-
- 
-
-      <div class="modal-body">
-
-
- 
-
-        <div class="text-success fs-1 mb-3">
-
-
- 
-
-          <i class="bi bi-check-circle-fill"></i>
-
-
- 
-
-        </div>
-
-
- 
-
-        <h5 class="modal-title mb-3">Successfully Applied!</h5>
-
-
- 
-
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
-
-
- 
-
-      </div>
-
-
- 
-
-    </div>
-
-
- 
-
-  </div>
-
-
- 
-
-</div> -->
-
-<!-- Withdraw Confirmation Modal -->
-
-<!-- <div class="modal fade" id="withdrawConfirmModal" tabindex="-1">
-
-
- 
-
-  <div class="modal-dialog modal-dialog-centered">
-
-
- 
-
-    <div class="modal-content bg-white p-4 text-center">
-
-
- 
-
-      <div class="modal-header border-0">
-
-
- 
-
-        <h5 class="modal-title w-100 text-center">Confirm Withdrawal</h5>
-
-
- 
-
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-
-
- 
-
-      </div>
-
-
- 
-
-      <div class="modal-body">
-
-
- 
-
-        <p>Are you sure you want to withdraw your application?</p>
-
-
- 
-
-      </div>
-
-
- 
-
-      <div class="modal-footer justify-content-center border-0">
-
-
- 
-
-        <button type="button" class="btn btn-danger me-2" (click)="withdrawJob()">Yes, Withdraw</button>
-
-
- 
-
-        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
-
-
- 
-
-      </div>
-
-
- 
-
-    </div>
-
-
- 
-
-  </div>
-
-
- 
-
-</div> -->
-
-<!-- Job Details Modal -->
-
-<!-- <div class="modal fade" id="jobDetailsModal" tabindex="-1" aria-hidden="true">
-
-
- 
-
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-
-
- 
-
-    <div class="modal-content p-3 bg-white">
-
-
- 
-
-      <div class="modal-header">
-
-
- 
-
-        <h5 class="modal-title">Job Details</h5>
-
-
- 
-
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-
-
- 
-
-      </div>
-
-
- 
-
-      <div class="modal-body">
-
-
- 
-
-        <p><strong>Job Role:</strong> {{ selectedJob?.title }}</p>
-
-
- 
-
-        <p><strong>Location:</strong> {{ selectedJob?.location }}</p>
-
-
- 
-
-        <p><strong>Salary:</strong> {{ selectedJob?.salary || 'Not specified' }}</p>
-
-
- 
-
-        <p><strong>Required Skills:</strong> {{ selectedJob?.skillsRequired?.join(', ') }}</p>
-
-
- 
-
-        <p><strong>Description:</strong> {{ selectedJob?.description }}</p>
-
-
- 
-
-      </div>
-
-
- 
-
-    </div>
-
-
- 
-
-  </div>
-
-
- 
-
-</div> -->

@@ -1,18 +1,9 @@
-const jwt = require('jsonwebtoken');
-
-
-
- 
-
-
+const jwt = require("jsonwebtoken");
 
 
  
 
 const verifyJWT = (req, res, next) => {
-
-
- 
 
   // Get token from Authorization header (Bearer token)
 
@@ -21,86 +12,84 @@ const verifyJWT = (req, res, next) => {
 
   const authHeader = req.headers.authorization;
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
 
-    return res.status(401).json({ message: 'Authorization token missing or malformed' });
+    return res
+
+      .status(401)
+
+      .json({ message: "Authorization token missing or malformed" });
 
   }
 
-  const token = authHeader.split(' ')[1];
+
+ 
+
+  const token = authHeader.split(" ")[1];
+
+
+ 
 
   try {
 
     // Verify token
 
+
+ 
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+
+ 
 
     // Attach user info to request object
 
-    console.log("decoded is ",decoded);
 
-   
+ 
+
+    console.log("decoded is ", decoded);
+
+
+ 
 
     req.user = {
 
+      userId: decoded.id,
+
 
  
-
-      userId: decoded.id,
 
       role: decoded.role,
 
-      employeeId: decoded.employeeId
 
-    };
+ 
 
+      employeeId: decoded.employeeId,
 
 
  
 
+      username: decoded.username,
 
+    };
 
 
  
 
     next();
 
-
- 
-
   } catch (err) {
 
-
- 
-
-    return res.status(401).json({ message: 'Invalid or expired token' });
-
-
- 
+    return res.status(401).json({ message: "Invalid or expired token" });
 
   }
 
-
- 
-
 };
-
-
-
- 
-
-
 
 
  
 
 module.exports = { verifyJWT };
-
-
-
-
-
-
 
 
  

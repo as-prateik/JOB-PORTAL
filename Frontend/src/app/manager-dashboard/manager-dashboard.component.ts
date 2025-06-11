@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
+
 import { JobService } from '../job.service';
+
 import { AuthenticationService } from '../authentication.service';
+
 import { Router } from '@angular/router';
+
 declare var bootstrap: any; // Declare bootstrap as a global variable
 
 
@@ -11,13 +15,7 @@ declare var bootstrap: any; // Declare bootstrap as a global variable
 
   selector: 'app-manager-dashboard',
 
-
- 
-
   templateUrl: './manager-dashboard.component.html',
-
-
- 
 
   styleUrls: ['./manager-dashboard.component.css'],
 
@@ -25,74 +23,46 @@ declare var bootstrap: any; // Declare bootstrap as a global variable
 
 export class ManagerDashboardComponent {
 
+  currentView: 'home' | 'postJob' | 'postedJobs' | 'transfers' = 'home';
+
   managerName: string = ''; // Replace with dynamic data if available
+
   jobs: any[] = [];
 
   minDate: string = '';
-
-
- 
 
   newJob: any = {
 
     title: '',
 
-
- 
-
     location: '',
-
-
- 
 
     description: '',
 
-
- 
-
     lastDate: '',
 
-
- 
-
     status: 'open',
-
-
- 
 
     skillsRequired: [],
 
   };
 
-
- 
-
   token: string = '';
-
-
- 
-
-  isPostJobVisible = true;
-
-
- 
-
-  isPostedJobsVisible = false;
-
-
- 
 
   selectedJob: any = null;
 
-
- 
-
   selectedJobApplicants: any[] = [];
 
+  selectedJobId: string | null = null; // For delete confirmation modal
+
 
  
 
-  selectedJobId: string | null = null; // For delete confirmation modal
+  showView(view: 'home' | 'postJob' | 'postedJobs' | 'transfers'): void {
+
+    this.currentView = view;
+
+  }
 
 
  
@@ -101,17 +71,11 @@ export class ManagerDashboardComponent {
 
     private jobService: JobService,
 
-
- 
-
     private authentication: AuthenticationService,
-
-
- 
 
     private router: Router
 
-  ) { }
+  ) {}
 
 
  
@@ -120,13 +84,7 @@ export class ManagerDashboardComponent {
 
     this.token = this.authentication.getDetails().token || ''; // Get token from authentication service
 
-
- 
-
     this.managerName = this.authentication.getDetails().name || 'Manager'; //
-
-
- 
 
     this.loadJobs();
 
@@ -135,21 +93,34 @@ export class ManagerDashboardComponent {
   }
 
 
-   isJobOpen(): boolean {
+ 
 
-      if (!this.selectedJob?.lastDate) return false; // If no lastDate, consider Closed or customize logic
+  isJobOpen(): boolean {
 
-      const today = new Date();
+    if (!this.selectedJob?.lastDate) return false; // If no lastDate, consider Closed or customize logic
 
-      const lastDate = new Date(this.selectedJob.lastDate);
+    const today = new Date();
 
-      // If current date is before lastDate, job is open
+    const lastDate = new Date(this.selectedJob.lastDate);
 
-      return today <= lastDate;
+    // If current date is before lastDate, job is open
 
-    }
+    return today <= lastDate;
 
-  updateApplicantStatus(jobId: string, employeeId: string, status: string): void {
+  }
+
+
+ 
+
+  updateApplicantStatus(
+
+    jobId: string,
+
+    employeeId: string,
+
+    status: string
+
+  ): void {
 
     this.jobService.updateApplicantStatus(jobId, employeeId, status).subscribe(
 
@@ -197,16 +168,25 @@ export class ManagerDashboardComponent {
   }
 
 
-
  
 
   openJobDetailsModal(job: any) {
-  this.selectedJob = job;
-  setTimeout(() => {
-    const modal = new bootstrap.Modal(document.getElementById('jobDetailsModal'));
-    modal.show();
-  }, 0);
-}
+
+    this.selectedJob = job;
+
+    setTimeout(() => {
+
+      const modal = new bootstrap.Modal(
+
+        document.getElementById('jobDetailsModal')
+
+      );
+
+      modal.show();
+
+    }, 0);
+
+  }
 
 
  
@@ -236,7 +216,10 @@ export class ManagerDashboardComponent {
 
           // lastDate: new Date(job.lastDate).toLocaleDateString('en-GB'), // Format date as DD/MM/YYYY
 
-          lastDate: new Date(job.lastDate)
+
+ 
+
+          lastDate: new Date(job.lastDate),
 
         }));
 
@@ -262,11 +245,23 @@ export class ManagerDashboardComponent {
 
     const today = new Date();
 
+
+ 
+
     const year = today.getFullYear();
+
+
+ 
 
     const month = String(today.getMonth() + 1).padStart(2, '0');
 
+
+ 
+
     const day = String(today.getDate()).padStart(2, '0');
+
+
+ 
 
     this.minDate = `${year}-${month}-${day}`;
 
@@ -280,7 +275,13 @@ export class ManagerDashboardComponent {
 
  
 
-  createJob(): void {
+  createJob(form: any): void {
+
+    if(!form.valid){
+
+      return;
+
+    }
 
     console.log('Creating job with data:', this.newJob);
 
@@ -474,7 +475,13 @@ export class ManagerDashboardComponent {
 
       this.jobService
 
+
+ 
+
         .deleteJob(this.selectedJobId, this.token)
+
+
+ 
 
         .subscribe(() => {
 
@@ -518,44 +525,6 @@ export class ManagerDashboardComponent {
 
  
 
-  // Toggle to show the "Post Job" form
-
-
- 
-
-  showPostJob(): void {
-
-    this.isPostJobVisible = true;
-
-
- 
-
-    this.isPostedJobsVisible = false;
-
-  }
-
-
- 
-
-  // Toggle to show the "Posted Jobs" list
-
-
- 
-
-  showPostedJobs(): void {
-
-    this.isPostJobVisible = false;
-
-
- 
-
-    this.isPostedJobsVisible = true;
-
-  }
-
-
- 
-
   // View job details in a modal
 
 
@@ -591,48 +560,74 @@ export class ManagerDashboardComponent {
 
   viewApplicants(job: any): void {
 
-    this.router.navigate(['/applicants',job._id]);
-
-  //   this.jobService.getApplicants(job._id, this.token).subscribe(
-
-  //     (data: any) => {
-
-  //       this.selectedJobApplicants = data.applicants;
+    this.router.navigate(['/applicants', job._id]);
 
 
  
 
-  //       console.log(this.selectedJobApplicants, ' applicants');
+    //   this.jobService.getApplicants(job._id, this.token).subscribe(
 
 
  
 
-  //       const modal = new bootstrap.Modal(
-
-  //         document.getElementById('applicantsModal')!
-
-  //       );
+    //     (data: any) => {
 
 
  
 
-  //       modal.show();
-
-  //     },
+    //       this.selectedJobApplicants = data.applicants;
 
 
  
 
-  //     (error: any) => {
+    //       console.log(this.selectedJobApplicants, ' applicants');
 
-  //       console.error('Error fetching applicants:', error);
 
-  //     }
+ 
 
-  //   );
+    //       const modal = new bootstrap.Modal(
+
+
+ 
+
+    //         document.getElementById('applicantsModal')!
+
+
+ 
+
+    //       );
+
+
+ 
+
+    //       modal.show();
+
+
+ 
+
+    //     },
+
+
+ 
+
+    //     (error: any) => {
+
+
+ 
+
+    //       console.error('Error fetching applicants:', error);
+
+
+ 
+
+    //     }
+
+
+ 
+
+    //   );
 
   }
-  
 
 }
 

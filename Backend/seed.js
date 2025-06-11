@@ -12,6 +12,8 @@ const User = require("./models/user.model");
 
 const Job = require("./models/job.model");
 
+const Transfer = require("./models/transferApproval.model");
+
 const seed = async () => {
   await connectDB();
 
@@ -24,72 +26,116 @@ const seed = async () => {
 
     await Job.deleteMany();
 
+    await Transfer.deleteMany();
+
     const users = [
       {
         name: "abinaya",
+
         username: "abinaya",
+
         email: "abinaya.trn@infosys.com",
+
         password: "AbinayaEmp@678",
+
         role: "employee",
+
         skills: ["java", "python", "mySql", "JavaScript", "React"],
+
         certifications: [
           "Nptel - DBMS",
+
           "Completion of Java Course",
+
           "AWS Certified",
         ],
+
         reportsTo: "arjun",
       },
 
       {
         name: "ritika",
+
         username: "ritika",
+
         email: "ritika.verma@infosys.com",
+
         password: "RitikaHR!321",
+
         role: "employee",
+
         skills: ["JavaScript", "React"],
+
         certifications: ["AWS Certified"],
+
         reportsTo: "arjun",
       },
 
       {
         name: "kishore",
+
         username: "kishore",
+
         email: "kishore.trn@infosys.com",
+
         password: "KishoreHR@789",
+
         role: "employee",
+
         skills: ["python", "JavaScript", "React"],
+
         certifications: ["AWS Certified", "cyber security"],
+
         reportsTo: "karan",
       },
 
       {
         name: "arjun",
+
         username: "arjun",
+
         email: "arjun.nair@infosys.com",
+
         password: "ArjunPwd$321",
+
         role: "manager",
+
         skills: ["JavaScript", "React"],
+
         certifications: ["AWS Certified"],
       },
 
       {
         name: "karan",
+
         username: "karan",
+
         email: "karan.desai@infosys.com",
+
         password: "KaranM@123",
+
         role: "manager",
+
         skills: ["JavaScript", "React"],
+
         certifications: ["AWS Certified"],
       },
 
       {
         name: "prateik",
+
         username: "prateik",
+
         email: "prateik123@infosys.com",
+
         password: "password456",
+
         role: "employee",
+
         skills: ["AWS", "JavaScript", "React"],
+
         certifications: ["AWS Certified", "python pro"],
+
         reportsTo: "karan",
       },
     ];
@@ -133,6 +179,8 @@ const seed = async () => {
         skills: user.skills || [],
 
         certifications: user.certifications || [],
+
+        reportsTo: user.reportsTo,
       });
 
       userProfiles.push({ auth, profile });
@@ -166,6 +214,7 @@ const seed = async () => {
 
         lastDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
       },
+
       {
         jobId: generateJobId(),
 
@@ -174,6 +223,27 @@ const seed = async () => {
         description: "Frontend development role",
 
         skillsRequired: ["Angular", "TypeScript"],
+
+        certificationsRequired: ["AWS Certified", "python pro"],
+
+        department: "Engineering",
+
+        location: "Hyderabad",
+
+        salary: 90000,
+
+        postedBy: manager.profile.employeeId,
+
+        lastDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+      },
+      {
+        jobId: generateJobId(),
+
+        title: "Angular Developer",
+
+        description: "Frontend development role",
+
+        skillsRequired: ["Angular", "TypeScript","AWS","JavaScript", "React"],
 
         certificationsRequired: ["AWS Certified", "python pro"],
 

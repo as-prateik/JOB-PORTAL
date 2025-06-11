@@ -1,28 +1,76 @@
+<app-navbar [userName]="managerName"></app-navbar>
+
 <div class="applicants-container">
-  <h2>Applicants</h2>
+
+  <h2 style="text-align: center; margin-top: 2%;" class="bi bi-people"> Applicants</h2>
+
   <table>
+
     <thead>
+
       <tr>
-        <th>Applicant Name</th>
+
+        <th>Applicant Id</th>
+
+        <th>Name</th>
+
         <th>Email</th>
-        <th>Position</th>
-        <th>View Profile</th>
+
+        <th>Applicant Profile</th>
+
         <th>Status</th>
+
+        <th>Update Status</th>
+
       </tr>
+
     </thead>
+
     <tbody>
+
       <tr *ngFor="let applicant of applicants">
+
+        <td>{{ applicant.userId }}</td>
+
         <td>{{ applicant.name }}</td>
+
         <td>{{ applicant.email }}</td>
-        <td>{{ applicant.position }}</td>
+
         <td><a href="#" (click)="viewProfile(applicant)">View Profile</a></td>
+
         <td>
-          <span [ngClass]="getStatusClass(applicant.status)">
+
+          <span>
+
             {{ applicant.status }}
+
           </span>
+
         </td>
+
+        <td>
+
+          <select [(ngModel)]="applicant.status" [disabled] = "applicant.status == 'Rejected'">
+
+            <option value="Rejected">Rejected</option>
+
+            <option value="Shortlisted">Shortlisted</option>
+
+            <option value="Accepted - Pending Approval">Accepted - Pending Approval</option>
+
+          </select>
+
+          <button (click)="submitStatus(applicant)">Submit</button>
+
+        </td>
+
       </tr>
+
     </tbody>
+
   </table>
+
 </div>
+
+
  

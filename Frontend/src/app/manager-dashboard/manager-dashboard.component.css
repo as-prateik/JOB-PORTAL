@@ -1,136 +1,325 @@
 :root {
+
   --brand-blue: rgb(54, 116, 181);
+
+
+ 
 
   --light-blue: rgba(54, 116, 181, 0.1);
 
+
+ 
+
   --hover-blue: rgba(54, 116, 181, 0.15);
+
 }
+
+
+ 
+
+div.flex-grow-1::-webkit-scrollbar {
+
+  display: none;
+
+}
+
+
+ 
 
 /* styles.css or component-specific */
+
 .flex-grow-1 {
+
   scroll-behavior: smooth;
+
 }
+
+
+ 
 
 .custom-delete-btn {
+
   background-color: #dc3545;
+
   color: #fff;
+
   border: none;
+
   transition: background-color 0.3s ease;
+
 }
+
+
+ 
 
 .custom-delete-btn:hover {
+
   background-color: #c82333; /* Slightly darker red on hover */
+
 }
 
+
+
+ 
 
 .linkedin-btn {
+
   background-color: #0077B5;
+
   color: white;
+
   border: none;
+
 }
+
+
+ 
 
 .linkedin-btn:hover {
+
   background-color: #005f93;
+
 }
 
+
+
+ 
 
 .container-fluid {
+
   padding-left: 0;
 
+
+ 
+
   padding-right: 0;
+
 }
+
+
+ 
 
 /* === Navbar === */
 
+
+ 
+
 .navbar {
+
   background-color: rgb(54, 116, 181);
 
+
+ 
+
   color: #ffffff;
+
 }
 
+
+ 
+
 .navbar-brand {
+
   padding-top: 0;
+
+
+ 
 
   padding-left: 1rem;
 
+
+ 
+
   color: #ffffff;
+
 }
+
+
+ 
 
 /* === Sidebar === */
 
+
+ 
+
 .sidebar {
-  background-color: rgb(54, 116, 181);
+
+  background-color: #e6e6fa;
+
+
+ 
 
   min-height: calc(100vh - 56px);
 
+
+ 
+
   color: white;
+
+
+ 
 
   transition: background-color 0.3s ease;
 
+
+ 
+
   padding: 1rem;
+
 }
 
+
+ 
+
 .sidebar .btn {
+
   color: rgb(54, 116, 181);
+
+
+ 
 
   border: 1px solid white;
 
+
+ 
+
   background-color: white;
+
 }
 
+
+ 
+
 .sidebar .btn.active,
+
 .sidebar .btn:hover {
+
   background-color: rgb(54, 116, 181);
+
+
+ 
 
   color: var(--brand-blue);
 
+
+ 
+
   border-color: white;
+
 }
+
+
+ 
 
 /* === Dynamic Body Background === */
 
+
+ 
+
 .page-content {
+
   transition: background-color 0.3s ease;
+
 }
+
+
+ 
 
 .page-post-job {
+
   background-color: var(--light-blue);
+
 }
 
+
+ 
+
 .page-posted-jobs {
+
   background-color: var(--hover-blue);
+
 }
+
+
+ 
 
 /* === Job Cards === */
 
+
+ 
+
 .job-card {
+
   background-color: #ffffff;
+
+
+ 
 
   border: 1px solid #e3e6ea;
 
+
+ 
+
   border-radius: 8px;
+
+
+ 
 
   transition: all 0.3s ease;
 
+
+ 
+
   padding-top: 1rem;
+
 }
+
+
+ 
 
 .job-card:hover {
+
   background-color: #f1f5fb;
 
+
+ 
+
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+
 }
+
+
+ 
 
 .posted-jobs {
+
   background-color: rgb(87, 143, 202);
 
+
+ 
+
   color: white;
+
 }
 
+
+ 
+
 .btn.btn-outline-primary.active {
+
   background-color: rgb(99, 87, 87) !important;
+
+
+ 
 
   color: white !important;
 
+
+ 
+
   border-color: white !important;
+
 }
+
+
+ 

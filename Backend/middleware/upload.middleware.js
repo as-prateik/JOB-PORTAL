@@ -1,38 +1,47 @@
-const multer = require('multer');
+const multer = require("multer");
 
-const path = require('path');
 
-const fs = require('fs');
+ 
+
+const path = require("path");
+
+
+ 
+
+const fs = require("fs");
 
 
  
 
 // Define storage config dynamically based on fieldname
 
+
+ 
+
 const storage = multer.diskStorage({
 
   destination: function (req, file, cb) {
 
-    let uploadPath = '';
+    let uploadPath = "";
 
 
  
 
-    if (file.fieldname === 'resume') {
+    if (file.fieldname === "resume") {
 
-      uploadPath = 'uploads/resumes/';
+      uploadPath = "uploads/resumes/";
 
-    } else if (file.fieldname === 'profilePhoto') {
+    } else if (file.fieldname === "profilePhoto") {
 
-      uploadPath = 'uploads/photos/';
+      uploadPath = "uploads/photos/";
 
-    } else if (file.fieldname === 'coverLetter') {
+    } else if (file.fieldname === "coverLetter") {
 
-      uploadPath = 'uploads/coverletters/';
+      uploadPath = "uploads/coverletters/";
 
     } else {
 
-      uploadPath = 'uploads/others/';
+      uploadPath = "uploads/others/";
 
     }
 
@@ -41,23 +50,41 @@ const storage = multer.diskStorage({
 
     // Ensure directory exists
 
+
+ 
+
     fs.mkdirSync(uploadPath, { recursive: true });
+
+
+ 
 
     cb(null, uploadPath);
 
   },
 
+
+ 
+
   filename: function (req, file, cb) {
 
     // Use unique filename: timestamp + original name
 
+
+ 
+
     const ext = path.extname(file.originalname);
 
-    const baseName = path.basename(file.originalname, ext).replace(/\s+/g, '_');
+
+ 
+
+    const baseName = path.basename(file.originalname, ext).replace(/\s+/g, "_");
+
+
+ 
 
     cb(null, `${baseName}_${Date.now()}${ext}`);
 
-  }
+  },
 
 });
 
@@ -66,21 +93,39 @@ const storage = multer.diskStorage({
 
 // File filter for validation (optional)
 
+
+ 
+
 const fileFilter = (req, file, cb) => {
 
   // Accept only certain mime types (example: pdf, docx for resumes)
 
+
+ 
+
   const allowedMimeTypes = [
 
-    'application/pdf',
+    "application/pdf",
 
-    'application/msword',
 
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+ 
 
-    'image/jpeg',
+    "application/msword",
 
-    'image/png',
+
+ 
+
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+
+
+ 
+
+    "image/jpeg",
+
+
+ 
+
+    "image/png",
 
   ];
 
@@ -93,7 +138,7 @@ const fileFilter = (req, file, cb) => {
 
   } else {
 
-    cb(new Error('Unsupported file type'), false);
+    cb(new Error("Unsupported file type"), false);
 
   }
 
@@ -105,8 +150,6 @@ const fileFilter = (req, file, cb) => {
 // Max file size: 5MB
 
 
-
-
  
 
 const upload = multer({ storage, fileFilter });
@@ -115,3 +158,6 @@ const upload = multer({ storage, fileFilter });
  
 
 module.exports = upload;
+
+
+ 

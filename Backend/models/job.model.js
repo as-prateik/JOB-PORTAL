@@ -1,23 +1,11 @@
-const mongoose = require('mongoose');
-
-
-
- 
-
-
+const mongoose = require("mongoose");
 
 
  
 
 const ApplicantSchema = new mongoose.Schema({
 
-
- 
-
   userId: {
-
-
- 
 
     type: String, // employeeId
 
@@ -26,9 +14,6 @@ const ApplicantSchema = new mongoose.Schema({
 
     required: true,
 
-
- 
-
   },
 
 
@@ -36,18 +21,12 @@ const ApplicantSchema = new mongoose.Schema({
 
   name: {
 
-
- 
-
     type: String,
 
 
  
 
     required: true,
-
-
- 
 
   },
 
@@ -56,18 +35,12 @@ const ApplicantSchema = new mongoose.Schema({
 
   email: {
 
-
- 
-
     type: String,
 
 
  
 
     required: true,
-
-
- 
 
   },
 
@@ -76,18 +49,12 @@ const ApplicantSchema = new mongoose.Schema({
 
   role: {
 
-
- 
-
     type: String,
 
 
  
 
     required: true,
-
-
- 
 
   },
 
@@ -96,18 +63,12 @@ const ApplicantSchema = new mongoose.Schema({
 
   skills: {
 
-
- 
-
     type: [String],
 
 
  
 
     default: [],
-
-
- 
 
   },
 
@@ -116,18 +77,12 @@ const ApplicantSchema = new mongoose.Schema({
 
   certifications: {
 
-
- 
-
     type: [String],
 
 
  
 
     default: [],
-
-
- 
 
   },
 
@@ -136,23 +91,17 @@ const ApplicantSchema = new mongoose.Schema({
 
   status: {
 
-
- 
-
     type: String,
 
 
  
 
-    enum: ['applied', 'selected', 'rejected'],
+    enum: ["applied", "selected", "rejected"],
 
 
  
 
-    default: 'applied',
-
-
- 
+    default: "applied",
 
   },
 
@@ -161,9 +110,6 @@ const ApplicantSchema = new mongoose.Schema({
 
   appliedAt: {
 
-
- 
-
     type: Date,
 
 
@@ -171,34 +117,16 @@ const ApplicantSchema = new mongoose.Schema({
 
     default: Date.now,
 
-
- 
-
   },
 
-
- 
-
 });
-
-
-
- 
-
-
 
 
  
 
 const JobSchema = new mongoose.Schema({
 
-
- 
-
   jobId: {
-
-
- 
 
     type: String,
 
@@ -210,10 +138,7 @@ const JobSchema = new mongoose.Schema({
 
  
 
-    unique: true
-
-
- 
+    unique: true,
 
   },
 
@@ -221,9 +146,6 @@ const JobSchema = new mongoose.Schema({
  
 
   title: {
-
-
- 
 
     type: String,
 
@@ -237,18 +159,12 @@ const JobSchema = new mongoose.Schema({
 
     trim: true,
 
-
- 
-
   },
 
 
  
 
   description: {
-
-
- 
 
     type: String,
 
@@ -257,9 +173,6 @@ const JobSchema = new mongoose.Schema({
 
     required: true,
 
-
- 
-
   },
 
 
@@ -267,18 +180,12 @@ const JobSchema = new mongoose.Schema({
 
   skillsRequired: {
 
-
- 
-
     type: [String],
 
 
  
 
-    default: ['Not Applicable'],
-
-
- 
+    default: ["Not Applicable"],
 
   },
 
@@ -292,22 +199,16 @@ const JobSchema = new mongoose.Schema({
 
  
 
-    default: ['Not Applicable'],
+    default: ["Not Applicable"],
 
   },
 
 
  
 
-  department:{
+  department: {
 
-
- 
-
-    type:String
-
-
- 
+    type: String,
 
   },
 
@@ -316,13 +217,7 @@ const JobSchema = new mongoose.Schema({
 
   location: {
 
-
- 
-
     type: String,
-
-
- 
 
   },
 
@@ -331,18 +226,12 @@ const JobSchema = new mongoose.Schema({
 
   Level: {
 
-
- 
-
     type: String,
 
 
  
 
-    default: 'Not Specified',
-
-
- 
+    default: "Not Specified",
 
   },
 
@@ -351,18 +240,12 @@ const JobSchema = new mongoose.Schema({
 
   postedBy: {
 
-
- 
-
     type: Number, // Store employeeId as a string
 
 
  
 
     required: true,
-
-
- 
 
   },
 
@@ -371,18 +254,12 @@ const JobSchema = new mongoose.Schema({
 
   postedDate: {
 
-
- 
-
     type: Date,
 
 
  
 
     default: Date.now,
-
-
- 
 
   },
 
@@ -391,18 +268,12 @@ const JobSchema = new mongoose.Schema({
 
   lastDate: {
 
-
- 
-
     type: Date,
 
 
  
 
     required: true,
-
-
- 
 
   },
 
@@ -411,18 +282,12 @@ const JobSchema = new mongoose.Schema({
 
   updatedAt: {
 
-
- 
-
     type: Date,
 
 
  
 
     default: Date.now,
-
-
- 
 
   },
 
@@ -431,18 +296,12 @@ const JobSchema = new mongoose.Schema({
 
   isActive: {
 
-
- 
-
     type: Boolean,
 
 
  
 
     default: true,
-
-
- 
 
   },
 
@@ -451,9 +310,6 @@ const JobSchema = new mongoose.Schema({
 
   applicants: {
 
-
- 
-
     type: [ApplicantSchema],
 
 
@@ -461,23 +317,14 @@ const JobSchema = new mongoose.Schema({
 
     default: [],
 
-
- 
-
   },
-
-
- 
 
 });
 
 
-
  
 
-
+module.exports = mongoose.model("Job", JobSchema);
 
 
  
-
-module.exports = mongoose.model('Job', JobSchema);
