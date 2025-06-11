@@ -12,6 +12,13 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
+  getEmployeesByManager(managerId: string,token:string): Observable<any> {
+  return this.http.get(`${this.apiUrl}/manager/${managerId}/employees`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+}
+
+
   getUserProfile(token: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/profile`, {
       headers: { Authorization: `Bearer ${token}` },

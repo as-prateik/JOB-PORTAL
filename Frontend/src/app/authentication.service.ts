@@ -22,7 +22,7 @@ export class AuthenticationService {
 
   private username: string | null = null;
 
-  private role: string | null = null;
+  private role: string ='';
 
   private name: string | null = null;
 
@@ -90,6 +90,13 @@ export class AuthenticationService {
 
 
 
+  getUserRole(): string {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+      return this.role;
+    }
+
+
+
 
  
 
@@ -124,7 +131,7 @@ export class AuthenticationService {
 
     this.username = null;
 
-    this.role = null;
+    this.role = '';
 
     this.name = null;
 

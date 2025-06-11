@@ -136,3 +136,15 @@ exports.getEmployeeApplications = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+exports.getEmployeesByManager = async (req, res) => {
+  const { managerId } = req.params;
+
+  try {
+    const employees = await User.find({ reportsTo: managerId });
+    res.status(200).json(employees);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch employees" });
+  }
+};
+

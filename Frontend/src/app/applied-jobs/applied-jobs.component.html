@@ -2,53 +2,41 @@
 
 <app-submenu></app-submenu>
 
-
- 
-
-<div class="applicants-container" style="padding: 1.5rem; padding-bottom: 80px;">
-
-  <h3 style="text-align: center; margin-top: 2%; margin-bottom: 2%;" class="bi bi-briefcase-fill"> Applied Jobs</h3>
-
-
- 
+<div class="applicants-container" style="padding: 1.5rem; padding-bottom: 80px">
+  <h3
+    style="text-align: center; margin-top: 2%; margin-bottom: 2%"
+    class="bi bi-briefcase-fill"
+  >
+    Applied Jobs
+  </h3>
 
   <div *ngIf="applications.length === 0" class="text-muted text-center my-4">
-
     No applications yet.
-
   </div>
 
-
- 
-
   <div *ngIf="applications.length > 0" class="table-responsive">
-
-    <table class="table text-center align-middle" style="font-size: 15px;">
-
+    <table class="table text-center align-middle" style="font-size: 15px">
       <thead class="table-light">
-
         <tr>
-
           <th>Job ID</th>
 
           <th>Job Title</th>
 
           <th>Location</th>
 
-          <th>View Job </th>
+          <th>View Job</th>
 
           <th>Status</th>
 
           <th>Withdraw</th>
-
         </tr>
-
       </thead>
 
       <tbody>
-
-        <tr *ngFor="let application of paginatedApplications()"  style="cursor: pointer;">
-
+        <tr
+          *ngFor="let application of paginatedApplications()"
+          style="cursor: pointer"
+        >
           <td>{{ application.jobId }}</td>
 
           <td>{{ application.title }}</td>
@@ -56,264 +44,217 @@
           <td>{{ application.location }}</td>
 
           <td>
-
-            <button class="btn btn-outline-primary btn-sm" (click)="goToJobDetails(application.jobId)">View job</button>
-
+            <button
+              class="btn btn-outline-primary btn-sm"
+              (click)="goToJobDetails(application.jobId)"
+            >
+              View job
+            </button>
           </td>
 
           <td>
-
             <span class="badge bg-success">{{ application.status }}</span>
-
           </td>
 
           <td>
-
-            <button class="btn btn-outline-danger btn-sm" (click)="$event.stopPropagation(); confirmWithdraw(application)">Withdraw</button>
-
+            <button
+              class="btn btn-outline-danger btn-sm"
+              (click)="$event.stopPropagation(); confirmWithdraw(application)"
+            >
+              Withdraw
+            </button>
           </td>
-
         </tr>
-
       </tbody>
-
     </table>
-
   </div>
-
 </div>
-
-
- 
 
 <!-- Fixed Pagination -->
 
-<div class="bg-white border-top shadow-sm fixed-bottom py-2" style="z-index: 1050;">
-
+<div
+  class="bg-white border-top shadow-sm fixed-bottom py-2"
+  style="z-index: 1050"
+>
   <nav class="d-flex justify-content-center">
-
     <ul class="pagination mb-0">
-
       <li class="page-item" [class.disabled]="currentPage === 1">
-
         <a class="page-link" (click)="previousPage()">Previous</a>
-
       </li>
 
       <li class="page-item disabled">
-
-        <span class="page-link">Page {{ currentPage }} of {{ totalPages() }}</span>
-
+        <span class="page-link"
+          >Page {{ currentPage }} of {{ totalPages() }}</span
+        >
       </li>
 
       <li class="page-item" [class.disabled]="currentPage === totalPages()">
-
         <a class="page-link" (click)="nextPage()">Next</a>
-
       </li>
-
     </ul>
-
   </nav>
-
 </div>
-
-
- 
 
 <!-- Modal -->
 
-<div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="applicationModalLabel" aria-hidden="true">
-
+<div
+  class="modal fade"
+  id="applicationModal"
+  tabindex="-1"
+  aria-labelledby="applicationModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg custom-modal-width">
-
     <div class="modal-content improved-modal">
-
       <!-- Modal Header -->
 
       <div class="modal-header border-0 sticky-top bg-white shadow-sm">
-
         <h5 class="modal-title mx-auto fw-bold" id="applicationModalLabel">
-
           <i class="bi bi-briefcase-fill me-2 text-primary"></i> Job Details
-
         </h5>
 
-        <button type="button" class="btn-close btn-close-black position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
-
+        <button
+          type="button"
+          class="btn-close btn-close-black position-absolute end-0 me-3"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
-
-
- 
 
       <!-- Modal Body -->
 
       <div class="modal-body" *ngIf="selectedApplication">
-
         <div class="row mb-3">
-
           <div class="col-md-4 mb-2">
-
             <span class="badge bg-primary bg-opacity-75 fs-6">
-
               <i class="bi bi-hash me-1"></i>
 
               <strong>Job ID:</strong> {{ selectedApplication.jobId }}
-
             </span>
-
           </div>
 
           <div class="col-md-4 mb-2">
-
             <span class="badge bg-secondary bg-opacity-75 fs-6">
-
               <i class="bi bi-person-badge me-1"></i>
 
               <strong>Created By:</strong> {{ selectedApplication.postedBy }}
-
             </span>
-
           </div>
 
           <div class="col-md-4 mb-2">
-
-            <span class="badge" [ngClass]="isJobOpen() ? 'bg-success' : 'bg-danger'">
-
+            <span
+              class="badge"
+              [ngClass]="isJobOpen() ? 'bg-success' : 'bg-danger'"
+            >
               <i class="bi bi-circle-fill me-1"></i>
 
-              <strong>Status:</strong> {{ isJobOpen() ? 'Open' : 'Closed' }}
-
+              <strong>Status:</strong> {{ isJobOpen() ? "Open" : "Closed" }}
             </span>
-
           </div>
-
         </div>
 
-        <hr>
-
-
- 
+        <hr />
 
         <div class="row mb-3">
-
-          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-card-heading me-1"></i>Job Title:</div>
+          <div class="col-md-4 fw-semibold text-muted">
+            <i class="bi bi-card-heading me-1"></i>Job Title:
+          </div>
 
           <div class="col-md-8">{{ selectedApplication.title }}</div>
-
         </div>
 
-
- 
-
         <div class="row mb-3">
-
-          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-file-earmark-text me-1"></i>Description:</div>
-
-          <div class="col-md-8">
-
-            <div style="max-height: 120px; overflow-y: auto;">{{ selectedApplication.description }}</div>
-
+          <div class="col-md-4 fw-semibold text-muted">
+            <i class="bi bi-file-earmark-text me-1"></i>Description:
           </div>
 
+          <div class="col-md-8">
+            <div style="max-height: 120px; overflow-y: auto">
+              {{ selectedApplication.description }}
+            </div>
+          </div>
         </div>
 
-
- 
-
         <div class="row mb-3">
-
-          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-geo-alt me-1"></i>Location:</div>
+          <div class="col-md-4 fw-semibold text-muted">
+            <i class="bi bi-geo-alt me-1"></i>Location:
+          </div>
 
           <div class="col-md-8">{{ selectedApplication.location }}</div>
-
         </div>
-
-
- 
 
         <div class="row mb-3" *ngIf="selectedApplication.department">
-
-          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-diagram-3 me-1"></i>Department:</div>
+          <div class="col-md-4 fw-semibold text-muted">
+            <i class="bi bi-diagram-3 me-1"></i>Department:
+          </div>
 
           <div class="col-md-8">{{ selectedApplication.department }}</div>
-
         </div>
 
-
- 
-
-        <div class="row mb-3" *ngIf="selectedApplication.skillsRequired?.length">
-
-          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-lightning-charge me-1"></i>Skills:</div>
-
-          <div class="col-md-8">
-
-            <span *ngFor="let skill of selectedApplication.skillsRequired" class="badge bg-info text-dark me-1 mb-1">{{ skill }}</span>
-
+        <div
+          class="row mb-3"
+          *ngIf="selectedApplication.skillsRequired?.length"
+        >
+          <div class="col-md-4 fw-semibold text-muted">
+            <i class="bi bi-lightning-charge me-1"></i>Skills:
           </div>
 
+          <div class="col-md-8">
+            <span
+              *ngFor="let skill of selectedApplication.skillsRequired"
+              class="badge bg-info text-dark me-1 mb-1"
+              >{{ skill }}</span
+            >
+          </div>
         </div>
 
-
- 
-
-        <div class="row mb-3" *ngIf="selectedApplication.certificationsRequired?.length">
-
-          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-award me-1"></i>Certificates:</div>
-
-          <div class="col-md-8">
-
-            <span *ngFor="let cert of selectedApplication.certificationsRequired" class="badge bg-warning text-dark me-1 mb-1">{{ cert }}</span>
-
+        <div
+          class="row mb-3"
+          *ngIf="selectedApplication.certificationsRequired?.length"
+        >
+          <div class="col-md-4 fw-semibold text-muted">
+            <i class="bi bi-award me-1"></i>Certificates:
           </div>
 
+          <div class="col-md-8">
+            <span
+              *ngFor="let cert of selectedApplication.certificationsRequired"
+              class="badge bg-warning text-dark me-1 mb-1"
+              >{{ cert }}</span
+            >
+          </div>
         </div>
-
-
- 
 
         <div class="row mb-3">
+          <div class="col-md-4 fw-semibold text-muted">
+            <i class="bi bi-calendar-plus me-1"></i>Posted At:
+          </div>
 
-          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-calendar-plus me-1"></i>Posted At:</div>
-
-          <div class="col-md-8">{{ selectedApplication.postedDate | date }}</div>
-
+          <div class="col-md-8">
+            {{ selectedApplication.postedDate | date }}
+          </div>
         </div>
-
-
- 
 
         <div class="row mb-2">
-
-          <div class="col-md-4 fw-semibold text-muted"><i class="bi bi-calendar-x me-1"></i>Last Date:</div>
+          <div class="col-md-4 fw-semibold text-muted">
+            <i class="bi bi-calendar-x me-1"></i>Last Date:
+          </div>
 
           <div class="col-md-8">{{ selectedApplication.lastDate | date }}</div>
-
         </div>
-
       </div>
-
-
- 
 
       <!-- Modal Footer -->
 
       <div class="modal-footer border-0">
-
-        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
-
+        <button
+          type="button"
+          class="btn btn-outline-secondary px-4"
+          data-bs-dismiss="modal"
+        >
           Close
-
         </button>
-
       </div>
-
     </div>
-
   </div>
-
 </div>
-
-
- 

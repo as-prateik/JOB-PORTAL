@@ -15,6 +15,10 @@ router.get('/profile',userController.getProfile);
 
 router.get('/profile/:employeeId',userController.getProfileByEmployeeId);
 
+// Get employees reporting to a specific manager
+router.get('/manager/:managerId/employees', userController.getEmployeesByManager);
+
+
 
  
 

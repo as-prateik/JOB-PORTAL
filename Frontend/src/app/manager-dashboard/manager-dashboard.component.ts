@@ -6,6 +6,8 @@ import { AuthenticationService } from '../authentication.service';
 
 import { Router } from '@angular/router';
 
+import { UserService } from '../user.service';
+
 declare var bootstrap: any; // Declare bootstrap as a global variable
 
 
@@ -55,6 +57,10 @@ export class ManagerDashboardComponent {
 
   selectedJobId: string | null = null; // For delete confirmation modal
 
+  employeeList: any[] = [];
+
+
+
 
  
 
@@ -73,7 +79,10 @@ export class ManagerDashboardComponent {
 
     private authentication: AuthenticationService,
 
-    private router: Router
+    private router: Router,
+
+    private userService: UserService
+
 
   ) {}
 
@@ -86,10 +95,28 @@ export class ManagerDashboardComponent {
 
     this.managerName = this.authentication.getDetails().name || 'Manager'; //
 
+    this.loadMyEmployees();
+
+
     this.loadJobs();
 
     this.setMinDate();
 
+  }
+
+  loadMyEmployees(): void {
+     this.userService.getEmployeesByManager(this.managerName,this.token).subscribe({
+    next: (employees) => {
+      console.log("data is ", employees);
+      
+      this.employeeList = employees;
+      console.log("employees are",this.employeeList);
+      
+    },
+    error: (err) => {
+      console.error("Failed to load employees", err);
+    }
+  });
   }
 
 
@@ -122,7 +149,7 @@ export class ManagerDashboardComponent {
 
   ): void {
 
-    this.jobService.updateApplicantStatus(jobId, employeeId, status).subscribe(
+    this.jobService.updateApplicantStatus(jobId, employeeId, status,this.token).subscribe(
 
       () => {
 

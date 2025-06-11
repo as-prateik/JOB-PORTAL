@@ -4,71 +4,53 @@ import { TransferService } from '../transfer.service';
 
 import { AuthenticationService } from '../authentication.service';
 
-
- 
-
 @Component({
-
   selector: 'app-transfer',
 
   templateUrl: './transfer.component.html',
 
   styleUrls: ['./transfer.component.css'],
-
 })
-
 export class TransferComponent {
-
   constructor(
-
     private transferService: TransferService,
 
     private authentication: AuthenticationService
-
-  ) { }
-
-
- 
+  ) {}
 
   token: string = '';
 
   transferRequests: any[] = [];
 
-  displayedColumns: string[] = ['requestId','employeeId', 'jobId', 'fromManagerId', 'status', 'actions'];
-
-
- 
+  displayedColumns: string[] = [
+    'requestId',
+    'employeeId',
+    'jobId',
+    'fromManagerId',
+    'status',
+    'actions',
+  ];
 
   ngOnInit() {
-
     this.token = this.authentication.getDetails().token || ''; // Get token from authentication service
 
     this.loadTransferRequests();
-
   }
-
-
- 
 
   getStatusColor(status: string): 'primary' | 'accent' | 'warn' {
-
     switch (status) {
+      case 'approved':
+        return 'primary';
 
-      case 'approved': return 'primary';
+      case 'rejected':
+        return 'warn';
 
-      case 'rejected': return 'warn';
-
-      default: return 'accent'; // pending
-
+      default:
+        return 'accent'; // pending
     }
-
   }
 
-
- 
-
   viewDetails(request: any): void {
-
     // optionally use Angular Material Dialog
 
     alert(`
@@ -86,68 +68,40 @@ export class TransferComponent {
     Requested On: ${new Date(request.createdAt).toLocaleString()}
 
   `);
-
   }
 
-
-
- 
-
   loadTransferRequests() {
-
     this.transferService.getTranferRequests(this.token).subscribe(
-
       (data) => {
-
-        console.log("data is",data);
-
-       
+        console.log('data is', data);
 
         this.transferRequests = data;
 
-        console.log("transfer requests are",this.transferRequests);
-
+        console.log('transfer requests are', this.transferRequests);
       },
 
       (error) => {
-
         console.error('Error loading transfer requests:', error);
-
       }
-
     );
-
   }
-
-
- 
 
   reject(job: any) {
-
     this.onRequestStatusChange(job, 'rejected');
-
   }
-
-
- 
 
   accept(job: any) {
-
     this.onRequestStatusChange(job, 'approved');
-
   }
 
-
- 
-
   onRequestStatusChange(job: any, transferStatus: string) {
+    console.log('job is', job);
+    console.log('transfer status is', transferStatus);
 
     let transferData = {
-
-      jobId: job.jobId,
+      requestId: job.requestId,
 
       status: transferStatus,
-
     };
 
     this.transferService
@@ -155,30 +109,17 @@ export class TransferComponent {
       .respondToTransferRequest(transferData, this.token)
 
       .subscribe(
-
         (data) => {
-
           console.log(data);
 
           if (data) {
-
             this.loadTransferRequests();
-
           }
-
         },
 
         (error) => {
-
           console.error('Error updating transfer requests:', error);
-
         }
-
       );
-
   }
-
 }
-
-
- 

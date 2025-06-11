@@ -1,366 +1,136 @@
 <app-navbar [userName]="employeeName"></app-navbar>
 
-
- 
-
 <app-submenu></app-submenu>
-
-
-
-
-
- 
 
 <!-- Banner -->
 
-
-
-
-
- 
-
 <div class="container-fluid px-5">
-
-
- 
-
-  <div class="mt-4 bg-primary text-white text-center mb-4 rounded shadow overflow-hidden"
-
-    style="height: 230px; position: relative;">
-
-    <img src="/assets/jobBanner.png" alt="Job Banner"
-
-      style="object-fit: cover; width: 100%; height: 100%; position: absolute; left: 0; top: 0; opacity: 0.6;">
-
+  <div
+    class="mt-4 bg-primary text-white text-center mb-4 rounded shadow overflow-hidden"
+    style="height: 230px; position: relative"
+  >
+    <img
+      src="/assets/jobBanner.png"
+      alt="Job Banner"
+      style="
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0.6;
+      "
+    />
   </div>
 
-
- 
-
-  <div class="row gy-4" style="height: 250px;"> <!-- align-items-stretch for equal height -->
-
-
-
-
-
- 
+  <div class="row gy-4" style="height: 250px">
+    <!-- align-items-stretch for equal height -->
 
     <!-- Left Column: Job Info -->
 
-
- 
-
     <div class="col-lg-5 d-flex flex-column h-100">
-
-
- 
-
       <div class="card shadow-sm p-4 h-100">
+        <h3
+          class="fw-bold mb-3 d-flex justify-content-between align-items-center"
+        >
+          <span>{{ jobDetails?.title || "Job Title Not Available" }}</span>
 
-
- 
-
-        <h3 class="fw-bold mb-3 d-flex justify-content-between align-items-center">
-
-
- 
-
-          <span>{{ jobDetails?.title || 'Job Title Not Available' }}</span>
-
-
- 
-
-          <span *ngIf="jobDetails?.lastDate" class="badge px-3 py-2 fs-6 rounded-pill"
-
-            [ngClass]="isJobOpen() ? 'bg-success' : 'bg-danger'">
-
-
- 
-
-            {{ isJobOpen() ? 'Open' : 'Closed' }}
-
-
- 
-
+          <span
+            *ngIf="jobDetails?.lastDate"
+            class="badge px-3 py-2 fs-6 rounded-pill"
+            [ngClass]="isJobOpen() ? 'bg-success' : 'bg-danger'"
+          >
+            {{ isJobOpen() ? "Open" : "Closed" }}
           </span>
-
-
- 
-
         </h3>
 
-
-
-
-
-
- 
-
         <ul class="list-unstyled text-muted mb-3">
-
-
- 
-
           <li class="mb-2">
-
-
- 
-
             <i class="bi bi-briefcase me-2"></i> 0 - 2 years
 
-
- 
-
             <span class="mx-2">|</span>
-
-
- 
 
             <i class="bi bi-cash-stack me-2"></i> Not Disclosed
-
-
- 
-
           </li>
 
-
- 
-
           <li class="mb-2">
-
-
- 
-
             <i class="bi bi-house-door me-2"></i> Hybrid
-
-
- 
 
             <span class="mx-2">|</span>
 
-
- 
-
-            <i class="bi bi-geo-alt me-2"></i> {{ jobDetails?.location || 'Location Not Specified' }}
-
-
- 
-
+            <i class="bi bi-geo-alt me-2"></i>
+            {{ jobDetails?.location || "Location Not Specified" }}
           </li>
 
+          <li class="mb-2">
+            <strong>Department:</strong> {{ jobDetails?.department || "N/A" }}
+          </li>
 
- 
-
-          <li class="mb-2"><strong>Department:</strong> {{ jobDetails?.department || 'N/A' }}</li>
-
-
- 
-
-          <li class="mb-2"><strong>Created By:</strong> {{ jobDetails?.postedBy || 'N/A' }}</li>
-
-
- 
+          <li class="mb-2">
+            <strong>Created By:</strong> {{ jobDetails?.postedBy || "N/A" }}
+          </li>
 
           <li class="d-flex justify-content-between">
+            <span
+              ><strong>Posted At:</strong>
+              {{ jobDetails?.postedDate | date }}</span
+            >
 
-
- 
-
-            <span><strong>Posted At:</strong> {{ jobDetails?.postedDate | date }}</span>
-
-
- 
-
-            <span><strong>Last Date:</strong> {{ jobDetails?.lastDate | date }}</span>
-
-
- 
-
+            <span
+              ><strong>Last Date:</strong>
+              {{ jobDetails?.lastDate | date }}</span
+            >
           </li>
-
-
- 
-
         </ul>
-
-
-
-
-
- 
-
       </div>
-
-
- 
-
     </div>
-
-
-
-
-
- 
 
     <!-- Right Column: Job Description -->
 
-
- 
-
     <div class="col-lg-7 d-flex flex-column h-100">
-
-
- 
-
       <div class="card shadow-sm p-4 overflow-auto h-100">
-
-
- 
-
         <h4 class="mb-3">Job Description</h4>
 
-
- 
-
-        <p class="text-muted">{{ jobDetails?.description || 'No Description Provided' }}</p>
-
-
-
-
-
- 
+        <p class="text-muted">
+          {{ jobDetails?.description || "No Description Provided" }}
+        </p>
 
         <div *ngIf="jobDetails?.skillsRequired?.length">
-
-
- 
-
           <h5 class="mt-2">Key Skills</h5>
 
-
- 
-
           <div class="d-flex flex-wrap">
-
-
- 
-
-            <span *ngFor="let skill of jobDetails.skillsRequired" class="badge bg-secondary me-2 mb-2">
-
-
- 
-
+            <span
+              *ngFor="let skill of jobDetails.skillsRequired"
+              class="badge bg-secondary me-2 mb-2"
+            >
               {{ skill }}
-
-
- 
-
             </span>
-
-
- 
-
           </div>
-
-
- 
-
         </div>
-
-
- 
 
         <div *ngIf="jobDetails?.skillsRequired?.length">
-
-
- 
-
           <h5 class="mt-4">Key Certificates</h5>
 
-
- 
-
           <div class="d-flex flex-wrap">
-
-
- 
-
-            <span *ngFor="let skill of jobDetails.certificationsRequired" class="badge bg-secondary me-2 mb-2">
-
-
- 
-
+            <span
+              *ngFor="let skill of jobDetails.certificationsRequired"
+              class="badge bg-secondary me-2 mb-2"
+            >
               {{ skill }}
-
-
- 
-
             </span>
-
-
- 
-
           </div>
-
-
- 
-
         </div>
-
-
- 
-
       </div>
-
-
- 
-
     </div>
-
-
- 
 
     <!-- Terms and Apply Section -->
 
     <!-- Terms and Apply Section (Full-width, matching card style) -->
 
     <div class="col-lg-12">
-
       <div class="card shadow-sm p-4 mt-2">
 
-
- 
-
-        <!-- Checkbox with Terms and Conditions text inline -->
-
-        <div class="d-flex align-items-start mb-3">
-
-          <input class="form-check-input me-2 mt-1" type="checkbox" id="termsCheckbox" [(ngModel)]="termsAccepted">
-
-          <label class="form-check-label" for="termsCheckbox">
-
-            I understand and accept the following Terms and Conditions:
-
-            <div class="text-muted small mt-1" style="max-height: 100px; overflow-y: auto;">
-
-              By applying to this job, you agree to provide accurate and truthful information.
-
-              Any false claims may result in disqualification. Your application data will be stored
-
-              and reviewed by our hiring team. We may contact you via email or phone. Submitting
-
-              an application does not guarantee employment or interview selection. The organization
-
-              reserves the right to modify or cancel job postings at any time.
-
-            </div>
-
-          </label>
-
-        </div>
-
-
- 
 
         <!-- Apply Button -->
 
@@ -382,52 +152,64 @@
 
         </button> -->
 
-        <div *ngIf="isApplied(jobDetails); else showApplyButton" class="text-center mt-3">
-
+        <div
+          *ngIf="isApplied(jobDetails); else showApplyButton"
+          class="text-center mt-3"
+        >
           <span class="text-danger fw-bold">
-
             You have already applied for this job.
-
           </span>
-
         </div>
 
-
- 
-
         <ng-template #showApplyButton>
-
-          <button class="btn btn-primary d-block mx-auto" style="width: 180px;"
-
-            [disabled]="!termsAccepted || !jobDetails" (click)="applyForJob()">
-
+          <!-- <button
+            class="btn btn-primary d-block mx-auto"
+            style="width: 180px"
+            [disabled]="!termsAccepted || !jobDetails"
+            (click)="applyForJob()"
+          >
             <i class="bi bi-check-circle"></i>
 
             Apply for Job
+          </button> -->
+                  <!-- Checkbox with Terms and Conditions text inline -->
 
+        <div class="d-flex align-items-start mb-3">
+          <input
+            class="form-check-input me-2 mt-1"
+            type="checkbox"
+            id="termsCheckbox"
+            [(ngModel)]="termsAccepted"
+          />
+
+          <label class="form-check-label" for="termsCheckbox">
+            I understand and accept the following Terms and Conditions:
+
+            <div
+              class="text-muted small mt-1"
+              style="max-height: 100px; overflow-y: auto"
+            >
+              By applying to this job, you agree to provide accurate and
+              truthful information. Any false claims may result in
+              disqualification. Your application data will be stored and
+              reviewed by our hiring team. We may contact you via email or
+              phone. Submitting an application does not guarantee employment or
+              interview selection. The organization reserves the right to modify
+              or cancel job postings at any time.
+            </div>
+          </label>
+        </div>
+          <button
+            *ngIf="isJobOpen()"
+            (click)="applyForJob()"
+            [disabled]="jobDetails?.applied || !termsAccepted"
+            class="btn btn-primary d-block mx-auto"
+          >
+            <i class="bi bi-check-circle"></i>
+            {{ jobDetails?.applied ? "Already Applied" : "Apply for Job" }}
           </button>
-
-
-
         </ng-template>
-
-
-
-
- 
-
       </div>
-
     </div>
-
-
-
-
- 
-
   </div>
-
-
- 
-
 </div>
