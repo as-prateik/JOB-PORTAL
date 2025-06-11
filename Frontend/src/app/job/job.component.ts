@@ -208,25 +208,44 @@ export class JobComponent implements OnInit {
  
 
   // Filter logic for UI
-
-
- 
-
+  
   filteredJobs(): any[] {
 
     return this.jobs.filter((job) => {
+
+      let matchesSkills = true;
+
+      if (this.skillsFilter.trim() !== '') {
+
+        const jobSkills = job.skillsRequired?.map((s: string) => s.toLowerCase()) || [];
+
+        const filter = this.skillsFilter.toLowerCase();
+
+        matchesSkills = jobSkills.some((skill: string | string[]) => skill.includes(filter));
+
+      }
 
       return (
 
         job.title.toLowerCase().includes(this.searchQuery.toLowerCase()) &&
 
-        job.location.toLowerCase().includes(this.locationFilter.toLowerCase())
+        job.location.toLowerCase().includes(this.locationFilter.toLowerCase()) &&
+
+        matchesSkills
 
       );
 
     });
 
   }
+
+
+
+ 
+
+  
+
+  
 
 
  
