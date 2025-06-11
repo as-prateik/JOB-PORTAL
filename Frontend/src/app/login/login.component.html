@@ -1,133 +1,234 @@
-<div style="width: 100vw; overflow-x: hidden;">
-<nav class="navbar navbar-expand-lg shadow-sm px-4 sticky-top linkedin-navbar">
-  <span class="navbar-brand text-dark" >Job Portal For Internal Hiring</span>
+<div style="width: 100%; overflow-x: hidden;">
 
-</nav>
+  <!-- Navbar -->
+
+  <nav class="navbar navbar-expand-lg shadow-sm px-4 sticky-top linkedin-navbar">
+
+    <span class="navbar-brand text-dark">Job Portal For Internal Hiring</span>
+
+  </nav>
 
 
-<div class="container-fluid d-flex justify-content-center align-items-center">
-  <!-- style="padding-top: 40px;" -->
+ 
 
-  <!-- Flexbox layout -->
+  <!-- Main Container -->
 
-  <div class="row w-90">
-    <!-- Lottie Animation (Left Side) -->
+  <div class="container-fluid d-flex justify-content-center align-items-center">
 
-    <div class="col-md-6 d-flex justify-content-center align-items-center">
-      <lottie-player
-        src="assets/login-animation.json"
-        background="transparent"
-        speed="1"
-        style="width: 500px"
-        loop
-        autoplay
-      >
-      </lottie-player>
-    </div>
+    <div class="row w-90">
 
-    <!-- Login Form (Right Side) -->
+      <!-- Lottie Animation (Left Side) -->
 
-    <div class="col-md-6 d-flex justify-content-center align-items-center">
-      <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px">
-        <h4 class="text-center mb-4">Welcome Back, Please Log In</h4>
+      <div class="col-md-6 d-flex justify-content-center align-items-center">
 
-        <form #loginForm="ngForm" (ngSubmit)="onLogin()" novalidate>
-          <!-- Username Field -->
+        <lottie-player
 
-          <div class="mb-3">
-            <label for="username" class="form-label">username</label>
+          src="assets/login-animation.json"
 
-            <div class="input-group">
-              <span class="input-group-text">
-                <i class="bi bi-envelope-fill"></i>
-              </span>
+          background="transparent"
 
-              <input
-                placeholder="Enter your username"
-                type="username"
-                id="username"
-                name="username"
-                [(ngModel)]="username"
-                class="form-control"
-                required
-                #usernameInput="ngModel"
-              />
-            </div>
+          speed="1"
 
-            <div
-              *ngIf="usernameInput.invalid && usernameInput.touched"
-              class="text-danger small mt-1"
-            >
-              <div *ngIf="usernameInput.errors?.['required']">
-                Username is required.
-              </div>
-            </div>
-          </div>
+          style="max-width: 100%; height: auto;"
 
-          <!-- Password Field -->
+          loop
 
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
+          autoplay
 
-            <div class="input-group">
-              <span class="input-group-text">
-                <i class="bi bi-lock-fill"></i>
-              </span>
+        ></lottie-player>
 
-              <!-- Escaped pattern for Angular: requires one uppercase, one digit, one special char, min 8 characters -->
-
-              <input
-                placeholder="Enter your password"
-                type="password"
-                id="password"
-                name="password"
-                [(ngModel)]="password"
-                class="form-control"
-                required
-                #passwordInput="ngModel"
-              />
-            </div>
-
-            <div
-              *ngIf="passwordInput.invalid && passwordInput.touched"
-              class="text-danger small mt-1"
-            >
-              <div *ngIf="passwordInput.errors?.['required']">
-                Password is required.
-              </div>
-            </div>
-          </div>
-
-          <!-- Submit Button -->
-
-          <div class="d-grid">
-            <button
-              type="submit"
-              class="btn linkedin-btn mt-3"
-              [disabled]="!loginForm.form.valid"
-            >
-              Login
-            </button>
-          </div>
-        </form>
       </div>
+
+
+ 
+
+      <!-- Login Form (Right Side) -->
+
+      <div class="col-md-6 d-flex justify-content-center align-items-center">
+
+        <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px">
+
+          <h4 class="text-center mb-4">Welcome Back, Please Log In</h4>
+
+
+ 
+
+          <form #loginForm="ngForm" (ngSubmit)="onLogin()" novalidate>
+
+            <!-- Username Field -->
+
+            <div class="mb-3">
+
+              <label for="username" class="form-label">Username</label>
+
+              <div class="input-group">
+
+                <span class="input-group-text">
+
+                  <i class="bi bi-envelope-fill"></i>
+
+                </span>
+
+                <input
+
+                  placeholder="Enter your username"
+
+                  type="text"
+
+                  id="username"
+
+                  name="username"
+
+                  [(ngModel)]="username"
+
+                  class="form-control"
+
+                  required
+
+                  #usernameInput="ngModel"
+
+                />
+
+              </div>
+
+              <div
+
+                *ngIf="usernameInput.invalid && usernameInput.touched"
+
+                class="text-danger small mt-1"
+
+              >
+
+                <div *ngIf="usernameInput.errors?.['required']">
+
+                  Username is required.
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+ 
+
+            <!-- Password Field -->
+
+            <div class="mb-3">
+
+              <label for="password" class="form-label">Password</label>
+
+              <div class="input-group">
+
+                <span class="input-group-text">
+
+                  <i class="bi bi-lock-fill"></i>
+
+                </span>
+
+                <input
+
+                  placeholder="Enter your password"
+
+                  type="password"
+
+                  id="password"
+
+                  name="password"
+
+                  [(ngModel)]="password"
+
+                  class="form-control"
+
+                  required
+
+                  #passwordInput="ngModel"
+
+                />
+
+              </div>
+
+              <div
+
+                *ngIf="passwordInput.invalid && passwordInput.touched"
+
+                class="text-danger small mt-1"
+
+              >
+
+                <div *ngIf="passwordInput.errors?.['required']">
+
+                  Password is required.
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+ 
+
+            <!-- Submit Button -->
+
+            <div class="d-grid">
+
+              <button
+
+                type="submit"
+
+                class="btn linkedin-btn mt-3"
+
+                [disabled]="!loginForm.form.valid"
+
+              >
+
+                Login
+
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
     </div>
+
   </div>
+
 </div>
-</div>
+
+
+ 
 
 <!-- Success Animation Overlay -->
 
 <div
+
   class="success-overlay d-flex justify-content-center align-items-center"
+
   *ngIf="showSuccessAnimation"
+
 >
+
   <lottie-player
-    src="assets\bluetick.json"
+
+    src="assets/bluetick.json"
+
     background="transparent"
+
     speed="1"
+
     style="width: 50%; height: 200px"
+
     autoplay
-  >
-  </lottie-player>
+
+  ></lottie-player>
+
 </div>
+
+
+ 
