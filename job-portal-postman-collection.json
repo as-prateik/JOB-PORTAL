@@ -1,0 +1,143 @@
+{
+  "info": {
+    "name": "Job Portal API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"securePassword123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Register User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"role\": \"employee\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/auth/register",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create Job",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Software Engineer\",\n  \"description\": \"Job desc\",\n  \"location\": \"Remote\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/jobs/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "jobs",
+            ""
+          ]
+        }
+      }
+    },
+    {
+      "name": "Request Transfer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fromManagerId\": \"mgr1\",\n  \"toManagerId\": \"mgr2\",\n  \"employeeId\": \"emp1\",\n  \"jobId\": \"job123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/transfer/request-transfer",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "transfer",
+            "request-transfer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Transfer Response",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jobId\": \"job123\",\n  \"status\": \"approved\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/transfer/transfer-response",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "transfer",
+            "transfer-response"
+          ]
+        }
+      }
+    }
+  ]
+}

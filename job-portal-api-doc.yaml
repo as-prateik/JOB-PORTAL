@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: Job Portal API
+  version: 1.0.0
+paths:
+  /api/transfer//get-transfer:
+    get:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/transfer//request-transfer:
+    post:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/transfer//transfer-response:
+    post:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/auth//register:
+    post:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/auth//login:
+    post:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/auth//change-password:
+    post:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/jobs//:
+    post:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/jobs//on-demand-skills:
+    get:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/jobs//on-demand-certifications:
+    get:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/jobs//:jobId:
+    put:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/jobs//:
+    get:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/jobs//:jobId:
+    get:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/jobs//jobs/:jobId/applicants/:employeeId/status:
+    patch:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/jobs//jobs/:jobId/applicants/:employeeId/approve:
+    patch:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/users//profile:
+    get:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/users//profile/:employeeId:
+    get:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/users//profile:
+    put:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/users//profile/:employeeId:
+    put:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/users//upload:
+    post:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
+  /api/users//applications:
+    get:
+      summary: TODO - Add summary
+      responses:
+        '200':
+          description: Success
