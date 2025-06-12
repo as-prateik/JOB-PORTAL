@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
 
 import { OnInit } from '@angular/core';
 
+import { AuthenticationService } from '../authentication.service';
+
 import {
   FormBuilder,
   FormGroup,
@@ -47,11 +49,13 @@ export class EditProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
 
-    private http: HttpClient
+    private http: HttpClient,
+
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
-    this.token = localStorage.getItem('token');
+    this.token = this.authService.getDetails().token || '';
 
     this.buildForm();
 
@@ -150,6 +154,11 @@ export class EditProfileComponent implements OnInit {
             description: user.description || '',
 
             skills: user.skills,
+
+            location: user.location || '',
+
+            phone: user.phone || '',
+
 
             certifications: user.certifications || [],
 

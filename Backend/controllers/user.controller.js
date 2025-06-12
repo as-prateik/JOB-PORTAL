@@ -141,7 +141,9 @@ exports.getEmployeesByManager = async (req, res) => {
   const { managerId } = req.params;
 
   try {
-    const employees = await User.find({ reportsTo: managerId });
+    const employees = await User.find({ reportsTo: managerId }).select(
+  'name email location role skills certifications resumeUrl'
+);
     res.status(200).json(employees);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch employees" });

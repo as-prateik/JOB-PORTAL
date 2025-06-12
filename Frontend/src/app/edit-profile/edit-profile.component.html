@@ -149,8 +149,8 @@
           <input
             type="text"
             id="location"
-            formControlName="location"
-            required
+            value="{{ user.location | titlecase }}"
+            readonly
           />
         </div>
 
@@ -159,15 +159,67 @@
 
           <!-- <input type="text" id="phone" name="phone" value="{{user.phone | titlecase}}" required /> -->
 
-          <input type="text" id="phone" formControlName="phone" required />
+          <input type="text" id="phone" value="{{ user.phone }}" readonly />
         </div>
 
-        <div class="form-row">
-          <label for="skills">Skills</label>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Skills</label>
+          <div formArrayName="skills">
+            <div
+              *ngFor="let skill of skills.controls; let i = index"
+              class="input-group mb-2"
+            >
+              <input
+                class="form-control"
+                [formControlName]="i"
+                placeholder="Enter skill"
+              />
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="removeSkill(i)"
+              >
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-sm"
+            (click)="addSkill()"
+          >
+            <i class="bi bi-plus-circle"></i> Add Skill
+          </button>
+        </div>
 
-          <!-- <input type="text" id="phone" name="phone" value="{{user.phone | titlecase}}" required /> -->
-
-          <input type="text" id="skills" formControlName="skills" required />
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Certifications</label>
+          <div formArrayName="certifications">
+            <div
+              *ngFor="let cert of certifications.controls; let i = index"
+              class="input-group mb-2"
+            >
+              <input
+                class="form-control"
+                [formControlName]="i"
+                placeholder="Enter certification"
+              />
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="removeCertification(i)"
+              >
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-sm"
+            (click)="addCertification()"
+          >
+            <i class="bi bi-plus-circle"></i> Add Certification
+          </button>
         </div>
 
         <section class="profile-files">

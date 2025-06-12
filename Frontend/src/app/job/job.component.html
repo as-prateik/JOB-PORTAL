@@ -7,20 +7,41 @@
   <div class="row mb-3 align-items-center">
     <div class="col-lg-8 col-md-7">
       <div class="input-group">
-        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-        <input type="text" class="form-control" [(ngModel)]="searchQuery" placeholder="Search jobs..." />
+        <span class="input-group-text bg-white"
+          ><i class="bi bi-search"></i
+        ></span>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="searchQuery"
+          placeholder="Search jobs..."
+        />
       </div>
     </div>
 
     <div class="col-lg-4 col-md-5 d-flex gap-2 mt-2 mt-md-0">
       <div class="input-group">
-        <span class="input-group-text bg-white"><i class="bi bi-geo-alt"></i></span>
-        <input type="text" class="form-control" [(ngModel)]="locationFilter" placeholder="Filter by Location" />
+        <span class="input-group-text bg-white"
+          ><i class="bi bi-geo-alt"></i
+        ></span>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="locationFilter"
+          placeholder="Filter by Location"
+        />
       </div>
 
       <div class="input-group">
-        <span class="input-group-text bg-white"><i class="bi bi-tools"></i></span>
-        <input type="text" class="form-control" [(ngModel)]="skillsFilter" placeholder="Filter by Skills" />
+        <span class="input-group-text bg-white"
+          ><i class="bi bi-tools"></i
+        ></span>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="skillsFilter"
+          placeholder="Filter by Skills"
+        />
       </div>
     </div>
   </div>
@@ -31,24 +52,46 @@
       <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col" *ngFor="let job of filteredJobs()">
           <div class="card shadow-sm h-100">
-            <div class="card-body d-flex h-100 p-3">
-              <!-- Left: Job Title (40%) -->
-              <div class="pe-3 border-end" style="width: 40%;">
-                <h5 class="card-title">{{ job.title }}</h5>
+            <div
+              class="card-body d-flex flex-column justify-content-between h-100 p-3"
+            >
+              <!-- Top section: title, location, skills -->
+              <div class="d-flex">
+                <div class="pe-3 border-end" style="width: 40%">
+                  <h5 class="card-title">{{ job.title }}</h5>
+                </div>
+
+                <div class="ps-3" style="width: 60%">
+                  <h6 class="card-subtitle text-muted mb-2">
+                    <i class="bi bi-geo-alt-fill me-1"></i>{{ job.location }}
+                  </h6>
+                  <p>
+                    <strong>Skills:</strong>
+                    {{ job.skillsRequired?.join(", ") || "Not specified" }}
+                  </p>
+                </div>
               </div>
 
-              <!-- Right: Job Details (60%) -->
-              <div class="ps-3" style="width: 60%;">
-                <h6 class="card-subtitle text-muted">{{ job.location }}</h6>
-                <p><strong>Skills:</strong> {{ job.skillsRequired?.join(', ') || 'Not specified' }}</p>
-                <p class="mb-1"><strong>Last Date to Apply:</strong> {{job.lastDate | date:'dd-MM-yyyy'}}</p>
-                <div class="mt-3 d-flex justify-content-between align-items-center">
-                  <button class="btn btn-outline-linkedin btn-sm" (click)="viewJobDescription(job)">
+              <!-- Bottom section: last date + buttons -->
+              <div class="mt-auto pt-3">
+                <p class="mb-2">
+                  <strong>Last Date to Apply:</strong>
+                  {{ job.lastDate | date : "dd-MM-yyyy" }}
+                </p>
+                <div class="d-flex justify-content-between">
+                  <button
+                    class="btn btn-outline-linkedin btn-sm"
+                    (click)="viewJobDescription(job)"
+                  >
                     <i class="bi bi-eye"></i> View Job
                   </button>
-                  <button class="btn linkedin-btn btn-sm" [disabled]="isApplied(job)" (click)="applyJob(job)">
+                  <button
+                    class="btn linkedin-btn btn-sm"
+                    [disabled]="isApplied(job)"
+                    (click)="applyJob(job)"
+                  >
                     <i class="bi bi-check-circle"></i>
-                    {{ isApplied(job) ? 'Applied' : 'Apply Job' }}
+                    {{ isApplied(job) ? "Applied" : "Apply Job" }}
                   </button>
                 </div>
               </div>
@@ -60,13 +103,26 @@
   </div>
 
   <!-- Apply Success Modal -->
-  <div class="modal fade" id="applySuccessModal" tabindex="-1" aria-hidden="true">
+  <div
+    class="modal fade"
+    id="applySuccessModal"
+    tabindex="-1"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-white text-center p-4">
         <div class="modal-body">
-          <div class="text-success fs-1 mb-3"><i class="bi bi-check-circle-fill"></i></div>
+          <div class="text-success fs-1 mb-3">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
           <h5 class="modal-title mb-3">Successfully Applied!</h5>
-          <button type="button" class="btn linkedin-btn" data-bs-dismiss="modal">OK</button>
+          <button
+            type="button"
+            class="btn linkedin-btn"
+            data-bs-dismiss="modal"
+          >
+            OK
+          </button>
         </div>
       </div>
     </div>
@@ -78,14 +134,30 @@
       <div class="modal-content bg-white p-4 text-center">
         <div class="modal-header border-0">
           <h5 class="modal-title w-100 text-center">Confirm Withdrawal</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
         </div>
         <div class="modal-body">
           <p>Are you sure you want to withdraw your application?</p>
         </div>
         <div class="modal-footer justify-content-center border-0">
-          <button type="button" class="btn btn-danger me-2" (click)="withdrawJob()">Yes, Withdraw</button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
+          <button
+            type="button"
+            class="btn btn-danger me-2"
+            (click)="withdrawJob()"
+          >
+            Yes, Withdraw
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-danger"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -97,13 +169,23 @@
       <div class="modal-content p-3 bg-white">
         <div class="modal-header">
           <h5 class="modal-title">Job Details</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
         </div>
         <div class="modal-body">
           <p><strong>Job Role:</strong> {{ selectedJob?.title }}</p>
           <p><strong>Location:</strong> {{ selectedJob?.location }}</p>
-          <p><strong>Salary:</strong> {{ selectedJob?.salary || 'Not specified' }}</p>
-          <p><strong>Required Skills:</strong> {{ selectedJob?.skillsRequired?.join(', ') }}</p>
+          <p>
+            <strong>Salary:</strong>
+            {{ selectedJob?.salary || "Not specified" }}
+          </p>
+          <p>
+            <strong>Required Skills:</strong>
+            {{ selectedJob?.skillsRequired?.join(", ") }}
+          </p>
           <p><strong>Description:</strong> {{ selectedJob?.description }}</p>
         </div>
       </div>

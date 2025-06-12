@@ -49,13 +49,120 @@
     "
   >
     <div *ngIf="currentView === 'home'">
-      <div *ngIf="employeeList?.length">
-        <h3>My Team</h3>
-        <ul>
-          <li *ngFor="let emp of employeeList">
-            {{ emp.name }} ({{ emp.email }})
-          </li>
-        </ul>
+      <div class="container mt-4">
+        <h4 class="mb-3"><i class="bi bi-people-fill me-2"></i>My Team</h4>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+          <div
+            class="col"
+            *ngFor="let employee of employeeList"
+            (click)="viewEmployeeProfile(employee)"
+            style="cursor: pointer"
+          >
+            <div class="card shadow-sm h-100">
+              <div class="card-body d-flex align-items-start gap-3">
+                <!-- Avatar -->
+                <div
+                  class="avatar bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
+                  style="width: 45px; height: 45px; font-size: 1.2rem"
+                >
+                  {{ employee.name[0] | uppercase }}
+                </div>
+
+                <!-- Info -->
+                <div>
+                  <h6 class="mb-1">{{ employee.name }}</h6>
+                  <p class="mb-1 text-muted" style="font-size: 0.9rem">
+                    <i class="bi bi-envelope-fill me-1"></i>{{ employee.email }}
+                  </p>
+                  <p class="mb-0 text-muted" style="font-size: 0.9rem">
+                    <i class="bi bi-geo-alt-fill me-1"></i
+                    >{{ employee.location || "N/A" }}
+                  </p>
+                  <p class="mb-0 text-muted" style="font-size: 0.9rem">
+                    <i class="bi bi-person-badge me-1"></i>{{ employee.role }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="currentView === 'employeeProfile'">
+      <button class="btn btn-outline-secondary mb-3" (click)="showView('home')">
+        <i class="bi bi-arrow-left"></i> Back to My Team
+      </button>
+
+      <div class="card shadow p-4">
+        <div class="d-flex align-items-center gap-4">
+          <div>
+            <img
+              *ngIf="selectedEmployee.profilePhotoUrl"
+              [src]="'http://localhost:5000' + selectedEmployee.profilePhotoUrl"
+              alt="Profile Photo"
+              class="rounded-circle shadow"
+              style="width: 70px; height: 70px; object-fit: cover"
+            />
+            <div
+              *ngIf="!selectedEmployee.profilePhotoUrl"
+              class="avatar bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
+              style="width: 70px; height: 70px; font-size: 1.8rem"
+            >
+              {{ selectedEmployee.name[0] | uppercase }}
+            </div>
+          </div>
+
+          <div>
+            <h4 class="mb-1">{{ selectedEmployee.name }}</h4>
+            <p class="mb-0 text-muted">
+              <i class="bi bi-envelope-fill me-1"></i>
+              {{ selectedEmployee.email }}
+            </p>
+            <p class="mb-0 text-muted">
+              <i class="bi bi-geo-alt-fill me-1"></i>
+              {{ selectedEmployee.location }}
+            </p>
+            <p class="mb-0 text-muted">
+              <i class="bi bi-person-badge me-1"></i>
+              {{ selectedEmployee.role }}
+            </p>
+          </div>
+        </div>
+
+        <div *ngIf="selectedEmployee.skills?.length" class="mt-4">
+          <h6>Skills</h6>
+          <span
+            *ngFor="let skill of selectedEmployee.skills"
+            class="badge bg-info text-dark me-1 mb-1"
+          >
+            {{ skill }}
+          </span>
+        </div>
+
+        <div *ngIf="selectedEmployee.certifications?.length" class="mt-3">
+          <h6>Certifications</h6>
+          <span
+            *ngFor="let cert of selectedEmployee.certifications"
+            class="badge bg-warning text-dark me-1 mb-1"
+          >
+            {{ cert }}
+          </span>
+        </div>
+
+        <div class="mt-4" *ngIf="selectedEmployee.resumeUrl">
+          <a
+            [href]="'http://localhost:5000' + selectedEmployee.resumeUrl"
+            class="btn btn-outline-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="bi bi-file-earmark-pdf me-1"></i> View Resume
+          </a>
+        </div>
+        <div class="mt-4" *ngIf="!selectedEmployee.resumeUrl">
+          <p class="text-muted">No resume uploaded.</p>
+        </div>
       </div>
     </div>
 

@@ -18,31 +18,26 @@
     <table class="table text-center align-middle" style="font-size: 15px">
       <thead class="table-light">
         <tr>
+          <th>S.No</th>
+          <!-- New column -->
           <th>Job ID</th>
-
           <th>Job Title</th>
-
           <th>Location</th>
-
           <th>View Job</th>
-
           <th>Status</th>
-
           <th>Withdraw</th>
         </tr>
       </thead>
-
       <tbody>
         <tr
-          *ngFor="let application of paginatedApplications()"
+          *ngFor="let application of paginatedApplications(); let i = index"
           style="cursor: pointer"
         >
+          <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+          <!-- Serial number -->
           <td>{{ application.jobId }}</td>
-
           <td>{{ application.title }}</td>
-
           <td>{{ application.location }}</td>
-
           <td>
             <button
               class="btn btn-outline-primary btn-sm"
@@ -51,11 +46,21 @@
               View job
             </button>
           </td>
-
           <td>
-            <span class="badge bg-success">{{ application.status }}</span>
+            <span
+              class="badge px-3 py-2 text-capitalize"
+              [ngClass]="{
+                'bg-secondary': application.status === 'applied',
+                'bg-danger': application.status === 'rejected',
+                'bg-success':
+                  application.status === 'Shortlisted' ||
+                  application.status === 'Selected' ||
+                  application.status === 'Accepted - Pending Approval'
+              }"
+            >
+              {{ application.status }}
+            </span>
           </td>
-
           <td>
             <button
               class="btn btn-outline-danger btn-sm"

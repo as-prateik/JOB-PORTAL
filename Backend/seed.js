@@ -51,6 +51,10 @@ const seed = async () => {
         ],
 
         reportsTo: "arjun",
+
+        location: "Mysuru",
+
+        phone: "1234569622",
       },
 
       {
@@ -103,6 +107,10 @@ const seed = async () => {
         skills: ["JavaScript", "React"],
 
         certifications: ["AWS Certified"],
+
+        location: "Hyderabad",
+
+        phone: "1234590932",
       },
 
       {
@@ -119,6 +127,10 @@ const seed = async () => {
         skills: ["JavaScript", "React"],
 
         certifications: ["AWS Certified"],
+
+        location: "Hyderabad",
+
+        phone: "1234567892",
       },
 
       {
@@ -137,6 +149,10 @@ const seed = async () => {
         certifications: ["AWS Certified", "python pro"],
 
         reportsTo: "karan",
+
+        location: "Hyderabad",
+
+        phone: "1234567642",
       },
     ];
 
@@ -181,6 +197,10 @@ const seed = async () => {
         certifications: user.certifications || [],
 
         reportsTo: user.reportsTo,
+
+        location : user.location,
+
+        phone: user.phone,
       });
 
       userProfiles.push({ auth, profile });
@@ -243,7 +263,7 @@ const seed = async () => {
 
         description: "Frontend development role",
 
-        skillsRequired: ["Angular", "TypeScript","AWS","JavaScript", "React"],
+        skillsRequired: ["Angular", "TypeScript", "AWS", "JavaScript", "React"],
 
         certificationsRequired: ["AWS Certified", "python pro"],
 
