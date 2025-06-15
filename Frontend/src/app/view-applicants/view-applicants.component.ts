@@ -8,6 +8,8 @@ import { JobService } from '../job.service'; // Import your job service
 
 import { TransferService } from '../transfer.service';
 
+declare var bootstrap: any;
+
 @Component({
   selector: 'app-view-applicants',
 
@@ -23,6 +25,12 @@ export class ViewApplicantsComponent implements OnInit {
   token: string = '';
 
   jobId: string = '';
+
+  modalMessage: string = '';
+
+  currentView: 'applicants' | 'employeeProfile' = 'applicants';
+
+  selectedEmployee: any;
 
   constructor(
     private authentication: AuthenticationService,
@@ -56,8 +64,14 @@ export class ViewApplicantsComponent implements OnInit {
     }
   }
 
+  showView(view: 'applicants' | 'employeeProfile'): void {
+    this.currentView = view;
+  }
+
   viewProfile(applicant: any) {
-    alert(`Viewing profile for ${applicant.name}`);
+    this.showView('employeeProfile');
+
+    this.selectedEmployee = applicant;
 
     // Replace this with actual navigation later
   }
@@ -84,7 +98,8 @@ export class ViewApplicantsComponent implements OnInit {
         (response) => {
           console.log('Transfer request sent:', response);
 
-          alert(`Transfer request created for ${applicant.name}`);
+          // alert(`Transfer request created for ${applicant.name}`);
+
           this.updateApplicantStatus(applicant);
         },
 
@@ -103,27 +118,62 @@ export class ViewApplicantsComponent implements OnInit {
 
   updateApplicantStatus(applicant: any) {
     // Replace with real update logic or API call
-    console.log( 'jobId is',this.jobId,'user id is ',applicant.userId,'status is ',applicant.status);
+
+    console.log(
+      'jobId is',
+
+      this.jobId,
+
+      'user id is ',
+
+      applicant.userId,
+
+      'status is ',
+
+      applicant.status
+    );
 
     console.log(`Status for ${applicant.name} updated to ${applicant.status}`);
 
-    alert(`Status updated for ${applicant.name} to ${applicant.status}`);
-
     this.jobService
+
       .updateApplicantStatus(
         this.jobId,
+
         applicant.userId,
+
         applicant.status,
+
         this.token
       )
+
       .subscribe(
         (response) => {
           console.log('Applicant status updated:', response);
-          alert(`Status updated for ${applicant.name} to ${applicant.status}`);
+
+          this.modalMessage = `Status updated for ${applicant.name} to "${applicant.status}"`;
+
+          const modalElement = document.getElementById('statusUpdateModal');
+
+          if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+
+            modal.show();
+          }
         },
+
         (error) => {
           console.error('Error updating applicant status:', error);
-          alert(`Failed to update status for ${applicant.name}`);
+
+          this.modalMessage = `Failed to update status for ${applicant.name}`;
+
+          const modalElement = document.getElementById('statusUpdateModal');
+
+          if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+
+            modal.show();
+          }
         }
       );
   }

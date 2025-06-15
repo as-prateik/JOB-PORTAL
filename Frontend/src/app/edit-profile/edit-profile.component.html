@@ -4,7 +4,13 @@
   <aside class="sidebar-card">
     <!-- <img src="" alt="logo" class="company-logo"/>
 
+
+ 
+
     <h3 class="company-name">Company Name</h3>
+
+
+ 
 
     -->
 
@@ -29,6 +35,7 @@
     <br />
 
     <hr />
+
     <br />
 
     <h5 class="mt-3">Skills</h5>
@@ -164,6 +171,7 @@
 
         <div class="mb-3">
           <label class="form-label fw-semibold">Skills</label>
+
           <div formArrayName="skills">
             <div
               *ngFor="let skill of skills.controls; let i = index"
@@ -174,6 +182,7 @@
                 [formControlName]="i"
                 placeholder="Enter skill"
               />
+
               <button
                 type="button"
                 class="btn btn-danger"
@@ -183,6 +192,7 @@
               </button>
             </div>
           </div>
+
           <button
             type="button"
             class="btn btn-outline-primary btn-sm"
@@ -194,6 +204,7 @@
 
         <div class="mb-3">
           <label class="form-label fw-semibold">Certifications</label>
+
           <div formArrayName="certifications">
             <div
               *ngFor="let cert of certifications.controls; let i = index"
@@ -204,6 +215,7 @@
                 [formControlName]="i"
                 placeholder="Enter certification"
               />
+
               <button
                 type="button"
                 class="btn btn-danger"
@@ -213,6 +225,7 @@
               </button>
             </div>
           </div>
+
           <button
             type="button"
             class="btn btn-outline-primary btn-sm"
@@ -296,32 +309,79 @@
         <section>
           <button type="submit" class="btn-save">Save</button>
 
-          <button type="reset" class="btn-cancel">Cancel</button>
+          <!--
+
+          <button type="reset" class="btn-cancel" routerLink="/employee-dashboard">Cancel</button>
+
+
+ 
+
+          <button class="btn btn-outline-secondary mb-3">
+
+            <i class="bi bi-arrow-left"></i> Home
+
+          </button> -->
         </section>
 
         <!-- <div class="modal fade" id="saveSuccessModal" tabindex="-1" aria-hidden="true">
 
+
+ 
+
           <div class="modal-dialog modal-dialog-centered">
+
+
+ 
 
             <div class="modal-content bg-white text-center p-4">
 
+
+ 
+
               <div class="modal-body">
+
+
+ 
 
                 <div class="text-success fs-1 mb-3 animate-check">
 
+
+ 
+
                   <i class="bi bi-check-circle-fill"></i>
+
+
+ 
 
                 </div>
 
+
+ 
+
                 <h5 class="modal-title mb-3">Changes Saved Successfully!</h5>
+
+
+ 
 
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
 
+
+ 
+
               </div>
+
+
+ 
 
             </div>
 
+
+ 
+
           </div>
+
+
+ 
 
         </div> -->
       </form>
@@ -354,36 +414,78 @@
 
     <!-- <section class="attachments">
 
+
+ 
+
       <h3>Attachments</h3>
+
+
+ 
 
       <p>Upload your Resume, CV, and other documents</p> -->
 
     <!-- <input type="file" id="attachmentsUpload" multiple accept=".pdf,.doc,.docx" />
 
+
+ 
+
       <div id="attachmentsList" class="file-list"></div> -->
 
     <!-- <div *ngFor="let file of selectedFiles; let i = index" class="mb-2">
 
+
+ 
+
         <div class="input-group">
+
+
+ 
 
           <input type="text" class="form-control" [value]="file.name" readonly>
 
+
+ 
+
           <button type="button" class="btn btn-danger" (click)="removeFile(i)">Remove</button>
+
+
+ 
 
         </div>
 
+
+ 
+
       </div>
+
+
+
+ 
+
+
 
 
  
 
       <div class="input-group mb-3">
 
+
+ 
+
         <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
+
+
+ 
 
         <button type="button" class="btn btn-primary" (click)="triggerFileInput()">Add</button>
 
+
+ 
+
       </div>
+
+
+ 
 
     </section> -->
 
@@ -391,107 +493,251 @@
 
     <!-- <section class="education">
 
+
+ 
+
       <h3>Education Certificates</h3>
+
+
+ 
 
       <p>Upload your 10th, 12th, and Degree certificates</p> -->
 
     <!-- <input type="file" id="educationUpload" multiple accept=".pdf,.jpg,.jpeg,.png" />
 
+
+ 
+
       <div id="educationList" class="file-list"></div> -->
 
     <!-- <div *ngFor="let file of selectedFiles; let i = index" class="mb-2">
 
+
+ 
+
         <div class="input-group">
+
+
+ 
 
           <input type="text" class="form-control" [value]="file.name" readonly>
 
+
+ 
+
           <button type="button" class="btn btn-danger" (click)="removeFile(i)">Remove</button>
+
+
+ 
 
         </div>
 
+
+ 
+
       </div>
+
+
+
+ 
+
+
 
 
  
 
       <div class="input-group mb-3">
 
+
+ 
+
         <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
+
+
+ 
 
         <button type="button" class="btn btn-primary" (click)="triggerFileInput()">Add</button>
 
+
+ 
+
       </div>
+
+
+ 
 
     </section> -->
 
     <!-- <section class="profile-files">
 
+
+ 
+
       <h3>Profile Files</h3>
 
+
+ 
+
       <div class="form-row">
+
+
+ 
 
         <label>Resume</label>
 
+
+ 
+
         <input type="file" (change)="onFileChange($event, 'resume')" accept=".pdf,.doc,.docx" class="mb-2" />
+
+
+ 
 
         <div *ngIf="user?.resumeUrl">
 
+
+ 
+
           <span class="text-success">Resume uploaded</span>
 
+
+ 
+
           <button type="button" class="btn btn-sm btn-danger ms-2"
+
+
+ 
 
             (click)="removeFileFromProfile('resume')">Remove</button>
 
+
+ 
+
         </div>
+
+
+ 
 
       </div>
 
+
+ 
+
       <div class="form-row">
+
+
+ 
 
         <label>Cover Letter</label>
 
+
+ 
+
         <input type="file" (change)="onFileChange($event, 'coverLetter')" accept=".pdf,.doc,.docx" />
+
+
+ 
 
         <div *ngIf="user?.coverLetterUrl">
 
+
+ 
+
           <span class="text-success">Cover Letter uploaded</span>
 
+
+ 
+
           <button type="button" class="btn btn-sm btn-danger ms-2"
+
+
+ 
 
             (click)="removeFileFromProfile('coverLetter')">Remove</button>
 
+
+ 
+
         </div>
 
+
+ 
+
       </div>
+
+
+ 
 
       <div class="form-row">
 
+
+ 
+
         <label>Profile Photo</label>
+
+
+ 
 
         <input type="file" (change)="onFileChange($event, 'profilePhoto')" accept="image/*" />
 
+
+ 
+
         <div *ngIf="user?.profilePhotoUrl">
+
+
+ 
 
           <span class="text-success">Profile Photo uploaded</span>
 
+
+ 
+
           <button type="button" class="btn btn-sm btn-danger ms-2"
+
+
+ 
 
             (click)="removeFileFromProfile('profilePhoto')">Remove</button>
 
+
+ 
+
         </div>
+
+
+ 
 
       </div>
 
+
+ 
+
     </section>
+
+
+
+ 
+
+
 
 
  
 
     <section>
 
+
+ 
+
       <button type="submit" class="btn-save" (click)="saveChanges()">Save</button>
 
+
+ 
+
       <button type="reset" class="btn-cancel">Cancel</button>
+
+
+ 
 
     </section> -->
 
@@ -499,17 +745,38 @@
 
     <!-- <div class="form-row">
 
+
+ 
+
   <label>Resume</label>
+
+
+ 
 
   <div *ngIf="user?.resumeUrl">
 
+
+ 
+
     <a [href]="user.resumeUrl" target="_blank">View Resume</a>
+
+
+ 
 
     <button type="button" (click)="removeFileFromProfile('resume')">Remove</button>
 
+
+ 
+
   </div>
 
+
+ 
+
   <input type="file" (change)="onFileChange($event, 'resume')" accept=".pdf,.doc,.docx" />
+
+
+ 
 
 </div> -->
 
@@ -517,17 +784,38 @@
 
     <!-- <div class="form-row">
 
+
+ 
+
   <label>Cover Letter</label>
+
+
+ 
 
   <div *ngIf="user?.coverLetterUrl">
 
+
+ 
+
     <a [href]="user.coverLetterUrl" target="_blank">View Cover Letter</a>
+
+
+ 
 
     <button type="button" (click)="removeFileFromProfile('coverLetter')">Remove</button>
 
+
+ 
+
   </div>
 
+
+ 
+
   <input type="file" (change)="onFileChange($event, 'coverLetter')" accept=".pdf,.doc,.docx" />
+
+
+ 
 
 </div> -->
 
@@ -535,21 +823,48 @@
 
     <!-- <div class="form-row">
 
+
+ 
+
   <label>Profile Photo</label>
+
+
+ 
 
   <div *ngIf="user?.profilePhotoUrl">
 
+
+ 
+
     <img [src]="user.profilePhotoUrl" alt="Profile Photo" width="80" />
+
+
+ 
 
     <button type="button" (click)="removeFileFromProfile('profilePhoto')">Remove</button>
 
+
+ 
+
   </div>
+
+
+ 
 
   <input type="file" (change)="onFileChange($event, 'profilePhoto')" accept="image/*" />
 
+
+ 
+
 </div>
 
+
+ 
+
   </main>
+
+
+ 
 
 </div> -->
 

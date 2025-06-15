@@ -1,26 +1,23 @@
-.transfer-container {
+mat-table {
+  width: 100%;
+}
 
-    padding: 20px;
+table.mat-table {
+  font-size: 15px;
+}
 
-    max-width: 1000px;
+.mat-header-cell {
+  background-color: #e3f2fd;
 
-    margin: auto;
+  font-weight: bold;
+}
 
-  }
+.mat-chip {
+  font-weight: 500;
 
+  font-size: 13px;
+}
 
-
-  mat-chip {
-
-    font-weight: bold;
-
-  }
-
-
-
-  mat-table {
-
-    width: 100%;
-
-  }
-
+button[mat-stroked-button] mat-icon {
+  margin-right: 6px;
+}

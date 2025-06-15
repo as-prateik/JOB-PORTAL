@@ -1,76 +1,190 @@
 <app-navbar [userName]="managerName"></app-navbar>
 
-<div class="applicants-container">
+<div class="container my-4" *ngIf="currentView === 'applicants'">
+  <h2 class="text-center mb-4"><i class="bi bi-people me-2"></i> Applicants</h2>
 
-  <h2 style="text-align: center; margin-top: 2%;" class="bi bi-people"> Applicants</h2>
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-primary text-center">
+        <tr>
+          <th>Applicant ID</th>
 
-  <table>
+          <th>Name</th>
 
-    <thead>
+          <th>Email</th>
 
-      <tr>
+          <th>Profile</th>
 
-        <th>Applicant Id</th>
+          <th>Status</th>
 
-        <th>Name</th>
+          <th>Update Status</th>
+        </tr>
+      </thead>
 
-        <th>Email</th>
+      <tbody>
+        <tr *ngFor="let applicant of applicants" class="text-center">
+          <td>{{ applicant.userId }}</td>
 
-        <th>Applicant Profile</th>
+          <td>{{ applicant.name }}</td>
 
-        <th>Status</th>
+          <td>{{ applicant.email }}</td>
 
-        <th>Update Status</th>
+          <td>
+            <button
+              class="btn btn-outline-info btn-sm"
+              (click)="viewProfile(applicant)"
+            >
+              <i class="bi bi-person-lines-fill me-1"></i> View
+            </button>
+          </td>
 
-      </tr>
+          <td>
+            <span class="badge bg-secondary">{{ applicant.status }}</span>
+          </td>
 
-    </thead>
+          <td>
+            <div
+              class="d-flex flex-column flex-md-row align-items-center gap-2"
+            >
+              <select
+                class="form-select form-select-sm"
+                [(ngModel)]="applicant.status"
+              >
+                <option value="Rejected">Rejected</option>
 
-    <tbody>
+                <option value="Shortlisted">Shortlisted</option>
 
-      <tr *ngFor="let applicant of applicants">
+                <option value="Accepted - Pending Approval">
+                  Accepted - Pending Approval
+                </option>
+              </select>
 
-        <td>{{ applicant.userId }}</td>
-
-        <td>{{ applicant.name }}</td>
-
-        <td>{{ applicant.email }}</td>
-
-        <td><a href="#" (click)="viewProfile(applicant)">View Profile</a></td>
-
-        <td>
-
-          <span>
-
-            {{ applicant.status }}
-
-          </span>
-
-        </td>
-
-        <td>
-
-          <select [(ngModel)]="applicant.status" >
-
-            <option value="Rejected">Rejected</option>
-
-            <option value="Shortlisted">Shortlisted</option>
-
-            <option value="Accepted - Pending Approval">Accepted - Pending Approval</option>
-
-          </select>
-
-          <button (click)="submitStatus(applicant)" [disabled] = "applicant.status == 'Selected'">Submit</button>
-
-        </td>
-
-      </tr>
-
-    </tbody>
-
-  </table>
-
+              <button
+                class="btn btn-sm btn-success"
+                (click)="submitStatus(applicant)"
+                [disabled]="applicant.status === 'Selected'"
+              >
+                <i class="bi bi-check-circle me-1"></i> Submit
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
+<!-- Employee Profile View -->
 
- 
+<div class="container my-4" *ngIf="currentView === 'employeeProfile'">
+  <button
+    class="btn btn-outline-secondary mb-3"
+    (click)="showView('applicants')"
+  >
+    <i class="bi bi-arrow-left"></i> Back to Applicants
+  </button>
+
+  <div class="card shadow p-4">
+    <div class="d-flex align-items-center gap-4">
+      <div>
+        <img
+          *ngIf="selectedEmployee.profilePhotoUrl"
+          [src]="'http://localhost:5000' + selectedEmployee.profilePhotoUrl"
+          alt="Profile Photo"
+          class="rounded-circle shadow-sm"
+          style="width: 80px; height: 80px; object-fit: cover"
+        />
+
+        <div
+          *ngIf="!selectedEmployee.profilePhotoUrl"
+          class="avatar bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
+          style="width: 80px; height: 80px; font-size: 1.8rem"
+        >
+          {{ selectedEmployee.name[0] | uppercase }}
+        </div>
+      </div>
+
+      <div>
+        <h4 class="mb-1">{{ selectedEmployee.name }}</h4>
+
+        <p class="mb-0 text-muted">
+          <i class="bi bi-envelope-fill me-1"></i> {{ selectedEmployee.email }}
+        </p>
+
+        <p class="mb-0 text-muted">
+          <i class="bi bi-geo-alt-fill me-1"></i>
+          {{ selectedEmployee.location }}
+        </p>
+
+        <p class="mb-0 text-muted">
+          <i class="bi bi-person-badge me-1"></i> {{ selectedEmployee.role }}
+        </p>
+      </div>
+    </div>
+
+    <div *ngIf="selectedEmployee.skills?.length" class="mt-4">
+      <h6>Skills</h6>
+
+      <span
+        *ngFor="let skill of selectedEmployee.skills"
+        class="badge bg-info text-dark me-1 mb-1"
+      >
+        {{ skill }}
+      </span>
+    </div>
+
+    <div *ngIf="selectedEmployee.certifications?.length" class="mt-3">
+      <h6>Certifications</h6>
+
+      <span
+        *ngFor="let cert of selectedEmployee.certifications"
+        class="badge bg-warning text-dark me-1 mb-1"
+      >
+        {{ cert }}
+      </span>
+    </div>
+
+    <div class="mt-4" *ngIf="selectedEmployee.resumeUrl">
+      <a
+        [href]="'http://localhost:5000' + selectedEmployee.resumeUrl"
+        class="btn btn-outline-primary"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="bi bi-file-earmark-pdf me-1"></i> View Resume
+      </a>
+    </div>
+
+    <div class="mt-4" *ngIf="!selectedEmployee.resumeUrl">
+      <p class="text-muted">No resume uploaded.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
+
+<div
+  class="modal fade"
+  id="statusUpdateModal"
+  tabindex="-1"
+  aria-labelledby="statusUpdateModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center p-4">
+      <div class="modal-body">
+        <div class="text-success fs-1 mb-2">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+
+        <h5 class="modal-title mb-3" id="statusUpdateModalLabel">
+          {{ modalMessage }}
+        </h5>
+
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -8,6 +8,8 @@ import { UserService } from '../user.service';
 
 import { AuthenticationService } from '../authentication.service';
 
+declare var bootstrap: any;
+
 @Component({
   selector: 'app-job-details',
 
@@ -40,12 +42,14 @@ export class JobDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.token = this.authService.getDetails().token || '';
+
     this.loadUserProfile();
 
     const jobId = this.route.snapshot.paramMap.get('id');
 
     if (!this.token || !jobId) {
       console.error('Token or Job ID missing');
+
       return;
     }
 
@@ -55,6 +59,7 @@ export class JobDetailsComponent implements OnInit {
 
         this.loadAppliedJobs(); // ⬅️ Load applications *after* job is ready
       },
+
       error: (err) => {
         console.error('Failed to load job', err);
       },
@@ -68,6 +73,7 @@ export class JobDetailsComponent implements OnInit {
       (data) => {
         this.applications = (data.appliedJobs || []).map((app: any) => ({
           ...app,
+
           jobId: app.jobId?._id || app.jobId,
         }));
 
@@ -75,8 +81,10 @@ export class JobDetailsComponent implements OnInit {
           this.jobDetails.applied = this.isApplied(this.jobDetails);
         }
       },
+
       (error) => {
         console.error('Error fetching applied jobs:', error);
+
         this.applications = [];
       }
     );
@@ -84,6 +92,7 @@ export class JobDetailsComponent implements OnInit {
 
   updateApplicationStatus(): void {
     const isAlreadyApplied = this.isApplied(this.jobDetails);
+
     if (isAlreadyApplied) {
       this.jobDetails.applied = true; // flag for template
     }
@@ -111,10 +120,12 @@ export class JobDetailsComponent implements OnInit {
 
   applyForJob(): void {
     console.log('existing applications are ', this.applications);
+
     console.log('current application is:-  ', this.jobDetails);
 
     if (!this.termsAccepted) {
       alert('Please accept the terms and conditions to proceed.');
+
       return;
     }
 
@@ -158,6 +169,14 @@ export class JobDetailsComponent implements OnInit {
 
             notification: 'Application received',
           });
+        }
+
+        const modalEl = document.getElementById('applySuccessModal');
+
+        if (modalEl) {
+          const modal = new bootstrap.Modal(modalEl);
+
+          modal.show();
         }
       },
 

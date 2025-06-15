@@ -50,6 +50,8 @@ export class ManagerDashboardComponent {
 
   showView(view: 'home' | 'postJob' | 'postedJobs' | 'transfers'): void {
     this.currentView = view;
+
+    this.loadMyEmployees();
   }
 
   constructor(
@@ -80,23 +82,29 @@ export class ManagerDashboardComponent {
     | 'postedJobs'
     | 'transfers'
     | 'employeeProfile' = 'home';
+
   selectedEmployee: any = null;
 
   viewEmployeeProfile(employee: any): void {
     this.selectedEmployee = employee;
+
     this.currentView = 'employeeProfile';
   }
 
   loadMyEmployees(): void {
     this.userService
+
       .getEmployeesByManager(this.managerName, this.token)
+
       .subscribe({
         next: (employees) => {
           console.log('data is ', employees);
 
           this.employeeList = employees;
+
           console.log('employees are', this.employeeList);
         },
+
         error: (err) => {
           console.error('Failed to load employees', err);
         },
@@ -123,7 +131,9 @@ export class ManagerDashboardComponent {
     status: string
   ): void {
     this.jobService
+
       .updateApplicantStatus(jobId, employeeId, status, this.token)
+
       .subscribe(
         () => {
           // Refresh the applicants list
@@ -245,6 +255,8 @@ export class ManagerDashboardComponent {
           );
 
           successModal.show(); // Show success modal
+
+          this.currentView = 'postedJobs';
         },
 
         (error: any) => {

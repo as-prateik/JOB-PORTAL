@@ -19,25 +19,38 @@
       <thead class="table-light">
         <tr>
           <th>S.No</th>
+
           <!-- New column -->
+
           <th>Job ID</th>
+
           <th>Job Title</th>
+
           <th>Location</th>
+
           <th>View Job</th>
+
           <th>Status</th>
+
           <th>Withdraw</th>
         </tr>
       </thead>
+
       <tbody>
         <tr
           *ngFor="let application of paginatedApplications(); let i = index"
           style="cursor: pointer"
         >
           <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+
           <!-- Serial number -->
+
           <td>{{ application.jobId }}</td>
+
           <td>{{ application.title }}</td>
+
           <td>{{ application.location }}</td>
+
           <td>
             <button
               class="btn btn-outline-primary btn-sm"
@@ -46,12 +59,15 @@
               View job
             </button>
           </td>
+
           <td>
             <span
               class="badge px-3 py-2 text-capitalize"
               [ngClass]="{
                 'bg-secondary': application.status === 'applied',
+
                 'bg-danger': application.status === 'rejected',
+
                 'bg-success':
                   application.status === 'Shortlisted' ||
                   application.status === 'Selected' ||
@@ -61,6 +77,7 @@
               {{ application.status }}
             </span>
           </td>
+
           <td>
             <button
               class="btn btn-outline-danger btn-sm"
@@ -258,6 +275,44 @@
           data-bs-dismiss="modal"
         >
           Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="withdrawConfirmModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-white p-4 text-center">
+      <div class="modal-header border-0">
+        <h5 class="modal-title w-100 text-center">Confirm Withdrawal</h5>
+
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <p>Are you sure you want to withdraw your application?</p>
+      </div>
+
+      <div class="modal-footer justify-content-center border-0">
+        <button
+          type="button"
+          class="btn btn-danger me-2"
+          (click)="withdrawJob()"
+        >
+          Yes, Withdraw
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          data-bs-dismiss="modal"
+        >
+          Cancel
         </button>
       </div>
     </div>
