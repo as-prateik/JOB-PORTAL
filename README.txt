@@ -1,1 +1,0 @@
-hello job portal for internal hiring is a mean full stack application  ok
