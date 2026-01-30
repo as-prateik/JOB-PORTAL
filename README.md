@@ -13,13 +13,10 @@ A simple, extensible job portal application for posting and applying to jobs. Th
 
 ## Tech stack (example)
 
-This README uses a generic stack — update to match your project:
-
-- Backend: Node.js + Express (or Django/Flask/Rails)
-- Database: PostgreSQL (or MySQL/SQLite)
+- Backend: Node.js + Express 
+- Database: MongoDB
 - Auth: JWT or session-based auth
-- Frontend: React / Vue / plain HTML+CSS
-- ORM: TypeORM / Sequelize / Prisma / Django ORM
+- Frontend: Angular
 
 ## Quick start
 
@@ -51,44 +48,6 @@ This README uses a generic stack — update to match your project:
    JWT_SECRET=your_jwt_secret
    ```
 
-4. Initialize the database
-
-   - If using migrations:
-
-     ```bash
-     npm run migrate
-     # or
-     npx prisma migrate deploy
-     ```
-
-   - If you have a seed script:
-
-     ```bash
-     npm run seed
-     ```
-
-5. Start the application
-
-   ```bash
-   npm run dev
-   # or for production
-   npm start
-   ```
-
-6. Open the frontend (if included)
-
-   If there is a separate frontend folder, cd into it and run the appropriate start command (e.g., `npm start`).
-
-## Running tests
-
-Run unit and integration tests (example):
-
-```bash
-npm test
-# or
-npm run test:watch
-```
-
 ## API
 
 Document the main API endpoints here, for example:
@@ -98,8 +57,6 @@ Document the main API endpoints here, for example:
 - GET /api/jobs - list jobs
 - POST /api/jobs - create a job (employer)
 - POST /api/jobs/:id/apply - apply to a job
-
-Add more details and example requests/responses as you build the API.
 
 ## Environment and deployment
 
@@ -115,18 +72,3 @@ Add more details and example requests/responses as you build the API.
 4. Push and open a PR
 
 Please follow the repository's coding standards and add tests for new features.
-
-## License
-
-Specify the license for the project (e.g., MIT). If you don't have one yet, add a LICENSE file.
-
-## Contact
-
-If you have questions, create an issue or reach out to the maintainer.
-
-Maintainer: as-prateik
-
----
-
-Notes:
-- Update this README to reflect the actual tech stack, commands, and environment variables used by this repository.
